@@ -1,3 +1,25 @@
 page-home {
-
+  $radius:10px;
+  ion-header{
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    .toolbar-title{
+      color: #333;
+      font-size: 17px;
+    }
+  }
+  .banner{
+    position: relative;
+    width: 100%;
+    border-radius: $radius;
+    box-shadow: 0 1px 7px rgba(0,0,0,0.3);
+    .swiper-container,.swiper-wrapper,.swiper-slide,.slide-zoom,img{
+      border-radius: $radius;
+    }
+    img{
+      vertical-align: top;
+    }
+  }
+}
+.t{
+  background-color: transparent !important;
 }

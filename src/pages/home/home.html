@@ -1,14 +1,28 @@
-<ion-header>
-  <ion-navbar>
+<ion-header no-border>
+  <ion-navbar text-center>
+    <ion-buttons start>
+      <button ion-button icon-only>
+        <ion-icon name="search"></ion-icon>
+      </button>
+    </ion-buttons>
     <ion-title>
-      Ionic Blank
+      云选材 ·图说
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+    <div class="banner">
+      <ion-slides transparent pager>
+        <ion-slide>
+          <img src="http://i.gzdmc.net/banner/ca9e74c82dcc2127413462ae0f2b6c55.jpg" alt="">
+        </ion-slide>
+        <ion-slide>
+          <img src="http://i.gzdmc.net/banner/e3a911fb83f0ed18c0a06058b6575767.jpg" alt="">
+        </ion-slide>
+        <ion-slide>
+          <img src="http://i.gzdmc.net/banner/c4255cbbe0dc798b9b1b73592b7b5728.jpg" alt="">
+        </ion-slide>
+      </ion-slides>
+    </div>
 </ion-content>
