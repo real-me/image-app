@@ -1,0 +1,25 @@
+<div class="global-navigation-bar">
+  <div class="nav-left">
+    <ul class="clearfix">
+      <li class="nav-item" [ngClass]="{active:index==1}" (click)="gotoPage(1)">
+        <div class="nav-img nav1">首页</div>
+      </li>
+      <li class="nav-item" [ngClass]="{active:index==2}" (click)="gotoPage(2)">
+        <div class="nav-img nav2">设计师</div>
+      </li>
+    </ul>
+  </div>
+  <div class="nav-center">
+    <img src="assets/images/home/publish.png"/>
+  </div>
+  <div class="nav-right">
+    <ul class="clearfix">
+      <li class="nav-item" [ngClass]="{active:index==3}" (click)="gotoPage(3)">
+        <div class="nav-img nav3">精选</div>
+      </li>
+      <li class="nav-item" [ngClass]="{active:index==4}" (click)="gotoPage(4)">
+        <div class="nav-img nav4">我</div>
+      </li>
+    </ul>
+  </div>
+</div>

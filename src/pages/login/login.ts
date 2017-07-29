@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {AlertController, IonicPage, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {Http} from "@angular/http";
 import "rxjs/add/operator/toPromise";
-import {LoginProvider} from "../../providers/login/login";
+import {UtilProvider} from "../../providers/util/util";
 
 @IonicPage()
 @Component({
@@ -20,11 +20,13 @@ export class LoginPage {
   lastPage:any=null;//上一个页面
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private toastCtrl: ToastController,public loadingCtrl: LoadingController,
+    public loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private http: Http,private loginService:LoginProvider
+    private http: Http,private util:UtilProvider
   ) {
     this.lastPage = navParams.get('page');
+    // console.log('------------');
+    // console.log(this.lastPage);
     // console.log(page.loginSuccess());
   }
 
@@ -84,7 +86,7 @@ export class LoginPage {
       password:this.password,
       captcha:''
     };
-    this.loginService.login(data).then(result => {
+    this.util.login(data).then(result => {
       this.loading.dismiss();
       if(result){
         //登录成功
@@ -92,8 +94,12 @@ export class LoginPage {
         if(this.navCtrl.getViews()[0].id=='LoginPage'){
           this.navCtrl.setRoot('HomePage');
         }else{
-          this.navCtrl.pop();
           this.lastPage&&this.lastPage.loginSuccess();//调用上一个页面的登录成功方法
+          if(this.navCtrl.length()>1){
+            this.navCtrl.pop();
+          }else{
+            this.navCtrl.setRoot('HomePage');
+          }
         }
       }else{
         //登录出错

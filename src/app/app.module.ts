@@ -1,15 +1,16 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
-import { StatusBar } from '@ionic-native/status-bar';
+import {BrowserModule} from '@angular/platform-browser';
+import {ErrorHandler, NgModule} from '@angular/core';
+import {IonicApp, IonicErrorHandler, IonicModule} from 'ionic-angular';
+import {SplashScreen} from '@ionic-native/splash-screen';
+import {StatusBar} from '@ionic-native/status-bar';
 import {HttpModule} from "@angular/http";
 import {IonicStorageModule} from "@ionic/storage";
 
-import { MyApp } from './app.component';
-import { HomePageModule } from "../pages/home/home.module";
-import { LoginPageModule } from "../pages/login/login.module";
-import { LoginProvider } from '../providers/login/login';
+import {MyApp} from './app.component';
+import {HomePageModule} from "../pages/home/home.module";
+import {LoginPageModule} from "../pages/login/login.module";
+import {UtilProvider} from '../providers/util/util';
+import {PersonalPageModule} from "../pages/personal/personal.module";
 
 @NgModule({
   declarations: [
@@ -18,8 +19,11 @@ import { LoginProvider } from '../providers/login/login';
   imports: [
     BrowserModule,
     HttpModule,
+
     HomePageModule,
     LoginPageModule,
+    PersonalPageModule,
+
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],
@@ -31,7 +35,8 @@ import { LoginProvider } from '../providers/login/login';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    LoginProvider
+    UtilProvider
   ]
 })
-export class AppModule {}
+export class AppModule {
+}

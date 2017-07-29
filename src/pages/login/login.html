@@ -17,7 +17,7 @@
         <ion-input type="password" [ngModel]="password" (ngModelChange)="changePassword($event)" placeholder="请输入密码"></ion-input>
       </ion-item>
     </ion-list>
-    <div class="error-tip" [ngClass]="{none:!hasError}" >
+    <div class="error-tip" [ngClass]="{none:!hasError}">
       <span>账号或密码错误，请重新输入</span>
     </div>
     <button ion-button block class="btn-login" [ngClass]="{disable:userName==''||password==''}" (click)="tryLogin()">登录</button>
