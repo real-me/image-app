@@ -23,12 +23,12 @@
   <div class="hot-wrap">
     <div class="content" [ngClass]="{none:!dataConfig.hasInit}">
       <ul class="clearfix" id="waterfallContainer" [ngStyle]="{height:containerHeight+'px'}">
-        <li *ngFor="let item of list;let i=index;" [ngStyle]="{left:item.left+'px',top:item.top+'px',width:imageWidth+'px'}">
+        <li *ngFor="let item of list;let i=index;" [ngStyle]="{left:item.left+'px',top:item.top+'px',width:imageWidth+'px'}" [@image]="viewState"  [ngClass]="{loaded:item.loaded}">
           <a href="javascript:void(0)" (click)="openDetail(item)" title="图说">
             <div class="img-wrap">
               <div class="middle-outer">
                 <div class="middle-inner">
-                  <img [src]="item.cover_url" class="block" (load)="renderSingle()" alt="图说详情">
+                  <img [src]="item.cover_url" class="block" (load)="renderSingle(i)" alt="图说详情">
                 </div>
               </div>
             </div>

@@ -5,6 +5,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {StatusBar} from '@ionic-native/status-bar';
 import {HttpModule} from "@angular/http";
 import {IonicStorageModule} from "@ionic/storage";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MyApp} from './app.component';
 import {HomePageModule} from "../pages/home/home.module";
@@ -24,6 +25,7 @@ import {PersonalPageModule} from "../pages/personal/personal.module";
     LoginPageModule,
     PersonalPageModule,
 
+    BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],

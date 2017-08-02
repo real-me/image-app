@@ -111,7 +111,7 @@ export class UtilProvider {
 
   //是否已经登录
   isLogin(){
-    return this.storage.get('user').then(value => {
+    return this.storage.ready().then(()=>this.storage.get('user')).then(value => {
       return value?true:false;
     });
   }

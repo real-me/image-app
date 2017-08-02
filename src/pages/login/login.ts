@@ -94,8 +94,8 @@ export class LoginPage {
         if(this.navCtrl.getViews()[0].id=='LoginPage'){
           this.navCtrl.setRoot('HomePage');
         }else{
-          this.lastPage&&this.lastPage.loginSuccess();//调用上一个页面的登录成功方法
           if(this.navCtrl.length()>1){
+            this.lastPage&&this.lastPage.loginSuccess();//调用上一个页面的登录成功方法
             this.navCtrl.pop();
           }else{
             this.navCtrl.setRoot('HomePage');

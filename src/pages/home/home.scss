@@ -77,6 +77,12 @@ page-home {
           left: auto;
           top: auto;
           width: 50%;
+          //opacity: 0;
+          //transition: opacity 0.2s ease-in,left 0.05s ease-in,top 0.05s ease-in;
+          //transition: opacity 0.2s ease-in;
+          //&.loaded{
+          //  opacity: 1;
+          //}
           //float: left;
           //margin-bottom: 10px;
           a{
