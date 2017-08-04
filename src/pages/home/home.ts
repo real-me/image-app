@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController} from 'ionic-angular';
+import {IonicPage, NavController, Events} from 'ionic-angular';
 import {UtilProvider} from "../../providers/util/util";
 import * as $ from 'jquery';
 import {animate, state, style, transition, trigger} from "@angular/animations";
-
+// import 'rxjs/add/operator/subscribe';
 
 @IonicPage()
 @Component({
@@ -46,7 +46,6 @@ export class HomePage {
   list = [];//找材列表
   dataConfig = {
     pageHeight: 0,
-    random_code: '',//随机码
     top: 0,
     pageSize: 10,
     total: 0,
@@ -58,12 +57,13 @@ export class HomePage {
 
   visibleState:string='in';
 
-  constructor(public navCtrl: NavController, private util: UtilProvider) {
-
+  constructor(public navCtrl: NavController, private util: UtilProvider,public events: Event) {
+    // this.events.subscribe('HomePage:refresh', () =>this.refresh());
   }
 
   //-----------------需要登录的页面必须有的方法(START)
   ionViewDidLoad() {
+    this.events.subscribe('HomePage:refresh', this.refresh);
     this.util.setPage(this);
     this.util.checkLogin().then(isLogin => {
       isLogin && this.init();
@@ -77,18 +77,31 @@ export class HomePage {
 
   //从登录页面登录成功需要执行的操作
   loginSuccess() {
+    console.log('----util token------');
+    console.log(this.util.token);
     this.init();
   }
 
   //初始化
   init() {
-    this.getBanners();
+    // this.getBanners();
     this.initImageWidth();
-    this.getIllustration();
     this.initListener();//事件侦听
+    this.util.loading();
+    Promise.all([this.getIllustration()]).then(()=>this.util.hideLoading()).catch(()=>this.util.hideLoading());
   }
 
+  //刷新页面
+  refresh(){
+    this.removeListener();
+    this.init();
+  }
   //-----------------需要登录的页面必须有的方法(END)
+
+  token:string="";
+  showToken(){
+    this.token=this.util.token?JSON.stringify(this.util.token):'';
+  }
 
   //初始化图说中的图片宽度
   initImageWidth() {
@@ -163,19 +176,11 @@ export class HomePage {
   //获取图说
   getIllustration() {
     var config = this.dataConfig;
-    var url = 'illustrations/?per_page=' + config.pageSize + '&page=' + config.page;
-    if (config.random_code != '') {
-      url += '&random_code=' + config.random_code;
-    }
-    // var token=app.getCookie('X-DMC-TOKEN');
-    // if(app.isLogin()&&token){
-    //   //如果用户已经登录
-    //   url+='&_t='+token;
-    // }
+    var url = 'tushuo/api/entries?per_page=' + config.pageSize + '&page=' + config.page;
     if (config.page > 1) {
       config.loading = true;//是否正在获取找材列表
     }
-    return this.util.get(url, true).then((res: any) => {
+    return this.util.get(url).then((res: any) => {
       if (!res)return;
       let response = res.json();
 
@@ -183,7 +188,6 @@ export class HomePage {
       config.loading = false;
       config.total = response.total;
       config.pageCount = response.last_page;
-      config.random_code = response.random_code;
       var data = this.parseIllustrationData(response.data);
       if (config.page == 1) {
         this.list = [];
@@ -209,19 +213,29 @@ export class HomePage {
       innerData = data[i];
       item = {};
       item.id = innerData.id;
-      item.cover_url = innerData.cover_url + '?x-oss-process=image/resize,w_' + Math.ceil(this.imageWidth);
-      item.title = innerData.title;
+
+      item.url = '';
+      item.title= '';
+      item.width = Math.ceil(this.imageWidth);
+      item.height = 0;
+      if(innerData.cases&&innerData.cases.plan_images&&innerData.cases.plan_images.length>0){
+        let img=innerData.cases.plan_images[0];
+        item.url = img.url + '?x-oss-process=image/resize,w_' + Math.ceil(this.imageWidth);
+        item.title = innerData.cases.name;
+        item.width = img.width;
+        item.height = img.height;
+      }else{
+        continue;
+      }
       if (innerData.hasOwnProperty('had_star')) {
         item.had_star = innerData.had_star != 0;
       } else {
         item.had_star = false;
       }
-      item.canResponse = true;//是否可以对收藏操作作出响应
-      item.friendly_created_at = innerData.friendly_created_at;
-      item.description = innerData.description;
-      item.sku_no = innerData.sku_no;
-      item.views = this.processViews(innerData.views);
-      item.star_count = this.processViews(innerData.star_count);
+
+      item.choiceness_count = innerData.choiceness?this.processViews(innerData.choiceness):0;
+      item.favorite_count = innerData.favorite_count?this.processViews(innerData.favorite_count):0;
+      // item.canResponse = true;//是否可以对收藏操作作出响应
       item.loaded = false;
       item.left = this.initY + "px";
       item.top = this.initY + "px";

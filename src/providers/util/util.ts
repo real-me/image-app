@@ -1,24 +1,30 @@
 import { Injectable } from '@angular/core';
 import {Headers,Http, RequestOptionsArgs} from '@angular/http';
 import { Storage } from '@ionic/storage';
-import {App, NavControllerBase} from "ionic-angular";
-import 'rxjs/add/operator/map';
+import {App, LoadingController, NavControllerBase} from "ionic-angular";
+import * as moment from 'moment';
+import 'rxjs/add/operator/toPromise';
 
 
 @Injectable()
 export class UtilProvider {
 
+  loadingTip:any=null;//用于显示加载信息
   navCtrl:NavControllerBase;
   page:any=null;//关联页面
-  // apiHost:string='https://dev-api.gzdmc.net/v1/';//api前缀
-  apiHost:string='https://api.gzdmc.net/v1/';//api前缀
+  apiHost:string='https://dev.jintangjiang.cn/';//api前缀
+  // apiHost:string='https://api.gzdmc.net/v1/';//api前缀
+  defaultPage:string='HomePage';//默认登录后跳转到的页面
+
+  token:any=null;//保存token
 
   preloadConfig={
     percent:50,//百分比
     distance:300//距离
   };//在滚动到距离底部多远时进行预加载下一页
 
-  constructor(private app: App,public http: Http,private storage: Storage) {
+  constructor(private app: App,public http: Http,private storage: Storage,private loadingCtrl: LoadingController) {
+    // this.clear();
   }
 
   //关联当前页面(除了登录页面之外的页面)
@@ -26,6 +32,7 @@ export class UtilProvider {
     this.page=page;
   }
 
+  //获取当前导航组件
   getNav(){
     if(!this.navCtrl){
       this.navCtrl=this.app.getActiveNav();
@@ -33,42 +40,76 @@ export class UtilProvider {
     return this.navCtrl;
   }
 
+  /**
+   * 显示加载信息
+   * @param info
+   */
+  loading(info?:string|any){
+    if(info){
+      if(typeof info=='string'){
+        this.loadingTip=this.loadingCtrl.create({
+          dismissOnPageChange:true,
+          content: info
+        });
+      }else{
+        if(!info.hasOwnProperty('dismissOnPageChange')){
+          info.dismissOnPageChange=true;
+        }
+        this.loadingTip=this.loadingCtrl.create(info);
+      }
+    }else{
+      this.loadingTip=this.loadingCtrl.create({
+        dismissOnPageChange:true,
+        content: ''
+      });
+    }
+    this.loadingTip.present();
+  }
+
+  /**
+   * 隐藏加载信息
+   */
+  hideLoading(){
+    this.loadingTip.dismiss();
+  }
+
   //退出登录
   logout() {
     this.clear().then(()=>{
       this.getNav().setRoot('LoginPage');
     });
-    // this.storage.remove('user');
-    // this.storage.remove('token').then(data => this.getNav().setRoot('LoginPage'));
   }
 
   //清除数据
   clear(){
-    return Promise.all([this.storage.remove('user'),this.storage.remove('token')]);
+    this.token=null;
+    return Promise.all([this.storage.remove('token'),this.storage.remove('user')]);
   }
-
-  /*//登录
-   login(data) {
-   let url='https://dev.jintangjiang.cn/tushuo/api/users/login';
-   return this.http.post(url, data).toPromise()
-   .then(res => {
-   //登录成功,保存token和用户信息
-
-   return true;
-   // console.log(res.json());
-   // this.navCtrl.pop();
-   })
-   .catch(err => {
-   //登录出错
-   return false;
-   // this.loading.dismiss();
-   // this.hasError=true;
-   // this.handleError(err);
-   });
-   }*/
 
   //登录
   login(data) {
+    let url=this.apiHost+'oauth/token';
+    return this.http.post(url, data).toPromise()
+      .then(res => {
+        let response=res.json();
+        if(200<=res.status&&res.status<400 ){
+          //登录成功,保存token和用户信息
+          this.saveToken(response);//保存token
+          return true;
+        }
+        else{
+          this.clear();
+          return false;
+        }
+      })
+      .catch(err => {
+        //登录出错
+        return false;
+      });
+  }
+
+  //登录(云选材)
+  /*login(data) {
     let url=this.apiHost+'session?source_from=pc&ie&_t=';
     return this.http.post(url, data).toPromise()
       .then(res => {
@@ -90,9 +131,12 @@ export class UtilProvider {
         //登录出错
         return false;
       });
-  }
+  }*/
 
-  //检查是否登录
+  /**
+   * 检查是否登录
+   * @param isInLogin
+   */
   checkLogin(isInLogin?:boolean){
     return this.isLogin().then(value=>{
       // console.log(this.getNav().getActive().component.name);
@@ -104,25 +148,91 @@ export class UtilProvider {
     });
   }
 
-  //弹出登录页面
+  /**
+   * 弹出登录页面
+   */
   showLoginPage(){
     this.getNav().push('LoginPage',{page:this.page});
   }
 
-  //是否已经登录
-  isLogin(){
-    return this.storage.ready().then(()=>this.storage.get('user')).then(value => {
-      return value?true:false;
+  /**
+   * 保存token
+   * @param token 令牌
+   */
+  saveToken(token){
+    this.token=token;
+    let expires_day=moment().add(this.token.expires_in,'seconds').format("YYYY-MM-DD HH:mm:ss");
+    this.token.expires_day=expires_day;
+    this.storage.set('token',this.token);
+  }
+
+
+  /**
+   * 刷新token
+   * @param token 令牌
+   * @returns {Promise<boolean|TResult2|boolean>}
+   */
+  refreshToken(token){
+    let url='oauth/token';
+    url=this.apiHost+url;
+    let data={
+      refresh_token:token,
+      grant_type:'refresh_token'
+    };
+    return this.http.post(url,data).toPromise().then(res=>{
+      let response=res.json();
+      if(200<=res.status&&res.status<400 ){
+        //登录成功,保存token和用户信息
+        this.saveToken(response);//保存token
+        return true;
+      }
+      else{
+        this.clear();
+        return false;
+      }
+    }).catch(err=>{
+      this.clear();
+      return false;
     });
   }
 
-  //处理调用api成功时返回的数据
-  processData(res,notUseToken?:boolean){
+  //判断当前的token是否有效
+  isValidToken(){
+    //判断token是否过期
+    let seconds=moment(this.token.expires_day).diff(moment(),'seconds');
+    if(seconds<=20){
+      //刷新token
+      return this.refreshToken(this.token.refresh_token);//刷新token
+    }else{
+      return Promise.resolve(true);
+    }
+  }
+
+  /**
+   * 是否已经登录
+   * @returns {any}
+   */
+  isLogin(){
+    if(this.token){
+      //判断token是否过期
+      return this.isValidToken();
+    }else{
+      return this.storage.ready().then(()=>this.storage.get('token')).then(token=> {
+        return (this.token=token)?this.isValidToken():false;
+      }).catch(err=>{
+        return false;
+      });
+    }
+  }
+
+  /**
+   * 处理调用api成功时返回的数据
+   * @param res 返回的数据
+   * @returns {any} 调用api成功时返回的数据
+   */
+  processData(res){
       let response = res.json();
       let code=res.status;
-      if(!notUseToken&&response._t){
-        this.storage.set('token',response._t);
-      }
       if(200<=code&&code<400 ){
         return res;
       }
@@ -135,37 +245,22 @@ export class UtilProvider {
 
   //通过get方法调用api
   get(url:string,notUseToken?:boolean){
-    // let options:RequestOptionsArgs = {
-    //   url: url,
-    //   search: null,
-    //   headers: new Headers({
-    //     'Content-Type': 'application/json',
-    //     'X-Requested-With': 'XMLHttpRequest',
-    //     'x-access-token' : 'sometoken'
-    //   }),
-    //   body: null
-    // };
     if(url.indexOf("http")!=0 ){
       url=this.apiHost+url;
     }
     if(!notUseToken){
-      return this.storage.get('token').then(token => {
-        if(token){
-          if(url.indexOf('?') != -1){
-            url += '&_t=' + token;
-          }
-          else{
-            url += '?_t=' + token;
-          }
+      return this.isLogin().then(isLoginOk=>{
+        //使用token
+        if(isLoginOk){
+          let headers = new Headers();
+          headers.append('Authorization', this.token.token_type+' '+this.token.access_token);
+          return this.http.get(url,{headers: headers}).toPromise().then(res=>this.processData(res));
+        }else{
+          return isLoginOk;
         }
-        return this.http.get(url).toPromise().then(res=>{
-          return this.processData(res,notUseToken);
-        });
       });
     }else{
-      return this.http.get(url).toPromise().then(res=>{
-        return this.processData(res,notUseToken);
-      });
+      return this.http.get(url).toPromise().then(res=>this.processData(res));
     }
   }
 
@@ -175,22 +270,22 @@ export class UtilProvider {
       url=this.apiHost+url;
     }
     if(!notUseToken){
-      return this.storage.get('token').then(token => {
-        if(token){
-          if(url.indexOf('?') != -1){
-            url += '&_t=' + token;
-          }
-          else{
-            url += '?_t=' + token;
-          }
+      return this.isLogin().then(isLoginOk=>{
+        //使用token
+        if(isLoginOk){
+          let headers = new Headers();
+          headers.append('Authorization', this.token.token_type+' '+this.token.access_token);
+          return this.http.post(url,data,{headers: headers}).toPromise().then(res=>{
+            return this.processData(res);
+          });
+        }else{
+          return isLoginOk;
         }
-        return this.http.post(url,data).toPromise().then(res=>{
-          return this.processData(res,notUseToken);
-        });
       });
     }else{
+      //不使用token
       return this.http.post(url,data).toPromise().then(res=>{
-        return this.processData(res,notUseToken);
+        return this.processData(res);
       });
     }
   }

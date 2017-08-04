@@ -77,14 +77,10 @@ export class LoginPage {
     this.loading.present();
 
     //尝试登录
-    // let data={
-    //   mobile_phone:this.userName,
-    //   password:this.password
-    // };
     let data={
       username:this.userName,
       password:this.password,
-      captcha:''
+      grant_type:'password'
     };
     this.util.login(data).then(result => {
       this.loading.dismiss();
@@ -92,13 +88,13 @@ export class LoginPage {
         //登录成功
         //判断根页面是否登录页面,如果是则转到首页,否则转入登录前的页面
         if(this.navCtrl.getViews()[0].id=='LoginPage'){
-          this.navCtrl.setRoot('HomePage');
+          this.navCtrl.setRoot(this.util.defaultPage);
         }else{
           if(this.navCtrl.length()>1){
             this.lastPage&&this.lastPage.loginSuccess();//调用上一个页面的登录成功方法
             this.navCtrl.pop();
           }else{
-            this.navCtrl.setRoot('HomePage');
+            this.navCtrl.setRoot(this.util.defaultPage);
           }
         }
       }else{
@@ -110,8 +106,7 @@ export class LoginPage {
 
   //我是新用户
   creatAccount(){
-    // this.loginService.load();
-    this.notImplement();
+    this.navCtrl.setRoot('RegisterPage');
   }
 
   //忘记密码

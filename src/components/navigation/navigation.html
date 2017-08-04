@@ -9,7 +9,7 @@
       </li>
     </ul>
   </div>
-  <div class="nav-center">
+  <div class="nav-center" [ngClass]="{active:index==5}" (click)="gotoPage(5)">
     <img src="assets/images/home/publish.png"/>
   </div>
   <div class="nav-right">

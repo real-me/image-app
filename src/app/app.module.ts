@@ -8,10 +8,7 @@ import {IonicStorageModule} from "@ionic/storage";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MyApp} from './app.component';
-import {HomePageModule} from "../pages/home/home.module";
-import {LoginPageModule} from "../pages/login/login.module";
 import {UtilProvider} from '../providers/util/util';
-import {PersonalPageModule} from "../pages/personal/personal.module";
 
 @NgModule({
   declarations: [
@@ -20,10 +17,6 @@ import {PersonalPageModule} from "../pages/personal/personal.module";
   imports: [
     BrowserModule,
     HttpModule,
-
-    HomePageModule,
-    LoginPageModule,
-    PersonalPageModule,
 
     BrowserAnimationsModule,
     IonicModule.forRoot(MyApp),

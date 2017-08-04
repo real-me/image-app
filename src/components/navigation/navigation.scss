@@ -43,30 +43,30 @@ navigation {
         background-repeat: no-repeat;
       }
       .nav1{
-        background-image: url("../assets/images/home/nav1.png");
+        background-image: url("../assets/images/component/navigation/nav1.png");
       }
       .nav2{
-        background-image: url("../assets/images/home/nav2.png");
+        background-image: url("../assets/images/component/navigation/nav2.png");
       }
       .nav3{
-        background-image: url("../assets/images/home/nav3.png");
+        background-image: url("../assets/images/component/navigation/nav3.png");
       }
       .nav4{
-        background-image: url("../assets/images/home/nav4.png");
+        background-image: url("../assets/images/component/navigation/nav4.png");
       }
       &.active{
         color: #2abf9e;
         .nav1{
-          background-image: url("../assets/images/home/nav1-active.png");
+          background-image: url("../assets/images/component/navigation/nav1-active.png");
         }
         .nav2{
-          background-image: url("../assets/images/home/nav2-active.png");
+          background-image: url("../assets/images/component/navigation/nav2-active.png");
         }
         .nav3{
-          background-image: url("../assets/images/home/nav3-active.png");
+          background-image: url("../assets/images/component/navigation/nav3-active.png");
         }
         .nav4{
-          background-image: url("../assets/images/home/nav4-active.png");
+          background-image: url("../assets/images/component/navigation/nav4-active.png");
         }
       }
     }

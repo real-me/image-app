@@ -8,7 +8,6 @@ import {NavigationComponent} from "../../components/navigation/navigation";
   ],
   imports: [
     IonicModule.forRoot(NavigationComponent)
-    // IonicModule.forChild(NavigationComponent)
   ],
   exports: [
     NavigationComponent

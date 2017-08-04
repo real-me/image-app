@@ -84,3 +84,17 @@ img{
     vertical-align:middle;
   }
 }
+/*********************顶部标题*********************/
+ion-header{
+  &.g-header{
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    .toolbar-title{
+      color: #333;
+      font-size: 17px;
+    }
+  }
+}
+.full-img{
+  width: 100%;
+  height: auto;
+}
