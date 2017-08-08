@@ -91,7 +91,7 @@ export class LoginPage {
           this.navCtrl.setRoot(this.util.defaultPage);
         }else{
           if(this.navCtrl.length()>1){
-            this.lastPage&&this.lastPage.loginSuccess();//调用上一个页面的登录成功方法
+            this.lastPage&&this.lastPage.refresh();//调用上一个页面的登录成功方法
             this.navCtrl.pop();
           }else{
             this.navCtrl.setRoot(this.util.defaultPage);

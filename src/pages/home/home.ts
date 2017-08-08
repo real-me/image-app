@@ -1,9 +1,8 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, Events} from 'ionic-angular';
+import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UtilProvider} from "../../providers/util/util";
 import * as $ from 'jquery';
-import {animate, state, style, transition, trigger} from "@angular/animations";
-// import 'rxjs/add/operator/subscribe';
 
 @IonicPage()
 @Component({
@@ -24,7 +23,8 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 })
 export class HomePage {
 
-  user: any = null;
+  refresh:()=>void;
+  resize:()=>void;
   banners = {
     hasInit: false,
     data: []
@@ -38,84 +38,77 @@ export class HomePage {
 
 
   containerHeight = 100;//容器高度
-  moreLeft = 0;//热门找材中更多的x坐标
-  moreTop = 0;//热门找材中更多的y坐标
-  initWaterfall = false;//是否已经初始化了瀑布流
   imageWidth: number = 0;//图片宽度
 
-  list = [];//找材列表
   dataConfig = {
+    hasInit: false,
+    data:[],
     pageHeight: 0,
-    top: 0,
     pageSize: 10,
     total: 0,
     page: 1,
-    pageCount: 1,
-    hasInit: false,
+    pageCount: 0,
     loading: false
   };
 
   visibleState:string='in';
 
-  constructor(public navCtrl: NavController, private util: UtilProvider,public events: Event) {
-    // this.events.subscribe('HomePage:refresh', () =>this.refresh());
+  constructor(public navCtrl: NavController, private util: UtilProvider,public events: Events) {
+    //刷新界面,用于subscribe和unsubscribe时可以访问到类中的方法
+    this.refresh=()=>{
+      this.clear();//清除数据
+      this.util.checkLogin().then(isLogin => {
+        isLogin && this.init();
+      });
+    };
+    //窗口发生改变
+    this.resize=()=>{
+      this.initImageWidth();
+      this.resetImageHeight();//重设图片高度
+      setTimeout(()=>{
+        this.render();//窗口大小发生改变时重新渲染图说图片
+      },50);
+    };
   }
 
   //-----------------需要登录的页面必须有的方法(START)
   ionViewDidLoad() {
-    this.events.subscribe('HomePage:refresh', this.refresh);
+    this.initListener();//初始化事件侦听
     this.util.setPage(this);
     this.util.checkLogin().then(isLogin => {
       isLogin && this.init();
     });
   }
 
-  //删除事件侦听
+  //页面移除时删除事件侦听
   viewWillUnload() {
     this.removeListener();
-  }
-
-  //从登录页面登录成功需要执行的操作
-  loginSuccess() {
-    console.log('----util token------');
-    console.log(this.util.token);
-    this.init();
   }
 
   //初始化
   init() {
     // this.getBanners();
     this.initImageWidth();
-    this.initListener();//事件侦听
     this.util.loading();
     Promise.all([this.getIllustration()]).then(()=>this.util.hideLoading()).catch(()=>this.util.hideLoading());
   }
 
-  //刷新页面
-  refresh(){
-    this.removeListener();
-    this.init();
-  }
-  //-----------------需要登录的页面必须有的方法(END)
-
-  token:string="";
-  showToken(){
-    this.token=this.util.token?JSON.stringify(this.util.token):'';
-  }
-
-  //初始化图说中的图片宽度
-  initImageWidth() {
-    var containerWidth = $(window).width() - 30;
-    this.imageWidth = (containerWidth - this.deltaX * (this.columnCount - 1)) / this.columnCount;
+  //清除数据(用于刷新)
+  clear(){
+    this.containerHeight = 100;
+    this.dataConfig.hasInit=false;
+    this.dataConfig.data=[];
+    this.dataConfig.pageHeight=0;
+    this.dataConfig.total=0;
+    this.dataConfig.page=1;
+    this.dataConfig.pageCount=0;
+    this.dataConfig.loading=false;
   }
 
-  //初始化图说中的图片宽度
-  ceil(width) {
-    return Math.ceil(width);
-  }
-
-  //事件侦听
+  //初始化事件侦听
   initListener() {
+    this.events.subscribe('HomePage:refresh', this.refresh);//监听刷新事件
+    $(window).on('resize',this.resize);
     //滚动到底部
     let element = $('#waterfallContainer').closest('.scroll-content');
     element.on('scroll',e => {
@@ -136,7 +129,16 @@ export class HomePage {
 
   //删除事件侦听
   removeListener() {
+    this.events.unsubscribe('HomePage:refresh', this.refresh);//移除监听刷新事件
+    $(window).off('resize',this.resize);
     $('#waterfallContainer').closest('.scroll-content').off('scroll');
+  }
+  //-----------------需要登录的页面必须有的方法(END)
+
+  //初始化图说中的图片宽度
+  initImageWidth() {
+    var containerWidth = $(window).width() - 30;
+    this.imageWidth = (containerWidth - this.deltaX * (this.columnCount - 1)) / this.columnCount;
   }
 
   //获取首页banner轮播数据
@@ -190,10 +192,10 @@ export class HomePage {
       config.pageCount = response.last_page;
       var data = this.parseIllustrationData(response.data);
       if (config.page == 1) {
-        this.list = [];
-        this.list = data;
+        this.dataConfig.data = [];
+        this.dataConfig.data = data;
       } else {
-        this.list = this.list.concat(data);
+        this.dataConfig.data = this.dataConfig.data.concat(data);
       }
       if (data.length == 0) {
         this.renderSingle();
@@ -208,6 +210,8 @@ export class HomePage {
     var innerData;
     var result = [];
     var len = data.length;
+    let ossWidth=Math.ceil(this.imageWidth);
+    let ossHeight;
     //材料列表
     for (var i = 0; i < len; i++) {
       innerData = data[i];
@@ -220,10 +224,13 @@ export class HomePage {
       item.height = 0;
       if(innerData.cases&&innerData.cases.plan_images&&innerData.cases.plan_images.length>0){
         let img=innerData.cases.plan_images[0];
-        item.url = img.url + '?x-oss-process=image/resize,w_' + Math.ceil(this.imageWidth);
+        item.width = img.width?img.width:0;
+        item.height = img.height?img.height:0;
+        ossHeight=Math.ceil(ossWidth*item.height/item.width);
+        item.ossWidth = ossWidth;
+        item.ossHeight = ossHeight;
+        item.url = img.url + '?x-oss-process=image/resize,m_fill,limit_0,w_' + ossWidth+',h_'+ossHeight+'/quality,Q_100';
         item.title = innerData.cases.name;
-        item.width = img.width;
-        item.height = img.height;
       }else{
         continue;
       }
@@ -237,8 +244,8 @@ export class HomePage {
       item.favorite_count = innerData.favorite_count?this.processViews(innerData.favorite_count):0;
       // item.canResponse = true;//是否可以对收藏操作作出响应
       item.loaded = false;
-      item.left = this.initY + "px";
-      item.top = this.initY + "px";
+      item.left = this.initY;
+      item.top = this.initY;
       result.push(item);
     }
     return result;
@@ -246,17 +253,40 @@ export class HomePage {
 
   //----------------------------瀑布流(START)
 
+  renderedList(){
+    console.log('renderedList');
+    this.render();
+    setTimeout(()=>{
+      this.render();
+    },500);
+    // this.render();
+    // this.cdr.detectChanges();
+  }
+
   //渲染逻辑
   renderSingle(index?: number) {
     if (index !== undefined) {
-      this.list[index].loaded = true;
+      this.dataConfig.data[index].loaded = true;
     }
     this.render();
   }
 
+  //重设图片高度
+  resetImageHeight(){
+    let item;
+    let len = this.dataConfig.data.length;
+    let ossWidth=Math.ceil(this.imageWidth);
+    let ossHeight;
+    for (var i = 0; i < len; i++) {
+      item = this.dataConfig.data[i];
+      ossHeight=Math.ceil(ossWidth*item.height/item.width);
+      item.ossHeight = ossHeight;
+    }
+  }
+
 //渲染逻辑
   render() {
-    var length = this.list.length;
+    var length = this.dataConfig.data.length;
     var wrapSelector = "#waterfallContainer";
     var imageWidth = this.imageWidth;
     var imageHeight = 0;
@@ -294,21 +324,15 @@ export class HomePage {
         column = (index % this.columnCount);//列(从0开始)
         imgLeft = column * (imageWidth + this.deltaX);
       }
-      this.list[i].left = imgLeft;
-      this.list[i].top = imgTop;
+      this.dataConfig.data[i].left = imgLeft;
+      this.dataConfig.data[i].top = imgTop;
     }
-    //获取最小高度和最大高度,用于放置更多
-    var minIndex = 0;
+    //获取最大高度
     var maxIndex = 0;
-    var minHeight = 0;
     var maxHeight = 0;
-    if (bottoms[minIndex] == undefined) {
-      bottoms[minIndex] = this.initY;
-    }
     if (bottoms[maxIndex] == undefined) {
       bottoms[maxIndex] = this.initY;
     }
-    minHeight = bottoms[minIndex];
     maxHeight = bottoms[maxIndex];
     for (i = 1; i < this.columnCount; i++) {
       if (bottoms[i] == undefined) {
@@ -319,20 +343,15 @@ export class HomePage {
         maxIndex = i;
         maxHeight = bottoms[i];
       }
-      if (minHeight > bottoms[i]) {
-        minIndex = i;
-        minHeight = bottoms[i];
-      }
     }
     //获取第1页的高度
     if (this.dataConfig.page == 1) {
-      this.dataConfig.pageHeight = this.list[this.list.length - 1].top;
+      this.dataConfig.pageHeight = this.dataConfig.data[this.dataConfig.data.length - 1].top;
     } else {
-      this.dataConfig.pageHeight = this.list[this.dataConfig.pageSize - 1].top;
+      this.dataConfig.pageHeight = this.dataConfig.data[this.dataConfig.pageSize - 1].top;
     }
     var containerHeight = maxHeight;
     this.containerHeight = containerHeight;//容器高度
-    this.initWaterfall = true;
   };
 
 //----------------------------瀑布流(END)

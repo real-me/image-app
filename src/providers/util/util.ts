@@ -45,23 +45,25 @@ export class UtilProvider {
    * @param info
    */
   loading(info?:string|any){
-    if(info){
-      if(typeof info=='string'){
+    if(!this.loadingTip){
+      if(info){
+        if(typeof info=='string'){
+          this.loadingTip=this.loadingCtrl.create({
+            dismissOnPageChange:true,
+            content: info
+          });
+        }else{
+          if(!info.hasOwnProperty('dismissOnPageChange')){
+            info.dismissOnPageChange=true;
+          }
+          this.loadingTip=this.loadingCtrl.create(info);
+        }
+      }else{
         this.loadingTip=this.loadingCtrl.create({
           dismissOnPageChange:true,
-          content: info
+          content: ''
         });
-      }else{
-        if(!info.hasOwnProperty('dismissOnPageChange')){
-          info.dismissOnPageChange=true;
-        }
-        this.loadingTip=this.loadingCtrl.create(info);
       }
-    }else{
-      this.loadingTip=this.loadingCtrl.create({
-        dismissOnPageChange:true,
-        content: ''
-      });
     }
     this.loadingTip.present();
   }
@@ -70,7 +72,10 @@ export class UtilProvider {
    * 隐藏加载信息
    */
   hideLoading(){
-    this.loadingTip.dismiss();
+    if(this.loadingTip){
+      this.loadingTip.dismiss().catch(()=>{});//注意,不加catch在切换页面时会报错
+      this.loadingTip=null;
+    }
   }
 
   //退出登录

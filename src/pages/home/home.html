@@ -1,5 +1,5 @@
 <ion-header no-border class="g-header">
-  <ion-navbar text-center>
+  <ion-navbar>
     <!--<ion-buttons start>-->
       <!--<button ion-button icon-only>-->
         <!--<ion-icon name="search"></ion-icon>-->
@@ -12,8 +12,6 @@
 </ion-header>
 
 <ion-content>
-  <!--<div>{{token}}</div>-->
-  <!--<button ion-button (click)="showToken()">显示token</button>-->
   <div class="banner" [ngClass]="{none:!banners.hasInit}">
     <ion-slides transparent pager>
       <ion-slide *ngFor="let el of banners.data">
@@ -25,12 +23,12 @@
   <div class="hot-wrap">
     <div class="content" [ngClass]="{none:!dataConfig.hasInit}">
       <ul class="clearfix" id="waterfallContainer" [ngStyle]="{height:containerHeight+'px'}">
-        <li *ngFor="let item of list;let i=index;" [ngStyle]="{left:item.left+'px',top:item.top+'px',width:imageWidth+'px'}" [@image]="viewState"  [ngClass]="{loaded:item.loaded}">
+        <li *ngFor="let item of dataConfig.data;let i=index;let last = last;" [ngStyle]="{left:item.left+'px',top:item.top+'px',width:imageWidth+'px'}" [repeat]="last" (repeatRendered)="renderedList()" [@image]="viewState"  [ngClass]="{loaded:item.loaded}">
           <a href="javascript:void(0)" (click)="openDetail(item)" title="图说">
             <div class="img-wrap">
               <div class="middle-outer">
                 <div class="middle-inner">
-                  <img [src]="item.url" class="block" (load)="renderSingle(i)" alt="图说详情">
+                  <img [src]="item.url" class="block" [ngStyle]="{height:item.ossHeight+'px'}" alt="图说详情">
                 </div>
               </div>
             </div>

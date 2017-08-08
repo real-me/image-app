@@ -1,12 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Events, NavController} from "ionic-angular";
 
-/**
- * Generated class for the NavigationComponent component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
 @Component({
   selector: 'navigation',
   templateUrl: 'navigation.html'
@@ -22,9 +16,7 @@ export class NavigationComponent {
     let name=this.navCtrl.getActive().component.name;
     if(index==1){
       if(name=='HomePage'){
-        console.log('name')
         this.events.publish('HomePage:refresh');
-        console.log('----------')
       }else{
         this.navCtrl.setRoot('HomePage');
       }
