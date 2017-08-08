@@ -12,6 +12,13 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingText="下拉刷新页面" refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div style="width: 100%;z-index: 100;background: #fff;text-align: center;line-height: 18px;position: fixed;left: 0;top: 60px;">
+    {{debugInfo}}
+  </div>
   <div class="banner" [ngClass]="{none:!banners.hasInit}">
     <ion-slides transparent pager>
       <ion-slide *ngFor="let el of banners.data">
@@ -46,7 +53,7 @@
       </ul>
     </div>
     <div class="middle-loading">
-      <div [ngClass]="{none:!dataConfig.loading}">加载中...</div>
+      <div [ngClass]="{none:!dataConfig.loading}"><ion-spinner></ion-spinner></div>
       <div [ngClass]="{none:!(!dataConfig.loading&&dataConfig.page>=dataConfig.pageCount&&dataConfig.page>1)}">
         <img src="assets/images/home/landing.png" class="landing">
       </div>

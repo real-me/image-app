@@ -13,7 +13,12 @@ export class NavigationComponent {
   }
 
   gotoPage(index:number){
-    let name=this.navCtrl.getActive().component.name;
+    // let name=this.navCtrl.getActive().component.name;
+    let name=this.navCtrl.getActive().id;
+    // console.log(name);
+    // console.log(this.navCtrl.last().id);
+    // console.log(this.navCtrl.getActive());
+    // console.log(this.navCtrl.getViews());
     if(index==1){
       if(name=='HomePage'){
         this.events.publish('HomePage:refresh');

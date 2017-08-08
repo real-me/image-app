@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, Events} from 'ionic-angular';
+import {IonicPage, NavController, Events, Refresher} from 'ionic-angular';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UtilProvider} from "../../providers/util/util";
 import * as $ from 'jquery';
@@ -23,6 +23,7 @@ import * as $ from 'jquery';
 })
 export class HomePage {
 
+  debugInfo:string='';//用于输出调试信息
   refresh:()=>void;
   resize:()=>void;
   banners = {
@@ -56,6 +57,7 @@ export class HomePage {
   constructor(public navCtrl: NavController, private util: UtilProvider,public events: Events) {
     //刷新界面,用于subscribe和unsubscribe时可以访问到类中的方法
     this.refresh=()=>{
+      console.log('refresh');
       this.clear();//清除数据
       this.util.checkLogin().then(isLogin => {
         isLogin && this.init();
@@ -65,9 +67,10 @@ export class HomePage {
     this.resize=()=>{
       this.initImageWidth();
       this.resetImageHeight();//重设图片高度
-      setTimeout(()=>{
-        this.render();//窗口大小发生改变时重新渲染图说图片
-      },50);
+      this.renderedList();
+      // setTimeout(()=>{
+      //   this.render();//窗口大小发生改变时重新渲染图说图片
+      // },100);
     };
   }
 
@@ -114,7 +117,11 @@ export class HomePage {
     element.on('scroll',e => {
       var config = this.dataConfig;
       if (config.hasInit && !config.loading && config.page < config.pageCount) {
-        var moveHeight = element.scrollTop() + $(window).height() - 50;
+        var marginTop=parseFloat(element.css('margin-top'));
+        var marginBottom=parseFloat(element.css('margin-bottom'));
+        isNaN(marginTop)&&(marginTop=0);
+        isNaN(marginBottom)&&(marginBottom=0);
+        var moveHeight = element.scrollTop() + $(window).height()-(marginTop+marginBottom);
         var preloadHeight = config.pageHeight * this.util.preloadConfig.percent / 100;
         moveHeight += preloadHeight;
         moveHeight = Math.ceil(moveHeight);
@@ -132,6 +139,16 @@ export class HomePage {
     this.events.unsubscribe('HomePage:refresh', this.refresh);//移除监听刷新事件
     $(window).off('resize',this.resize);
     $('#waterfallContainer').closest('.scroll-content').off('scroll');
+  }
+
+  doRefresh(refresher: Refresher) {
+    refresher.complete();
+    setTimeout(this.refresh,280);
+    // this.refresh();
+  }
+
+  doPulling(refresher: Refresher) {
+    console.log('DOPULLING', refresher.progress);
   }
   //-----------------需要登录的页面必须有的方法(END)
 
@@ -286,7 +303,8 @@ export class HomePage {
 
 //渲染逻辑
   render() {
-    var length = this.dataConfig.data.length;
+    var config=this.dataConfig;
+    var length = config.data.length;
     var wrapSelector = "#waterfallContainer";
     var imageWidth = this.imageWidth;
     var imageHeight = 0;
@@ -324,8 +342,8 @@ export class HomePage {
         column = (index % this.columnCount);//列(从0开始)
         imgLeft = column * (imageWidth + this.deltaX);
       }
-      this.dataConfig.data[i].left = imgLeft;
-      this.dataConfig.data[i].top = imgTop;
+      config.data[i].left = imgLeft;
+      config.data[i].top = imgTop;
     }
     //获取最大高度
     var maxIndex = 0;
@@ -345,13 +363,16 @@ export class HomePage {
       }
     }
     //获取第1页的高度
-    if (this.dataConfig.page == 1) {
-      this.dataConfig.pageHeight = this.dataConfig.data[this.dataConfig.data.length - 1].top;
+    if (config.page == 1) {
+      if(config.data.length>0){
+        config.pageHeight = config.data[config.data.length - 1].top;
+      }
     } else {
-      this.dataConfig.pageHeight = this.dataConfig.data[this.dataConfig.pageSize - 1].top;
+      if(config.data.length>0&&config.pageSize - 1>=0){
+        config.pageHeight = config.data[config.pageSize - 1].top;
+      }
     }
-    var containerHeight = maxHeight;
-    this.containerHeight = containerHeight;//容器高度
+    this.containerHeight = maxHeight;//容器高度
   };
 
 //----------------------------瀑布流(END)
