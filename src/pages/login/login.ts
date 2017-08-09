@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {Http} from "@angular/http";
 import "rxjs/add/operator/toPromise";
@@ -11,8 +11,11 @@ import {UtilProvider} from "../../providers/util/util";
 })
 export class LoginPage {
 
+  @ViewChild('password') passwordInput:any;
+
   userName:string='';//用户名
   password:string='';//密码
+
 
   hasError:boolean=false;//是否有错误
   loading:any=null;
@@ -31,7 +34,8 @@ export class LoginPage {
   }
 
   ionViewDidLoad() {
-
+    //自动登录
+    this.util.isLogin().then(ok=>ok&&this.loginSuccess());
     // console.log(this.navCtrl.getActive().component.test());
     // console.log(this.navCtrl.getPrevious()._cmp);
     // console.log(this.navCtrl.getPrevious().component.loginSuccess);
@@ -65,6 +69,17 @@ export class LoginPage {
     // return Observable.throw(error.json().error || 'Server Error');
   }
 
+
+
+  //按下按键
+  onKeyPress(type){
+    if(type==2){
+      this.tryLogin();
+    }else {
+      this.passwordInput.setFocus();
+    }
+  }
+
   //尝试登录
   tryLogin(){
     if(this.userName==''||this.password==''){
@@ -82,21 +97,11 @@ export class LoginPage {
       password:this.password,
       grant_type:'password'
     };
-    this.util.login(data).then(result => {
+    this.util.login(data).then(ok => {
       this.loading.dismiss();
-      if(result){
+      if(ok){
         //登录成功
-        //判断根页面是否登录页面,如果是则转到首页,否则转入登录前的页面
-        if(this.navCtrl.getViews()[0].id=='LoginPage'){
-          this.navCtrl.setRoot(this.util.defaultPage);
-        }else{
-          if(this.navCtrl.length()>1){
-            this.lastPage&&this.lastPage.refresh();//调用上一个页面的登录成功方法
-            this.navCtrl.pop();
-          }else{
-            this.navCtrl.setRoot(this.util.defaultPage);
-          }
-        }
+        this.loginSuccess();
       }else{
         //登录出错
         this.hasError=true;
@@ -133,5 +138,20 @@ export class LoginPage {
       ]
     });
     this.alert.present();
+  }
+
+  //登录成功
+  private loginSuccess() {
+    //判断根页面是否登录页面,如果是则转到首页,否则转入登录前的页面
+    if(this.navCtrl.getViews()[0].id=='LoginPage'){
+      this.navCtrl.setRoot(this.util.defaultPage);
+    }else{
+      if(this.navCtrl.length()>1){
+        this.lastPage&&this.lastPage.refresh();//调用上一个页面的登录成功方法
+        this.navCtrl.pop();
+      }else{
+        this.navCtrl.setRoot(this.util.defaultPage);
+      }
+    }
   }
 }

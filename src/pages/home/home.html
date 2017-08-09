@@ -31,11 +31,11 @@
     <div class="content" [ngClass]="{none:!dataConfig.hasInit}">
       <ul class="clearfix" id="waterfallContainer" [ngStyle]="{height:containerHeight+'px'}">
         <li *ngFor="let item of dataConfig.data;let i=index;let last = last;" [ngStyle]="{left:item.left+'px',top:item.top+'px',width:imageWidth+'px'}" [repeat]="last" (repeatRendered)="renderedList()" [@image]="viewState"  [ngClass]="{loaded:item.loaded}">
-          <a href="javascript:void(0)" (click)="openDetail(item)" title="图说">
+          <a href="javascript:void(0)" (click)="openDetail(item)" [attr.title]="item.title">
             <div class="img-wrap">
               <div class="middle-outer">
                 <div class="middle-inner">
-                  <img [src]="item.url" class="block" [ngStyle]="{height:item.ossHeight+'px'}" alt="图说详情">
+                  <img [src]="item.url" class="block" [ngStyle]="{height:item.ossHeight+'px'}">
                 </div>
               </div>
             </div>

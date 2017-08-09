@@ -15,6 +15,7 @@ export class UtilProvider {
   apiHost:string='https://dev.jintangjiang.cn/';//api前缀
   // apiHost:string='https://api.gzdmc.net/v1/';//api前缀
   defaultPage:string='HomePage';//默认登录后跳转到的页面
+  refreshDuration:number=280;//下拉刷新的回复时间
 
   token:any=null;//保存token
 
@@ -27,12 +28,18 @@ export class UtilProvider {
     // this.clear();
   }
 
-  //关联当前页面(除了登录页面之外的页面)
+  /**
+   * 关联当前页面(除了登录页面之外的页面)
+   * @param page 当前页面
+   */
   setPage(page:any){
     this.page=page;
   }
 
-  //获取当前导航组件
+  /**
+   * 获取当前导航组件
+   * @returns {NavControllerBase}
+   */
   getNav(){
     if(!this.navCtrl){
       this.navCtrl=this.app.getActiveNav();
@@ -78,20 +85,29 @@ export class UtilProvider {
     }
   }
 
-  //退出登录
+  /**
+   * 退出登录
+   */
   logout() {
     this.clear().then(()=>{
       this.getNav().setRoot('LoginPage');
     });
   }
 
-  //清除数据
+  /**
+   * 清除数据
+   * @returns {Promise<any[]>}
+   */
   clear(){
     this.token=null;
     return Promise.all([this.storage.remove('token'),this.storage.remove('user')]);
   }
 
-  //登录
+  /**
+   * 登录
+   * @param data 登录凭据
+   * @returns {Promise<boolean|TResult2|boolean>}
+   */
   login(data) {
     let url=this.apiHost+'oauth/token';
     return this.http.post(url, data).toPromise()
@@ -142,10 +158,10 @@ export class UtilProvider {
    * 检查是否登录
    * @param isInLogin
    */
-  checkLogin(isInLogin?:boolean){
+  checkLogin(isLoginPage?:boolean){
     return this.isLogin().then(value=>{
       // console.log(this.getNav().getActive().component.name);
-      if(!isInLogin&&!value){
+      if(!isLoginPage&&!value){
         //当前不是登录页面且未登录
         this.showLoginPage();
       }
@@ -157,7 +173,10 @@ export class UtilProvider {
    * 弹出登录页面
    */
   showLoginPage(){
-    this.getNav().push('LoginPage',{page:this.page});
+    //如果当前页面不是登录页则打开登录页面,防止打开多个登录页面
+    if(this.getNav().last().id!='LoginPage'){
+      this.getNav().push('LoginPage',{page:this.page});
+    }
   }
 
   /**
@@ -201,7 +220,10 @@ export class UtilProvider {
     });
   }
 
-  //判断当前的token是否有效
+  /**
+   * 判断当前的token是否有效
+   * @returns {any}
+   */
   isValidToken(){
     //判断token是否过期
     let seconds=moment(this.token.expires_day).diff(moment(),'seconds');
@@ -248,12 +270,17 @@ export class UtilProvider {
       }
   }
 
-  //通过get方法调用api
-  get(url:string,notUseToken?:boolean){
+  /**
+   * 通过get方法调用api
+   * @param url api地址
+   * @param noToken 是否不使用token
+   * @returns {Promise<TResult2|TResult1>}
+   */
+  get(url:string,noToken?:boolean){
     if(url.indexOf("http")!=0 ){
       url=this.apiHost+url;
     }
-    if(!notUseToken){
+    if(!noToken){
       return this.isLogin().then(isLoginOk=>{
         //使用token
         if(isLoginOk){
@@ -269,12 +296,18 @@ export class UtilProvider {
     }
   }
 
-  //通过post方法调用api
-  post(url:string,data:any,notUseToken?:boolean){
+  /**
+   * 通过post方法调用api
+   * @param url api地址
+   * @param data 要提交的数据
+   * @param noToken 是否不使用token
+   * @returns {Promise<TResult2|TResult1>}
+   */
+  post(url:string,data:any,noToken?:boolean){
     if(url.indexOf("http")!=0 ){
       url=this.apiHost+url;
     }
-    if(!notUseToken){
+    if(!noToken){
       return this.isLogin().then(isLoginOk=>{
         //使用token
         if(isLoginOk){

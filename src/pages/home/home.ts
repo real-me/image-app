@@ -78,9 +78,7 @@ export class HomePage {
   ionViewDidLoad() {
     this.initListener();//初始化事件侦听
     this.util.setPage(this);
-    this.util.checkLogin().then(isLogin => {
-      isLogin && this.init();
-    });
+    this.refresh();
   }
 
   //页面移除时删除事件侦听
@@ -375,10 +373,11 @@ export class HomePage {
     this.containerHeight = maxHeight;//容器高度
   };
 
-//----------------------------瀑布流(END)
+  //----------------------------瀑布流(END)
 
+  //打开详情页
   openDetail(item) {
-
+    this.navCtrl.push('DetailPage',{id:item.id});
   }
 
   toggleLikeImage(e, item, p) {

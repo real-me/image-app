@@ -11,10 +11,10 @@
   <div class="container" text-center>
     <ion-list>
       <ion-item transparent no-padding class="user">
-        <ion-input [ngModel]="userName" (ngModelChange)="changeUserName($event)" placeholder="请输入手机或邮箱"></ion-input>
+        <ion-input [ngModel]="userName" (ngModelChange)="changeUserName($event)" (keydown.enter)="onKeyPress(1)" placeholder="请输入手机或邮箱"></ion-input>
       </ion-item>
       <ion-item transparent no-padding class="lock">
-        <ion-input type="password" [ngModel]="password" (ngModelChange)="changePassword($event)" placeholder="请输入密码"></ion-input>
+        <ion-input #password type="password" [ngModel]="password" (ngModelChange)="changePassword($event)" (keydown.enter)="onKeyPress(2)" placeholder="请输入密码"></ion-input>
       </ion-item>
     </ion-list>
     <div class="error-tip" [ngClass]="{none:!hasError}">
