@@ -17,38 +17,32 @@
       </button>
     </div>
   </div>
-  <div class="wrap">
+  <div class="wrap" [ngClass]="{none:!hasInit}">
     <div class="banner" #banner>
-      <img src="http://fetch-cdn.staging.gzdmc.net/image/20a919bf4f8df971e3b5be9d14618192.jpeg?x-oss-process=image/resize,w_800" alt="" class="img-full">
+      <img [src]="data.map+bannerPostfix" alt="" class="img-full">
     </div>
     <div class="main-wrap">
       <div class="info-wrap">
         <div class="logo-wrap">
-          <img src="http://fetch-cdn.staging.gzdmc.net/image/538c38ca393f83df0c6d2fb70fc41bcd.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_60,h_60/quality,Q_100">
+          <img [src]="data.user_photo">
         </div>
         <p class="designer-name">
-          韩熙载
+          {{data.real_name}}
         </p>
-        <p class="detail-title">
-          舒适脚感，铺装简易，缝隙无踪
+        <p class="detail-title" *ngIf="images.length>0">
+          {{images[0].title}}
         </p>
         <p class="from-site">
           转自 home-designing
         </p>
       </div>
       <div class="list-wrap">
-        <div class="img-group">
-          <img class="pointer" src="http://fetch-cdn.staging.gzdmc.net/image/b68d5538b5bb30f6e91e093505bfd557.jpeg?x-oss-process=image/resize,w_660/quality,q_80">
-          <p>从点、线、面勾勒轮廓</p>
-        </div>
-        <div class="img-group">
-          <img class="pointer" src="http://fetch-cdn.staging.gzdmc.net/image/b68d5538b5bb30f6e91e093505bfd557.jpeg?x-oss-process=image/resize,w_660/quality,q_80">
-          <p>从点、线、面勾勒轮廓</p>
-        </div>
-        <div class="img-group">
-          <img class="pointer" src="http://fetch-cdn.staging.gzdmc.net/image/b68d5538b5bb30f6e91e093505bfd557.jpeg?x-oss-process=image/resize,w_660/quality,q_80">
-          <p>从点、线、面勾勒轮廓</p>
-        </div>
+        <ng-container *ngFor="let item of images;let i=index;let last = last;">
+          <div class="img-group" *ngIf="i>0">
+            <img class="pointer" [src]="item.src">
+            <p>{{item.title}}</p>
+          </div>
+        </ng-container>
       </div>
       <button class="btn-view" (click)="openProjectDetail()">
         查看项目详情

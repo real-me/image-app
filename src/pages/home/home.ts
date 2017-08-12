@@ -377,7 +377,7 @@ export class HomePage {
 
   //打开详情页
   openDetail(item) {
-    this.navCtrl.push('DetailPage',{id:item.id});
+    this.navCtrl.push('DetailPage',{data:this.dataConfig.data,id:item.id});
   }
 
   toggleLikeImage(e, item, p) {

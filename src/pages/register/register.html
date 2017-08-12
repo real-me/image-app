@@ -1,12 +1,33 @@
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>register</ion-title>
+<ion-header no-border>
+  <ion-navbar transparent text-center>
+    <ion-title>注册新用户</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
-
+  <div class="name" text-center>
+    <img src="assets/images/login/name.png" alt="">
+  </div>
+  <div class="container" text-center>
+    <ion-list>
+      <ion-item transparent no-padding class="user">
+        <ion-input maxlength="11" [ngModel]="userName" (ngModelChange)="changeUserName($event)" (keydown.enter)="onKeyPress(1)" placeholder="请输入手机"></ion-input>
+      </ion-item>
+      <ion-item transparent no-padding class="code" [ngClass]="{none:step!=2}">
+        <ion-input maxlength="6" [ngModel]="code" (ngModelChange)="changeCode($event)" (keydown.enter)="onKeyPress(1)" placeholder="请输入验证码"></ion-input>
+      </ion-item>
+      <ion-item transparent no-padding class="lock" [ngClass]="{none:step!=3}">
+        <ion-input #password type="password" [ngModel]="password" (ngModelChange)="changePassword($event)" (keydown.enter)="onKeyPress(2)" placeholder="请输入密码"></ion-input>
+      </ion-item>
+    </ion-list>
+    <div class="error-tip" [ngClass]="{none:!hasError}">
+      <span>账号或密码错误，请重新输入</span>
+    </div>
+    <button ion-button block class="btn-normal" [ngClass]="{disable:userName=='',none:step==3}" (click)="getValidCode()">
+      <span [ngClass]="{none:step!=1}">获取验证码</span>
+      <span [ngClass]="{none:step!=2}">60s</span>
+      <span [ngClass]="{none:step!=2}">重新获取验证码</span>
+    </button>
+    <!--<button ion-button block class="btn-login" [ngClass]="{disable:userName==''||password==''}" (click)="tryLogin()">下一步</button>-->
+  </div>
 </ion-content>

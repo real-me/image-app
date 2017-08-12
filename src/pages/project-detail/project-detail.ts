@@ -13,13 +13,18 @@ export class ProjectDetailPage {
   @ViewChild('banner') banner:any;
 
   refresh:()=>void;
-
-  id:string=null;
   isHeadBarInverse:boolean=false;//顶部栏是否发生反转
+
+  source:any=null;//数据来源
+  data:any=null;
+  id:string=null;
+
+
+
 
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private util: UtilProvider) {
-    this.id = navParams.get('id');
+    this.data = this.navParams.get('data');
     this.refresh=()=>{
       this.clear();//清除数据
       this.util.checkLogin().then(isLogin => {
@@ -31,8 +36,8 @@ export class ProjectDetailPage {
   //-----------------需要登录的页面必须有的方法(START)
   ionViewDidLoad() {
     this.initListener();//初始化事件侦听
-    this.util.setPage(this);
-    this.refresh();
+    // this.util.setPage(this);
+    // this.refresh();
   }
 
   //页面移除时删除事件侦听
@@ -68,16 +73,16 @@ export class ProjectDetailPage {
   removeListener() {
     $(this.banner.nativeElement).closest('.scroll-content').off('scroll');
   }
-
-  doRefresh(refresher) {
-    refresher.complete();
-    setTimeout(this.refresh,this.util.refreshDuration);
-  }
   //-----------------需要登录的页面必须有的方法(END)
 
   //返回
-  goback(){
-    this.navCtrl.pop();
+  goback() {
+    this.util.goback();
+    // if (this.navCtrl.getViews().length == 1) {
+    //   this.navCtrl.setRoot(this.util.defaultPage);
+    // } else {
+    //   this.navCtrl.pop();
+    // }
   }
 
 }

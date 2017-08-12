@@ -6,7 +6,7 @@ body{
   //font-family:$g-font-family;
 }
 .none{
-  display: none;
+  display: none !important;
 }
 *{
   margin: 0;

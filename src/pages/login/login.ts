@@ -25,7 +25,7 @@ export class LoginPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private http: Http,private util:UtilProvider
+    private util:UtilProvider
   ) {
     this.lastPage = navParams.get('page');
     // console.log('------------');
@@ -111,7 +111,7 @@ export class LoginPage {
 
   //我是新用户
   creatAccount(){
-    this.navCtrl.setRoot('RegisterPage');
+    this.navCtrl.push('RegisterPage');
   }
 
   //忘记密码

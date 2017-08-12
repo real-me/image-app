@@ -24,7 +24,7 @@ export class UtilProvider {
     distance:300//距离
   };//在滚动到距离底部多远时进行预加载下一页
 
-  constructor(private app: App,public http: Http,private storage: Storage,private loadingCtrl: LoadingController) {
+  constructor(public app: App,public http: Http,private storage: Storage,private loadingCtrl: LoadingController) {
     // this.clear();
   }
 
@@ -326,6 +326,29 @@ export class UtilProvider {
         return this.processData(res);
       });
     }
+  }
+
+  /**
+   * 返回
+   */
+  goback() {
+    let nav=this.getNav();
+    if (nav.getViews().length == 1) {
+      nav.setRoot(this.defaultPage);
+    } else {
+      nav.pop();
+    }
+  }
+
+  /**
+   * 转换换行为br
+   * @param str 要转换的字符串
+   * @returns {any}
+   */
+  translateToBr(str) {
+    str=str.replace(/\r\n/g, '<br/>');
+    str=str.replace(/\n/g, '<br/>');
+    return str;
   }
 
 }

@@ -13,19 +13,19 @@
       <table>
         <tr>
           <td class="key">项目所在地</td>
-          <td class="value">广东广州</td>
+          <td class="value">{{data?.address}}</td>
         </tr>
         <tr>
           <td class="key">竣工时间</td>
-          <td class="value">2017年10月3日</td>
+          <td class="value">{{data?.project_completion_at}}</td>
         </tr>
         <tr>
           <td class="key">项目面积</td>
-          <td class="value">1000㎡</td>
+          <td class="value">{{data?.project_area_total}}㎡</td>
         </tr>
         <tr>
           <td class="key">项目造价</td>
-          <td class="value">200万元</td>
+          <td class="value">{{data?.project_investment_total}}万元</td>
         </tr>
       </table>
     </div>
@@ -43,30 +43,16 @@
     <div class="description">
       <dl>
         <dt>1.项目定位—— 作品独有的设计策划和定位</dt>
-        <dd>
-          “夹缝中的家“为公益性的设计，以人为本的设计理念，除了希望能改善委托户的生活空间，更希望能让更多的平民百姓相信设计的力量。
-        </dd>
+        <dd>{{data?.project_location}}</dd>
         <dt>2.空间意境——作品在环境风格上的创新点</dt>
-        <dd>
-          这不仅仅是一栋见证了上海历史的老房子，它还承载了周家的兴衰、悲欢离合和夹缝中求生存的意志。因此，除了在改造房屋中注入“阳光、空气、水“的设计概念以维护人在空间中生存的基本尊严之外，旧物利用成了此次设计最重要的一项挑战，将原本不堪使用的建材转换成装置、家具和记忆留存于周家，这会是链接人与建筑、人与历史、人与未来之间的对话。
-        </dd>
+        <dd>{{data?.project_artistic_conception}}</dd>
         <dt>3.空间布局——作品在空间布局上的创新点</dt>
-        <dd>
-          改造的开始从建筑结构加固作为开始，将房屋内老旧不堪使用的青砖墙和木楼板依次拆除，并以钢结构加固三面砖墙；将一层空间的地基垫高，除了防止雨水倒灌，抬高的地基做了防水处理避免潮湿之外，天井和屋顶的排水可直接藉由垫高的地基顺利排出室外。
-        </dd>
+        <dd>{{data?.project_space_layout}}</dd>
         <dt>4.设计选材——作品在设计选材上的创新点、低碳与经济性</dt>
-        <dd>
-          旧物利用，带给委托户“家”的设计。 选用优质的木地板、乳胶漆、清漆，环保健康。 使用轻薄的陶瓷薄板为地面和墙面材料以节约空间。
-        </dd>
+        <dd>{{data?.project_design_material}}</dd>
         <dt>5.用户体验——作品投入使用后的效果、用户评价</dt>
-        <dd>
-          彻底改善委托户的居家环境。 改善邻里关系。 给需要帮助的广大民众一个示范案例。
-        </dd>
+        <dd>{{data?.project_user_experience}}</dd>
       </dl>
     </div>
-    <!--<div class="banner" #banner>-->
-      <!--<img src="http://fetch-cdn.staging.gzdmc.net/image/20a919bf4f8df971e3b5be9d14618192.jpeg?x-oss-process=image/resize,w_800" alt="" class="img-full">-->
-    <!--</div>-->
   </div>
-
 </ion-content>

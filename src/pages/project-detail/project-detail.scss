@@ -82,7 +82,7 @@ page-project-detail {
       height: 15px;
       .circle-left{
         float: left;
-        width: 15px;
+        width: 8px;
         height: 15px;
         img{
           width: 8px;
@@ -91,7 +91,7 @@ page-project-detail {
       }
       .circle-right{
         float: right;
-        width: 15px;
+        width: 8px;
         height: 15px;
         img{
           width: 8px;
@@ -99,7 +99,7 @@ page-project-detail {
         }
       }
       .divide{
-        margin:0 15px;
+        margin:0 8px;
         height: 100%;
         position: relative;
         &:before{
