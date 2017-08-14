@@ -14,13 +14,13 @@
         <ion-input [ngModel]="userName" (ngModelChange)="changeUserName($event)" (keydown.enter)="onKeyPress(1)" placeholder="请输入手机或邮箱"></ion-input>
       </ion-item>
       <ion-item transparent no-padding class="lock">
-        <ion-input #password type="password" [ngModel]="password" (ngModelChange)="changePassword($event)" (keydown.enter)="onKeyPress(2)" placeholder="请输入密码"></ion-input>
+        <ion-input #password type="password" [ngModel]="pwd" (ngModelChange)="changePassword($event)" (keydown.enter)="onKeyPress(2)" (focus)="onFocus($event)" placeholder="请输入密码"></ion-input>
       </ion-item>
     </ion-list>
     <div class="error-tip" [ngClass]="{none:!hasError}">
       <span>账号或密码错误，请重新输入</span>
     </div>
-    <button ion-button block class="btn-login" [ngClass]="{disable:userName==''||password==''}" (click)="tryLogin()">登录</button>
+    <button ion-button block class="btn-login" [ngClass]="{disable:userName==''||pwd==''}" (click)="tryLogin()">登录</button>
     <button ion-button block outline  class="btn-new" (click)="creatAccount()">我是新用户</button>
     <div class="forget" (click)="forget()"><span>忘记密码</span></div>
     <button no-padding no-margin class="btn-weixin" (click)="weixinLogin()">

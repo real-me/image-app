@@ -14,7 +14,7 @@ export class LoginPage {
   @ViewChild('password') passwordInput:any;
 
   userName:string='';//用户名
-  password:string='';//密码
+  pwd:string='';//密码
 
 
   hasError:boolean=false;//是否有错误
@@ -57,10 +57,15 @@ export class LoginPage {
 
   //输入密码
   changePassword(e:string){
-    this.password=e;
+    this.pwd=e;
     if(this.hasError){
       this.hasError=false;
     }
+  }
+
+  onFocus(e:any){
+
+    console.log(e.target.type);
   }
 
   //处理错误
@@ -82,7 +87,7 @@ export class LoginPage {
 
   //尝试登录
   tryLogin(){
-    if(this.userName==''||this.password==''){
+    if(this.userName==''||this.pwd==''){
       return;
     }
     this.loading = this.loadingCtrl.create({
@@ -94,7 +99,7 @@ export class LoginPage {
     //尝试登录
     let data={
       username:this.userName,
-      password:this.password,
+      password:this.pwd,
       grant_type:'password'
     };
     this.util.login(data).then(ok => {
