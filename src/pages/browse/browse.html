@@ -1,0 +1,20 @@
+<ion-header no-border>
+  <ion-navbar transparent text-center>
+    <ion-title>浏览图片</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <div class="swiper-container">
+    <div class="swiper-wrapper" *ngFor="let el of data">
+      <div class="swiper-slide">
+        <div class="swiper-zoom-container">
+          <img [src]="el">
+        </div>
+      </div>
+    </div>
+    <div class="swiper-pagination swiper-pagination-white"></div>
+    <!--<div class="swiper-button-prev"></div>-->
+    <!--<div class="swiper-button-next"></div>-->
+  </div>
+</ion-content>

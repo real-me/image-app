@@ -1,0 +1,13 @@
+browse {
+  background: transparent;
+  ion-content{
+    background-color: transparent !important;
+  }
+  .swiper-container {
+    width: 100%;
+    height: 100%;
+  }
+  .swiper-slide {
+    overflow: hidden;
+  }
+}

@@ -18,8 +18,8 @@
     </div>
   </div>
   <div class="wrap" [ngClass]="{none:!hasInit}">
-    <div class="banner" #banner>
-      <img [src]="data.map+bannerPostfix" alt="" class="img-full">
+    <div class="banner" #banner (swipe)="swipeEvent($event)">
+      <img [src]="data.map+bannerPostfix" alt="" class="img-full pointer" (click)="openBigImage(0)">
     </div>
     <div class="main-wrap">
       <div class="info-wrap">
@@ -39,7 +39,7 @@
       <div class="list-wrap">
         <ng-container *ngFor="let item of images;let i=index;let last = last;">
           <div class="img-group" *ngIf="i>0">
-            <img class="pointer" [src]="item.src">
+            <img class="pointer" [src]="item.src" (click)="openBigImage(i)">
             <p>{{item.title}}</p>
           </div>
         </ng-container>

@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, ModalController, NavController, NavParams} from 'ionic-angular';
 import {UtilProvider} from "../../providers/util/util";
 import * as $ from 'jquery';
 
@@ -61,7 +61,7 @@ export class DetailPage {
     project_user_experience: ''//用户体验
   };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private util: UtilProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private util: UtilProvider,public modalCtrl: ModalController) {
     this.id = this.navParams.get('id');
     if (!this.id) {
       this.id = '85';
@@ -159,6 +159,26 @@ export class DetailPage {
     this.navCtrl.push('ProjectDetailPage', {data: this.projectData});
   }
 
+  //打开大图
+  openBigImage(index:number) {
+    // this.modalCtrl.create(BrowseComponent, {data: this.urlArraysCompress,index:index}).present();
+    // this.modalCtrl.create(BrowseComponent).present();
+    this.navCtrl.push('BrowsePage', {data: this.urlArraysCompress,index:index});
+    // this.modalCtrl.create('BrowsePage', {data: this.urlArraysCompress,index:index}).present();
+    // this.modalCtrl.create(BrowsePage, {data: this.urlArraysCompress,index:index}).present();
+  }
+
+  //滑动浏览上一个或下一个
+  swipeEvent(e){
+    if(e.direction==2){
+      //左滑看上一个
+
+    }else if(e.direction==4){
+      //右滑看下一个
+
+    }
+  }
+
   //转换时间为日期显示
   parseDay(day, hasDay) {
     var result = '';
@@ -240,7 +260,7 @@ export class DetailPage {
           info.height = img.height ? img.height : 0;
           url = img.url;
           if (info.width > 0 && info.height > 0) {
-            var maxLength;
+            let maxLength;
             if (info.width > info.height) {
               maxLength = info.width > 1200 ? 1200 : info.width;
               maxLength += '/quality,q_80';
@@ -280,18 +300,14 @@ export class DetailPage {
           info.height = img.height ? img.height : 0;
           url = img.url;
           if (info.width > 0 && info.height > 0) {
-            var maxLength;
+            let maxLength;
             if (info.width > info.height) {
-              maxLength = info.width;
-              if (maxLength > 1200) {
-                maxLength = 1920 + '/quality,q_80';
-              }
+              maxLength = info.width > 1200 ? 1200 : info.width;
+              maxLength += '/quality,q_80';
               url += '?x-oss-process=image/resize,w_' + maxLength;
             } else {
-              maxLength = info.height;
-              if (maxLength > 1200) {
-                maxLength = 1200 + '/quality,q_80';
-              }
+              maxLength = info.height > 1200 ? 1200 : info.height;
+              maxLength += '/quality,q_80';
               url += '?x-oss-process=image/resize,h_' + maxLength;
             }
           } else {
@@ -304,6 +320,9 @@ export class DetailPage {
         this.images = images;
       } else {
         this.data.map = this.emptyImage;//第一张实景图
+      }
+      if(this.data.map==this.emptyImage){
+        this.urlArraysCompress.push(this.data.map);
       }
 
       console.log(response);
