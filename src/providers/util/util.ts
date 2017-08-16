@@ -417,4 +417,16 @@ export class UtilProvider {
     return str;
   }
 
+  /**
+   * 验证手机号码是否合法
+   * @param str 号码
+   * @returns {boolean} 手机号码是否合法
+   */
+  testPhone(str) {
+    if(str.length != 11){
+      return false;
+    }
+    return /^0?1[3|4|5|7|8][0-9]\d{8}$/.test(str);
+  }
+
 }

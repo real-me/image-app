@@ -11,23 +11,32 @@
   <div class="container" text-center>
     <ion-list>
       <ion-item transparent no-padding class="user">
-        <ion-input maxlength="11" [ngModel]="userName" (ngModelChange)="changeUserName($event)" (keydown.enter)="onKeyPress(1)" placeholder="请输入手机"></ion-input>
+        <ion-input [readonly]="step>=2" maxlength="11" [ngModel]="phone" (ngModelChange)="changePhone($event)" (keydown.enter)="onKeyPress(1)" placeholder="请输入手机"></ion-input>
       </ion-item>
       <ion-item transparent no-padding class="code" [ngClass]="{none:step!=2}">
-        <ion-input maxlength="6" [ngModel]="code" (ngModelChange)="changeCode($event)" (keydown.enter)="onKeyPress(1)" placeholder="请输入验证码"></ion-input>
+        <ion-input maxlength="4" [ngModel]="code" (ngModelChange)="changeCode($event)" (keydown.enter)="onKeyPress(2)" placeholder="请输入验证码"></ion-input>
+        <span item-end [ngClass]="{none:canGetCode}" class="count-label">{{time}}</span>
+        <button ion-button outline item-end [ngClass]="{none:!canGetCode}" (click)="tryToGetCode()">
+          <span [ngClass]="{none:!canGetCode}">获取验证码</span>
+        </button>
       </ion-item>
-      <ion-item transparent no-padding class="lock" [ngClass]="{none:step!=3}">
-        <ion-input #password type="password" [ngModel]="password" (ngModelChange)="changePassword($event)" (keydown.enter)="onKeyPress(2)" placeholder="请输入密码"></ion-input>
+      <ion-item transparent no-padding class="lock" [ngClass]="{none:step!=2}">
+        <ion-input maxlength="20" #password type="password" [ngModel]="pwd" (ngModelChange)="changePassword($event)" (keydown.enter)="onKeyPress(3)" placeholder="请输入密码"></ion-input>
       </ion-item>
     </ion-list>
     <div class="error-tip" [ngClass]="{none:!hasError}">
-      <span>账号或密码错误，请重新输入</span>
+      <p [ngClass]="{none:phoneResult.isMatchLength}">请输入11位的手机号码</p>
+      <p [ngClass]="{none:phoneResult.isValid}">手机号码格式不正确</p>
+      <p [ngClass]="{none:codeResult.success}">获取验证码失败({{codeResult.msg}})</p>
+      <p [ngClass]="{none:codeResult.isPass}">验证码不正确</p>
+      <p [ngClass]="{none:!(step==2&&code.length<4)}">请输入4位的验证码</p>
+      <p [ngClass]="{none:!(step==2&&pwd.length<6)}">请输入6-20位的密码</p>
     </div>
-    <button ion-button block class="btn-normal" [ngClass]="{disable:userName=='',none:step==3}" (click)="getValidCode()">
-      <span [ngClass]="{none:step!=1}">获取验证码</span>
-      <span [ngClass]="{none:step!=2}">60s</span>
-      <span [ngClass]="{none:step!=2}">重新获取验证码</span>
+    <button ion-button block class="btn-normal" [ngClass]="{disable:isCodeBtnDisabled(),none:step!==1}" (click)="getCode()">
+      获取验证码
     </button>
-    <!--<button ion-button block class="btn-login" [ngClass]="{disable:userName==''||password==''}" (click)="tryLogin()">下一步</button>-->
+    <button ion-button block class="btn-normal" [ngClass]="{disable:isNextStepDisabled(),none:step!=2}" (click)="register()">
+      下一步
+    </button>
   </div>
 </ion-content>

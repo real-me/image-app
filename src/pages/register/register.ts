@@ -12,8 +12,10 @@ export class RegisterPage {
 
   @ViewChild('password') passwordInput:any;
 
-  userName:string='';//用户名
-  password:string='';//密码
+  phone:string='';//用户名
+  pwd:string='';//密码
+  code:string='';//验证码
+
 
 
   hasError:boolean=false;//是否有错误
@@ -22,48 +24,232 @@ export class RegisterPage {
   lastPage:any=null;//上一个页面
 
   step:number=1;//当前步骤
+  isChecking:boolean=false;//是否正在检查
+  phoneResult:any={
+    isMatchLength:true,
+    isValid:true
+  };//手机号码格式是否正确
+  codeResult:any={
+    msg:'',//获取验证码的失败结果
+    success:true, //是否获取成功
+    isPass:true //验证是否通过
+  };//验证码结果
+
+  canGetCode:boolean=true;//是否可以重新获取验证码
+  waitTime:number=60;
+  time:number=60;
+  countId:number=null;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
               public loadingCtrl: LoadingController,
               private alertCtrl: AlertController,
               private util:UtilProvider
   ) {
-    this.lastPage = navParams.get('page');
+    // this.lastPage = navParams.get('page');
     // console.log('------------');
     // console.log(this.lastPage);
     // console.log(page.loginSuccess());
   }
 
   ionViewDidLoad() {
+    // this.startCountDown();
     //自动登录
-    this.util.isLogin().then(ok=>ok&&this.loginSuccess());
+    // this.util.isLogin().then(ok=>ok&&this.loginSuccess());
     // console.log(this.navCtrl.getActive().component.test());
     // console.log(this.navCtrl.getPrevious()._cmp);
     // console.log(this.navCtrl.getPrevious().component.loginSuccess);
     // console.log(this.navCtrl.getViews()[0].id=='LoginPage');
   }
 
-  //获取验证码
-  getValidCode(){
+  //页面移除时删除事件侦听
+  viewWillUnload() {
+    this.stopCountDown();//停止计时
+  }
 
+  //开始倒计时
+  startCountDown(){
+    this.canGetCode=false;
+    this.time=this.waitTime;
+    this.countId=setInterval(()=>{
+      this.time--;
+      if(this.time<=0){
+        clearTimeout(this.countId);
+        this.countId=null;
+        this.canGetCode=true;
+      }
+    },1000);
+  }
+
+  //停止计时
+  stopCountDown(){
+    if(this.countId){
+      clearTimeout(this.countId);
+      this.countId=null;
+    }
+  }
+
+  //获取验证码
+  getCode(){
+    if(this.isCodeBtnDisabled()){
+      return;
+    }
+    //输入时已经调用testPhone检查过
+    this.hasError=!this.util.testPhone(this.phone);
+    if(this.hasError){
+      this.isChecking=true;
+    }else{
+      this.isChecking=false;
+      this.tryToGetCode();
+    }
+  }
+
+  //获取验证码
+  tryToGetCode(){
+    this.util.loading();
+    //尝试登录
+    let data={
+      mobile_phone:this.phone
+    };
+    let url='tushuo/api/captcha';
+    this.util.post(url, data,true).then(res => {
+      let response=res.json();
+      this.util.hideLoading();
+      if(response.status=='success'){
+        //获取验证码成功
+        this.codeResult.success=true;
+        this.hasError=!this.codeResult.success;
+        this.step=2;
+        this.startCountDown();//开始计时
+      }else{
+        response.msg&&(this.codeResult.msg=response.msg);
+        this.codeResult.success=false;
+        this.hasError=!this.codeResult.success;
+      }
+    }).catch(err => {
+      //获取验证码出错
+      this.util.hideLoading();
+      this.codeResult.msg='';
+      this.codeResult.success=false;
+      this.hasError=!this.codeResult.success;
+    });
   }
 
 
-  //输入用户名
-  changeUserName(e:string){
-    this.userName=e;
-    if(this.hasError){
-      this.hasError=false;
+  //输入手机
+  changePhone(e:string){
+    this.phone=e;
+    this.codeResult.success=true;
+    this.testPhone();
+  }
+
+  //检查手机号码输入是否合法
+  testPhone(){
+    let isPass:boolean=true;
+    if(this.phone.length!=11){
+      isPass=false;
+      this.phoneResult.isMatchLength=false;
+      this.phoneResult.isValid=true;
+      if(this.isChecking){
+        this.hasError=true;
+      }
+    }else{
+      this.phoneResult.isMatchLength=true;
+      isPass=this.phoneResult.isValid=this.util.testPhone(this.phone);
+      if(this.phoneResult.isValid){
+        this.hasError=false;
+      }else{
+        if(this.isChecking){
+          this.hasError=true;
+        }else{
+          this.hasError=false;
+        }
+      }
+    }
+    return isPass;
+  }
+
+  //获取验证码按钮是否可见
+  isCodeBtnDisabled(){
+    return this.phone=='';
+  }
+
+  //输入验证码
+  changeCode(e:string){
+    this.code=e;
+    this.codeResult.isPass=true;
+    if(this.isChecking){
+      if(this.code.length<4){
+        this.hasError=true;
+      }else if(this.pwd.length<6){
+        this.hasError=true;
+      }else{
+        this.hasError=false;
+      }
     }
   }
 
   //输入密码
   changePassword(e:string){
-    this.password=e;
-    if(this.hasError){
-      this.hasError=false;
+    this.pwd=e;
+    if(this.isChecking){
+      if(this.code.length<4){
+        this.hasError=true;
+      }else if(this.pwd.length<6){
+        this.hasError=true;
+      }else{
+        this.hasError=false;
+      }
     }
   }
+
+  //下一步按钮是否没有启用
+  isNextStepDisabled(){
+    return (this.code==''||this.pwd=='');
+  }
+
+  //下一步
+  register(){
+    if(this.isNextStepDisabled()){
+      return;
+    }
+    this.code=this.code.trim();
+    this.pwd=this.pwd.trim();
+    if(this.code.length<4){
+      this.hasError=true;
+      this.isChecking=true;
+    }else if(this.pwd.length<6){
+      this.hasError=true;
+      this.isChecking=true;
+    }else{
+      this.isChecking=false;
+      this.hasError=false;
+      this.codeResult.isPass=true;
+      this.tryRegister();
+    }
+  }
+
+  //开始注册
+  tryRegister(){
+    this.util.loading();
+    //尝试登录
+    let data={
+      mobile_phone:this.phone,
+      password:this.pwd,
+      province_id:1,
+      code:this.code
+    };
+    let url='tushuo/api/users/register';
+    this.util.post(url, data,true).then(res => {
+      this.tryLogin();
+    }).catch(err => {
+      //获取验证码出错
+      this.util.hideLoading();
+      this.isChecking=true;
+      this.codeResult.isPass=false;
+      this.hasError=true;
+    });
+  }
+
 
   //处理错误
   private handleError(error: Response) {
@@ -75,86 +261,44 @@ export class RegisterPage {
 
   //按下按键
   onKeyPress(type){
-    if(type==2){
-      this.tryLogin();
-    }else {
+    if(type==1){
+      //在手机输入框
+      this.step==1&&this.getCode();
+    }
+    else if(type==2){
+      //在验证码输入框
       this.passwordInput.setFocus();
+    }else {
+      //在密码输入框
+      this.register();
     }
   }
 
   //尝试登录
   tryLogin(){
-    if(this.userName==''||this.password==''){
-      return;
-    }
-    this.loading = this.loadingCtrl.create({
-      content: '正在努力登录中，请稍候...'
-    });
-    this.hasError=false;
-    this.loading.present();
-
     //尝试登录
     let data={
-      username:this.userName,
-      password:this.password,
+      username:this.phone,
+      password:this.pwd,
       grant_type:'password'
     };
     this.util.login(data).then(ok => {
-      this.loading.dismiss();
+      this.util.hideLoading();
       if(ok){
         //登录成功
         this.loginSuccess();
       }else{
         //登录出错
-        this.hasError=true;
       }
+    }).catch(err => {
+      //登录失败
+      this.util.hideLoading();
     });
-  }
-
-  //我是新用户
-  creatAccount(){
-    this.navCtrl.setRoot('RegisterPage');
-  }
-
-  //忘记密码
-  forget(){
-    this.notImplement();
-  }
-
-  //微信登录
-  weixinLogin(){
-    this.notImplement();
-  }
-
-  //功能暂未实现
-  private notImplement() {
-    this.alert = this.alertCtrl.create({
-      message: '该功能暂未实现,敬请期待',
-      buttons: [
-        {
-          text: '好',
-          handler: () => {
-
-          }
-        }
-      ]
-    });
-    this.alert.present();
   }
 
   //登录成功
   private loginSuccess() {
-    //判断根页面是否登录页面,如果是则转到首页,否则转入登录前的页面
-    if(this.navCtrl.getViews()[0].id=='LoginPage'){
-      this.navCtrl.setRoot(this.util.defaultPage);
-    }else{
-      if(this.navCtrl.length()>1){
-        this.lastPage&&this.lastPage.refresh();//调用上一个页面的登录成功方法
-        this.navCtrl.pop();
-      }else{
-        this.navCtrl.setRoot(this.util.defaultPage);
-      }
-    }
+    this.navCtrl.setRoot(this.util.defaultPage);
   }
 
 }
