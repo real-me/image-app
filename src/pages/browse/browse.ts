@@ -26,6 +26,7 @@ export class BrowsePage {
       paginationClickable: true,
       speed: 300,
       autoplayDisableOnInteraction: false,
+      onSlideChangeEnd:(swiper)=>{this.index=swiper.activeIndex;},
       // autoplay: 3000,
       // prevButton: '.swiper-button-prev',
       // nextButton: '.swiper-button-next',

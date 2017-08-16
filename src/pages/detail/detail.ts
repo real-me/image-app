@@ -15,7 +15,7 @@ export class DetailPage {
   refresh: () => void;
   isHeadBarInverse: boolean = false;//顶部栏是否发生反转
 
-  source: any = null;//数据来源
+  source = [];//数据来源
   data: any = {
     user_photo:'assets/images/detail/avatar.png',
     real_name:'',
@@ -25,7 +25,7 @@ export class DetailPage {
   images = [];//图片信息数组
   urlArrays = [];//图片数组(用于对比url判断显示第几张图片)
   urlArraysCompress = [];//压缩大图数组(用于显示打开后的大图)
-  id: string = null;
+  id: number = 0;
 
   emptyImage = 'http://i.gzdmc.net/image/577565faef2b31bd6c4db20cc9253306.jpeg';//第一张实景图
   bannerPostfix = ''
@@ -62,11 +62,7 @@ export class DetailPage {
   };
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private util: UtilProvider,public modalCtrl: ModalController) {
-    this.id = this.navParams.get('id');
-    if (!this.id) {
-      this.id = '85';
-    }
-    // this.initData();
+    this.initData();
     this.refresh = () => {
       this.clear();//清除数据
       this.util.checkLogin().then(isLogin => {
@@ -78,16 +74,19 @@ export class DetailPage {
   initData() {
     this.source = this.navParams.get('data');
     this.id = this.navParams.get('id');
+    if (!this.id) {
+      this.id = 85;
+    }
   }
 
   //初始化宽度
   initWidth() {
     var windowWidth = $(window).width();
     windowWidth=Math.ceil(windowWidth);
-    this.bannerPostfix = '?x-oss-process=image/resize,w_' + windowWidth + ',limit_0/quality,q_80';
-    this.postfix = '?x-oss-process=image/resize,w_' + (windowWidth - 30) + ',limit_0/quality,q_80';
+    this.bannerPostfix = '?x-oss-process=image/resize,w_' + windowWidth + ',limit_0/quality,Q_100';
+    this.postfix = '?x-oss-process=image/resize,w_' + (windowWidth - 30) + ',limit_0/quality,Q_100';
     this.small_postfix = '?x-oss-process=image/resize,w_80,limit_0';
-    this.large_postfix = '?x-oss-process=image/resize,w_' + windowWidth + '/quality,q_80';
+    this.large_postfix = '?x-oss-process=image/resize,w_' + windowWidth + '/quality,Q_100';
   }
 
   //-----------------需要登录的页面必须有的方法(START)
@@ -169,13 +168,39 @@ export class DetailPage {
   }
 
   //滑动浏览上一个或下一个
-  swipeEvent(e){
+  swipeIt(e){
     if(e.direction==2){
-      //左滑看上一个
-
+      //左滑看下一个
+      this.showDetail(1);
     }else if(e.direction==4){
-      //右滑看下一个
+      //右滑看上一个
+      this.showDetail(-1);
+    }
+  }
 
+  //显示详情(-1:上一个 1:下一个)
+  showDetail(increment:number){
+    //获取当前位置
+    let len=this.source.length;
+    let index=-1;
+    for (let i = 0; i < len; i++) {
+      if(this.source[i].id==this.id){
+        index=i;
+        break;
+      }
+    }
+    if(index!=-1){
+      index+=increment;
+      if(index<0){
+        //已到了第一个
+        // this.util.toast('已经是第一个');
+      }else if(index>=len){
+        //已到了最后一个
+        // this.util.toast('没有更多了');
+      }else{
+        this.id=this.source[index].id;
+        this.init();
+      }
     }
   }
 
@@ -263,7 +288,7 @@ export class DetailPage {
             let maxLength;
             if (info.width > info.height) {
               maxLength = info.width > 1200 ? 1200 : info.width;
-              maxLength += '/quality,q_80';
+              maxLength += '/quality,Q_100';
               url += '?x-oss-process=image/resize,w_' + maxLength;
             } else {
               maxLength = info.height > 1200 ? 1200 : info.height;
@@ -271,7 +296,7 @@ export class DetailPage {
               url += '?x-oss-process=image/resize,h_' + maxLength;
             }
           } else {
-            url += '?x-oss-process=image/resize,w_1200/quality,q_80';
+            url += '?x-oss-process=image/resize,w_1200/quality,Q_100';
           }
           this.urlArraysCompress.push(url);
           this.urlArrays.push(img.url);
@@ -303,7 +328,7 @@ export class DetailPage {
             let maxLength;
             if (info.width > info.height) {
               maxLength = info.width > 1200 ? 1200 : info.width;
-              maxLength += '/quality,q_80';
+              maxLength += '/quality,Q_100';
               url += '?x-oss-process=image/resize,w_' + maxLength;
             } else {
               maxLength = info.height > 1200 ? 1200 : info.height;
@@ -311,7 +336,7 @@ export class DetailPage {
               url += '?x-oss-process=image/resize,h_' + maxLength;
             }
           } else {
-            url += '?x-oss-process=image/resize,w_1200/quality,q_80';
+            url += '?x-oss-process=image/resize,w_1200/quality,Q_100';
           }
           this.urlArraysCompress.push(url);
           images.push(obj);
@@ -324,22 +349,6 @@ export class DetailPage {
       if(this.data.map==this.emptyImage){
         this.urlArraysCompress.push(this.data.map);
       }
-
-      console.log(response);
-      // config.hasInit = true;
-      // config.loading = false;
-      // config.total = response.total;
-      // config.pageCount = response.last_page;
-      // var data = this.parseIllustrationData(response.data);
-      // if (config.page == 1) {
-      //   this.dataConfig.data = [];
-      //   this.dataConfig.data = data;
-      // } else {
-      //   this.dataConfig.data = this.dataConfig.data.concat(data);
-      // }
-      // if (data.length == 0) {
-      //   this.renderSingle();
-      // }
     });
 
   }

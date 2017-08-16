@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Headers,Http, RequestOptionsArgs} from '@angular/http';
 import { Storage } from '@ionic/storage';
-import {App, LoadingController, NavControllerBase} from "ionic-angular";
+import {App, LoadingController, NavControllerBase, ToastController} from "ionic-angular";
 import * as moment from 'moment';
 import 'rxjs/add/operator/toPromise';
 
@@ -9,7 +9,8 @@ import 'rxjs/add/operator/toPromise';
 @Injectable()
 export class UtilProvider {
 
-  loadingTip:any=null;//用于显示加载信息
+  loadingUi:any=null;//用于显示加载信息
+  toastUi:any=null;//用于显示提示
   navCtrl:NavControllerBase;
   page:any=null;//关联页面
   apiHost:string='https://dev.jintangjiang.cn/';//api前缀
@@ -24,7 +25,7 @@ export class UtilProvider {
     distance:300//距离
   };//在滚动到距离底部多远时进行预加载下一页
 
-  constructor(public app: App,public http: Http,private storage: Storage,private loadingCtrl: LoadingController) {
+  constructor(public app: App,public http: Http,private storage: Storage,private loadingCtrl: LoadingController,private toastCtrl: ToastController) {
     // this.clear();
   }
 
@@ -52,10 +53,10 @@ export class UtilProvider {
    * @param info
    */
   loading(info?:string|any){
-    if(!this.loadingTip){
+    if(!this.loadingUi){
       if(info){
         if(typeof info=='string'){
-          this.loadingTip=this.loadingCtrl.create({
+          this.loadingUi=this.loadingCtrl.create({
             dismissOnPageChange:true,
             content: info
           });
@@ -63,25 +64,90 @@ export class UtilProvider {
           if(!info.hasOwnProperty('dismissOnPageChange')){
             info.dismissOnPageChange=true;
           }
-          this.loadingTip=this.loadingCtrl.create(info);
+          this.loadingUi=this.loadingCtrl.create(info);
         }
       }else{
-        this.loadingTip=this.loadingCtrl.create({
+        this.loadingUi=this.loadingCtrl.create({
           dismissOnPageChange:true,
           content: ''
         });
       }
     }
-    this.loadingTip.present();
+    this.loadingUi.present();
   }
 
   /**
    * 隐藏加载信息
    */
   hideLoading(){
-    if(this.loadingTip){
-      this.loadingTip.dismiss().catch(()=>{});//注意,不加catch在切换页面时会报错
-      this.loadingTip=null;
+    if(this.loadingUi){
+      this.loadingUi.dismiss().catch(()=>{});//注意,不加catch在切换页面时会报错
+      this.loadingUi=null;
+    }
+  }
+
+  /**
+   * 显示提示信息
+   * @param info
+   */
+  toast(info?:string|any,duration?:number){
+    if(!this.toastUi){
+      if(!duration){
+        duration=1000;
+      }
+      let cssClass=' custom-toast';
+      if(info){
+        if(typeof info=='string'){
+          this.toastUi=this.toastCtrl.create({
+            dismissOnPageChange:true,
+            position:'middle',
+            cssClass:cssClass,
+            duration:duration,
+            message: info
+          });
+        }else{
+          if(!info.hasOwnProperty('dismissOnPageChange')){
+            info.dismissOnPageChange=true;
+          }
+          if(!info.hasOwnProperty('duration')){
+            info.duration=duration;
+          }
+          if(!info.hasOwnProperty('position')){
+            info.position='middle';
+          }
+          if(!info.hasOwnProperty('message')){
+            info.message='';
+          }
+          if(!info.hasOwnProperty('cssClass')){
+            info.cssClass=cssClass;
+          }else{
+            info.cssClass+=cssClass;
+          }
+          if(info.message==''){
+            this.hideToast();
+          }else{
+            this.toastUi=this.toastCtrl.create(info);
+          }
+        }
+      }else{
+        this.hideToast();
+      }
+    }
+    if(this.toastUi){
+      this.toastUi.onDidDismiss(() => {
+        this.toastUi=null;
+      });
+      this.toastUi.present();
+    }
+  }
+
+  /**
+   * 隐藏提示
+   */
+  hideToast(){
+    if(this.toastUi){
+      this.toastUi.dismiss().catch(()=>{});//注意,不加catch在切换页面时会报错
+      this.toastUi=null;
     }
   }
 

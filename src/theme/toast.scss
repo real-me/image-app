@@ -1,0 +1,14 @@
+ion-toast{
+  &.custom-toast{
+    .toast-wrapper{
+      background: transparent;
+      text-align: center;
+      .toast-container{
+        background: rgba(0, 0, 0, 0.9);
+        border-radius: 0.65rem;
+        display: inline-block;
+      }
+    }
+  }
+}
+

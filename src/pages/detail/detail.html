@@ -17,8 +17,8 @@
       </button>
     </div>
   </div>
-  <div class="wrap" [ngClass]="{none:!hasInit}">
-    <div class="banner" #banner (swipe)="swipeEvent($event)">
+  <div class="wrap" [ngClass]="{none:!hasInit}" (swipe)="swipeIt($event)">
+    <div class="banner" #banner>
       <img [src]="data.map+bannerPostfix" alt="" class="img-full pointer" (click)="openBigImage(0)">
     </div>
     <div class="main-wrap">
