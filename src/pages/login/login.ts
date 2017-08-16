@@ -1,6 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
 import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
-import {Http} from "@angular/http";
 import "rxjs/add/operator/toPromise";
 import {UtilProvider} from "../../providers/util/util";
 
@@ -67,14 +66,6 @@ export class LoginPage {
 
     console.log(e.target.type);
   }
-
-  //处理错误
-  private handleError(error: Response) {
-    console.log(error);
-    // return Observable.throw(error.json().error || 'Server Error');
-  }
-
-
 
   //按下按键
   onKeyPress(type){

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Headers,Http, RequestOptionsArgs} from '@angular/http';
+import {Headers,Http} from '@angular/http';
 import { Storage } from '@ionic/storage';
 import {App, LoadingController, NavControllerBase, ToastController} from "ionic-angular";
 import * as moment from 'moment';
@@ -324,7 +324,6 @@ export class UtilProvider {
    * @returns {any} 调用api成功时返回的数据
    */
   processData(res){
-      let response = res.json();
       let code=res.status;
       if(200<=code&&code<400 ){
         return res;

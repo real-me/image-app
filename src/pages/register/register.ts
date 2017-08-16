@@ -1,6 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {IonicPage, LoadingController, NavController, NavParams, AlertController} from 'ionic-angular';
-import {Http} from "@angular/http/src";
+import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {UtilProvider} from "../../providers/util/util";
 
 @IonicPage()
@@ -41,8 +40,6 @@ export class RegisterPage {
   countId:number=null;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public loadingCtrl: LoadingController,
-              private alertCtrl: AlertController,
               private util:UtilProvider
   ) {
     // this.lastPage = navParams.get('page');
@@ -249,15 +246,6 @@ export class RegisterPage {
       this.hasError=true;
     });
   }
-
-
-  //处理错误
-  private handleError(error: Response) {
-    console.log(error);
-    // return Observable.throw(error.json().error || 'Server Error');
-  }
-
-
 
   //按下按键
   onKeyPress(type){
