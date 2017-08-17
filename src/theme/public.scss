@@ -1,7 +1,7 @@
 @import "config";
 @import "loading";
 @import "toast";
-@import "/node_modules/swiper/dist/css/swiper.min.css";
+@import "../assets/scss/swiper/swiper.scss";
 
 $g-font-family:"Microsoft YaHei",SimHei,STHeiti,"Heiti SC",DINPro-Regular,sans-serif,SimSun,"MicrosoftJhengHei",MingLiu;
 body{

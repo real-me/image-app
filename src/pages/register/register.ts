@@ -118,6 +118,7 @@ export class RegisterPage {
         this.step=2;
         this.startCountDown();//开始计时
       }else{
+        console.log(response.msg);
         response.msg&&(this.codeResult.msg=response.msg);
         this.codeResult.success=false;
         this.hasError=!this.codeResult.success;

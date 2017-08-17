@@ -79,6 +79,7 @@ export class HomePage {
     this.initListener();//初始化事件侦听
     this.util.setPage(this);
     this.refresh();
+    this.util.reInitIcon();
   }
 
   //页面移除时删除事件侦听

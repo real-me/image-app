@@ -27,7 +27,7 @@
     <div class="error-tip" [ngClass]="{none:!hasError}">
       <p [ngClass]="{none:phoneResult.isMatchLength}">请输入11位的手机号码</p>
       <p [ngClass]="{none:phoneResult.isValid}">手机号码格式不正确</p>
-      <p [ngClass]="{none:codeResult.success}">获取验证码失败({{codeResult.msg}})</p>
+      <p [ngClass]="{none:codeResult.success}">{{codeResult.msg}}</p>
       <p [ngClass]="{none:codeResult.isPass}">验证码不正确</p>
       <p [ngClass]="{none:!(step==2&&code.length<4)}">请输入4位的验证码</p>
       <p [ngClass]="{none:!(step==2&&pwd.length<6)}">请输入6-20位的密码</p>

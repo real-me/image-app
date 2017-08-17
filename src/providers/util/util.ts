@@ -4,16 +4,19 @@ import { Storage } from '@ionic/storage';
 import {App, LoadingController, NavControllerBase, ToastController} from "ionic-angular";
 import * as moment from 'moment';
 import 'rxjs/add/operator/toPromise';
-
+import * as $ from 'jquery';
 
 @Injectable()
 export class UtilProvider {
+
+  plaform:string='';//平台
 
   loadingUi:any=null;//用于显示加载信息
   toastUi:any=null;//用于显示提示
   navCtrl:NavControllerBase;
   page:any=null;//关联页面
   apiHost:string='https://dev.jintangjiang.cn/';//api前缀
+  // apiHost:string='http://www.jtp.com/';//api前缀
   // apiHost:string='https://api.gzdmc.net/v1/';//api前缀
   defaultPage:string='HomePage';//默认登录后跳转到的页面
   refreshDuration:number=280;//下拉刷新的回复时间
@@ -406,6 +409,14 @@ export class UtilProvider {
   }
 
   /**
+   * 跳转到指定的页面
+   * @param page 要跳转的页面
+   */
+  goto(page:string){
+    this.getNav().setRoot(page);
+  }
+
+  /**
    * 转换换行为br
    * @param str 要转换的字符串
    * @returns {any}
@@ -426,6 +437,36 @@ export class UtilProvider {
       return false;
     }
     return /^0?1[3|4|5|7|8][0-9]\d{8}$/.test(str);
+  }
+
+  /**
+   * 重新初始化icon,修复ionic 3.7.0 ion-icon不显示的问题
+   */
+  reInitIcon(){
+    let plaform;
+    if(this.plaform){
+      plaform=this.plaform;
+    }else{
+      plaform='md';
+      let element=$('ion-app');
+      if(element.hasClass('ios')){
+        plaform='ios';
+      }else if(element.hasClass('wp')){
+        plaform='wp';
+      }
+    }
+    $('ion-icon').each((index,node)=>{
+      let icon=$(node);
+      let className=icon.attr("class");
+      let names=className.split(' ');
+      for(let i=0;i<names.length;i++){
+        if(names[i].startsWith('ion-null')){
+          names[i]=names[i].replace('ion-null','ion-'+plaform);
+          icon.addClass(names[i]);
+          break;
+        }
+      }
+    });
   }
 
 }
