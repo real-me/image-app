@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>系统通知</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingText="下拉刷新页面" refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="title-wrap">
+    <h1>系统通知</h1>
+    <p>1分钟前</p>
+  </div>
+  <div class="content-wrap">
+　　<p>2017 图说奖启动已经一周，想要大展拳脚的你是否正跃跃欲试？</p>
+　　<p>这里有一个免费获得图说奖入场券的机会！</p>
+　　<p>一直致力于赋予设计师全新设计创造力的英特尔Designer PC现在助你一臂之力：只要参与互动问答并且全部答对，即可获得 2017 图说奖报名费抵扣码，凭抵扣码可免除图说奖报名费100元。并且，问题的答案就隐藏在专题内6篇文章中。</p>
+　　<p>机智的你快去寻找通关线索吧。图说奖的大门正在向你敞开！</p>
+  </div>
+</ion-content>
