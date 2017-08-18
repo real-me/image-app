@@ -76,10 +76,10 @@ export class HomePage {
 
   //-----------------需要登录的页面必须有的方法(START)
   ionViewDidLoad() {
-    this.initListener();//初始化事件侦听
     this.util.setPage(this);
-    this.refresh();
     this.util.reInitIcon();
+    this.initListener();//初始化事件侦听
+    this.refresh();
   }
 
   //页面移除时删除事件侦听

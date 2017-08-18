@@ -4,9 +4,207 @@
   </ion-navbar>
 </ion-header>
 
-
 <ion-content>
-  <img src="assets/images/choiceness/bg.jpg" class="img-full">
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingText="下拉刷新页面" refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="tab-header">
+    <ul class="clearfix">
+      <li class="pointer" [ngClass]="{active:activeIndex==1}" (click)="changeIndex(1)">
+        所有
+      </li>
+      <li class="pointer" [ngClass]="{active:activeIndex==2}" (click)="changeIndex(2)">
+        人气
+      </li>
+    </ul>
+  </div>
+  <div class="content-wrap">
+    <div class="tab" [ngClass]="{active:activeIndex==1}">
+      <ul>
+        <li class="pointer">
+          <img src="assets/images/choiceness/bg1.jpg" class="choice-bg">
+          <div class="choice">
+            <div class="middle-outer">
+              <div class="middle-inner">
+                <div class="title">
+                  # 竹板工艺
+                </div>
+                <div class="follow-wrap">
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/mark.png">
+                    <span class="follow">160</span>
+                  </div>
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/amount.png">
+                    <span class="fans">32</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="pointer">
+          <img src="assets/images/choiceness/bg2.jpg" class="choice-bg">
+          <div class="choice">
+            <div class="middle-outer">
+              <div class="middle-inner">
+                <div class="title">
+                  # 竹板工艺
+                </div>
+                <div class="follow-wrap">
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/mark.png">
+                    <span class="follow">160</span>
+                  </div>
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/amount.png">
+                    <span class="fans">32</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="pointer">
+          <img src="assets/images/choiceness/bg3.jpg" class="choice-bg">
+          <div class="choice">
+            <div class="middle-outer">
+              <div class="middle-inner">
+                <div class="title">
+                  # 竹板工艺
+                </div>
+                <div class="follow-wrap">
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/mark.png">
+                    <span class="follow">160</span>
+                  </div>
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/amount.png">
+                    <span class="fans">32</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="pointer">
+          <img src="assets/images/choiceness/bg1.jpg" class="choice-bg">
+          <div class="choice">
+            <div class="middle-outer">
+              <div class="middle-inner">
+                <div class="title">
+                  # 竹板工艺
+                </div>
+                <div class="follow-wrap">
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/mark.png">
+                    <span class="follow">160</span>
+                  </div>
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/amount.png">
+                    <span class="fans">32</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="pointer">
+          <img src="assets/images/choiceness/bg2.jpg" class="choice-bg">
+          <div class="choice">
+            <div class="middle-outer">
+              <div class="middle-inner">
+                <div class="title">
+                  # 竹板工艺
+                </div>
+                <div class="follow-wrap">
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/mark.png">
+                    <span class="follow">160</span>
+                  </div>
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/amount.png">
+                    <span class="fans">32</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="pointer">
+          <img src="assets/images/choiceness/bg3.jpg" class="choice-bg">
+          <div class="choice">
+            <div class="middle-outer">
+              <div class="middle-inner">
+                <div class="title">
+                  # 竹板工艺
+                </div>
+                <div class="follow-wrap">
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/mark.png">
+                    <span class="follow">160</span>
+                  </div>
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/amount.png">
+                    <span class="fans">32</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="tab" [ngClass]="{active:activeIndex==2}">
+      <ul>
+        <li class="pointer">
+          <img src="assets/images/choiceness/bg1.jpg" class="choice-bg">
+          <div class="choice">
+            <div class="middle-outer">
+              <div class="middle-inner">
+                <div class="title">
+                  # 竹板工艺
+                </div>
+                <div class="follow-wrap">
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/mark.png">
+                    <span class="follow">160</span>
+                  </div>
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/amount.png">
+                    <span class="fans">32</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="pointer">
+          <img src="assets/images/choiceness/bg3.jpg" class="choice-bg">
+          <div class="choice">
+            <div class="middle-outer">
+              <div class="middle-inner">
+                <div class="title">
+                  # 竹板工艺
+                </div>
+                <div class="follow-wrap">
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/mark.png">
+                    <span class="follow">160</span>
+                  </div>
+                  <div class="half-wrap">
+                    <img src="assets/images/choiceness/amount.png">
+                    <span class="fans">32</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
 </ion-content>
 
 <ion-footer>

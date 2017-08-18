@@ -125,3 +125,11 @@ $text-shadow-color:#ffffff;
   text-overflow: ellipsis;
   flood-color: #ffffff;
 }
+//模糊
+@mixin blur($width:10px){
+  -webkit-filter: blur($width);
+  -moz-filter: blur($width);
+  -ms-filter: blur($width);
+  filter: blur($width);
+  filter: 'progid:DXImageTransform.Microsoft.Blur(PixelRadius=#{round($width)}, MakeShadow=false)';
+}
