@@ -76,4 +76,9 @@ export class ChoicenessPage {
     this.activeIndex=index;
   }
 
+  //显示单个精选
+  showChoice(id){
+    this.util.getNav().push('ChoicePage',{id:id});
+  }
+
 }

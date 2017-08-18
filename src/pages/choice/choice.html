@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>竹板工艺</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingText="下拉刷新页面" refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="banner" [ngClass]="{none:!banners.hasInit}">
+    <ion-slides transparent pager>
+      <ion-slide *ngFor="let el of banners.data">
+        <img [src]="el.img_url">
+      </ion-slide>
+    </ion-slides>
+  </div>
+  <!--图说-->
+  <div class="hot-wrap">
+    <div class="content" [ngClass]="{none:!dataConfig.hasInit}">
+      <ul class="clearfix" id="waterfallContainer" [ngStyle]="{height:containerHeight+'px'}">
+        <li *ngFor="let item of dataConfig.data;let i=index;let last = last;" [ngStyle]="{left:item.left+'px',top:item.top+'px',width:imageWidth+'px'}" [repeat]="last" (repeatRendered)="renderedList()" [@image]="viewState"  [ngClass]="{loaded:item.loaded}">
+          <a href="javascript:void(0)" (click)="openDetail(item)" [attr.title]="item.title">
+            <div class="img-wrap">
+              <div class="middle-outer">
+                <div class="middle-inner">
+                  <img [src]="item.url" class="block" [ngStyle]="{height:item.ossHeight+'px'}">
+                </div>
+              </div>
+            </div>
+            <div class="info">
+              <p class="title">{{item.title}}</p>
+              <p class="view">{{item.choiceness_count}}</p>
+              <p class="operate" (click)="toggleLikeImage($event,item,false)">
+                <span class="star" [ngClass]="{active:item.had_star}"></span>
+                <span class="star copy none"></span>
+                <span class="count">{{item.favorite_count}}</span>
+              </p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="middle-loading">
+      <div [ngClass]="{none:!dataConfig.loading}"><ion-spinner></ion-spinner></div>
+      <div [ngClass]="{none:!(!dataConfig.loading&&dataConfig.page>=dataConfig.pageCount&&dataConfig.page>1)}">
+        <img src="assets/images/home/landing.png" class="landing">
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <navigation [index]="'3'"></navigation>
+</ion-footer>
+

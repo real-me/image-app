@@ -76,6 +76,9 @@ export class UtilProvider {
         });
       }
     }
+    this.loadingUi.onDidDismiss(() => {
+      this.loadingUi=null;
+    });
     this.loadingUi.present();
   }
 
