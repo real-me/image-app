@@ -1,4 +1,8 @@
 <ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingText="下拉刷新页面" refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
   <div class="info-wrap">
     <button ion-button icon-only clear class="btn-config">
       <img src="assets/images/personal/configure.png">
@@ -6,26 +10,35 @@
     <div class="main-bg">
       <img [src]="data?.photo" [ngClass]="{none:data==null}">
     </div>
-    <div class="logo-wrap">
-      <img [src]="data?.small_photo" [ngClass]="{none:data==null}">
-    </div>
-    <p class="user-name">
-      {{data?.real_name}}
-    </p>
-    <p class="address">
-      广东 深圳
-    </p>
-    <div class="follow-wrap">
-      <div class="half-wrap">
-        <span class="follow">关注 233</span>
+    <!--<div [ngClass]="{none:!hasInit}">-->
+      <div class="logo-wrap">
+        <div class="middle-outer">
+          <div class="middle-inner">
+            <div [ngClass]="{none:!hasInit}">
+              <ion-spinner name="circles" [ngClass]="{none:loaded}"></ion-spinner>
+              <img [src]="data?.small_photo" [ngClass]="{none:(data==null||!loaded)}" (load)="loadImg()">
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="half-wrap">
-        <span class="fancy">粉丝 6666</span>
+      <p class="user-name">
+        {{data?.real_name}}
+      </p>
+      <p class="address">
+        {{data?.province_of_origin?.name}} {{data?.city_of_origin?.name}}
+      </p>
+      <div class="follow-wrap">
+        <div class="half-wrap">
+          <span class="follow">关注 233</span>
+        </div>
+        <div class="half-wrap">
+          <span class="fans">粉丝 6666</span>
+        </div>
       </div>
-    </div>
-    <p class="introduction">
-      {{data?.introduction}}
-    </p>
+      <p class="introduction">
+        {{data?.introduction}}
+      </p>
+    <!--</div>-->
   </div>
   <div class="list-wrap">
     <ion-list>
@@ -36,21 +49,21 @@
         我的精选
         <ion-note item-end>5</ion-note>
       </button>
-      <button ion-item>
+      <button ion-item (click)="gotoFavorite()">
         <div class="left-icon" item-start>
           <img src="assets/images/personal/favorite.png">
         </div>
         我喜欢的
         <ion-note item-end>26</ion-note>
       </button>
-      <button ion-item>
+      <button ion-item (click)="gotoMessages()">
         <div class="left-icon" item-start>
           <img src="assets/images/personal/message.png">
         </div>
         我的消息
         <ion-note item-end>0</ion-note>
       </button>
-      <button ion-item>
+      <button ion-item (click)="gotoChangePassword()">
         <div class="left-icon" item-start>
           <img src="assets/images/personal/lock.png">
         </div>

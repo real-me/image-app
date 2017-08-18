@@ -193,10 +193,10 @@ export class DetailPage {
       index+=increment;
       if(index<0){
         //已到了第一个
-        // this.util.toast('已经是第一个');
+        this.util.toast('已经是第一个');
       }else if(index>=len){
         //已到了最后一个
-        // this.util.toast('没有更多了');
+        this.util.toast('没有更多了');
       }else{
         this.id=this.source[index].id;
         this.init();
