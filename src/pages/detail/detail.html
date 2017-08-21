@@ -1,17 +1,17 @@
 <ion-content>
   <div class="head-bar" [ngClass]="{'inverse-bar':isHeadBarInverse}">
     <div class="left-wrap">
-      <button class="btn-state btn-back" (click)="goback()">
+      <button class="btn-state btn-back" (tap)="goback()">
         <img class="normal" src="assets/images/detail/go-back-white.png">
         <img class="inverse" src="assets/images/detail/go-back-black.png">
       </button>
     </div>
     <div class="right-wrap">
-      <button class="btn-state btn-share" (click)="goback()">
+      <button class="btn-state btn-share" (tap)="goback()">
         <img class="normal" src="assets/images/detail/share-white.png">
         <img class="inverse" src="assets/images/detail/share.png">
       </button>
-      <button class="btn-state btn-choiceness" (click)="goback()">
+      <button class="btn-state btn-choiceness" (tap)="goback()">
         <img class="normal" src="assets/images/detail/mark-white.png">
         <img class="inverse" src="assets/images/detail/mark-black.png">
       </button>
@@ -19,7 +19,7 @@
   </div>
   <div class="wrap" [ngClass]="{none:!hasInit}" (swipe)="swipeIt($event)">
     <div class="banner" #banner>
-      <img [src]="data.map+bannerPostfix" alt="" class="img-full pointer" (click)="openBigImage(0)">
+      <img [src]="data.map+bannerPostfix" alt="" class="img-full pointer" (tap)="openBigImage(0)">
     </div>
     <div class="main-wrap">
       <div class="info-wrap">
@@ -39,12 +39,12 @@
       <div class="list-wrap">
         <ng-container *ngFor="let item of images;let i=index;let last = last;">
           <div class="img-group" *ngIf="i>0">
-            <img class="pointer" [src]="item.src" (click)="openBigImage(i)">
+            <img class="pointer" [src]="item.src" (tap)="openBigImage(i)">
             <p>{{item.title}}</p>
           </div>
         </ng-container>
       </div>
-      <button class="btn-view" (click)="openProjectDetail()">
+      <button class="btn-view" (tap)="openProjectDetail()">
         查看项目详情
         <span><img src="assets/images/detail/arrow-right.png"></span>
       </button>

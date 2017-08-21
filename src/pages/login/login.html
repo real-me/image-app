@@ -20,10 +20,10 @@
     <div class="error-tip" [ngClass]="{none:!hasError}">
       <span>账号或密码错误，请重新输入</span>
     </div>
-    <button ion-button block class="btn-login" [ngClass]="{disable:userName==''||pwd==''}" (click)="tryLogin()">登录</button>
-    <button ion-button block outline  class="btn-new" (click)="creatAccount()">我是新用户</button>
-    <div class="forget" (click)="forget()"><span>忘记密码</span></div>
-    <button no-padding no-margin class="btn-weixin" (click)="weixinLogin()">
+    <button ion-button block class="btn-login" [ngClass]="{disable:userName==''||pwd==''}" (tap)="tryLogin()">登录</button>
+    <button ion-button block outline  class="btn-new" (tap)="creatAccount()">我是新用户</button>
+    <div class="forget" (tap)="forget()"><span>忘记密码</span></div>
+    <button no-padding no-margin class="btn-weixin" (tap)="weixinLogin()">
       <img src="assets/images/login/weixin.png">
     </button>
   </div>

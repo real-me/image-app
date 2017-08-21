@@ -16,7 +16,7 @@
       <ion-item transparent no-padding class="code" [ngClass]="{none:step!=2}">
         <ion-input maxlength="4" [ngModel]="code" (ngModelChange)="changeCode($event)" (keydown.enter)="onKeyPress(2)" placeholder="请输入验证码"></ion-input>
         <span item-end [ngClass]="{none:canGetCode}" class="count-label">{{time}}</span>
-        <button ion-button outline item-end [ngClass]="{none:!canGetCode}" (click)="tryToGetCode()">
+        <button ion-button outline item-end [ngClass]="{none:!canGetCode}" (tap)="tryToGetCode()">
           <span [ngClass]="{none:!canGetCode}">获取验证码</span>
         </button>
       </ion-item>
@@ -32,10 +32,10 @@
       <p [ngClass]="{none:!(step==2&&code.length<4)}">请输入4位的验证码</p>
       <p [ngClass]="{none:!(step==2&&pwd.length<6)}">请输入6-20位的密码</p>
     </div>
-    <button ion-button block class="btn-normal" [ngClass]="{disable:isCodeBtnDisabled(),none:step!==1}" (click)="getCode()">
+    <button ion-button block class="btn-normal" [ngClass]="{disable:isCodeBtnDisabled(),none:step!==1}" (tap)="getCode()">
       获取验证码
     </button>
-    <button ion-button block class="btn-normal" [ngClass]="{disable:isNextStepDisabled(),none:step!=2}" (click)="register()">
+    <button ion-button block class="btn-normal" [ngClass]="{disable:isNextStepDisabled(),none:step!=2}" (tap)="register()">
       下一步
     </button>
   </div>

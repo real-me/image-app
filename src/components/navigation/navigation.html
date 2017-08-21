@@ -1,23 +1,23 @@
 <div class="global-navigation-bar">
   <div class="nav-left">
     <ul class="clearfix">
-      <li class="nav-item" [ngClass]="{active:index==1}" (click)="gotoPage(1)">
+      <li class="nav-item" [ngClass]="{active:index==1}" (tap)="gotoPage(1)">
         <div class="nav-img nav1">首页</div>
       </li>
-      <li class="nav-item" [ngClass]="{active:index==2}" (click)="gotoPage(2)">
+      <li class="nav-item" [ngClass]="{active:index==2}" (tap)="gotoPage(2)">
         <div class="nav-img nav2">设计师</div>
       </li>
     </ul>
   </div>
-  <div class="nav-center" [ngClass]="{active:index==5}" (click)="gotoPage(5)">
+  <div class="nav-center" [ngClass]="{active:index==5}" (tap)="gotoPage(5)">
     <img src="assets/images/home/publish.png"/>
   </div>
   <div class="nav-right">
     <ul class="clearfix">
-      <li class="nav-item" [ngClass]="{active:index==3}" (click)="gotoPage(3)">
+      <li class="nav-item" [ngClass]="{active:index==3}" (tap)="gotoPage(3)">
         <div class="nav-img nav3">精选</div>
       </li>
-      <li class="nav-item" [ngClass]="{active:index==4}" (click)="gotoPage(4)">
+      <li class="nav-item" [ngClass]="{active:index==4}" (tap)="gotoPage(4)">
         <div class="nav-img nav4">我</div>
       </li>
     </ul>
