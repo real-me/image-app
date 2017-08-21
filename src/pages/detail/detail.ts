@@ -124,9 +124,13 @@ export class DetailPage {
     element.on('scroll', e => {
       let bannerHeight = bannerElement.height();
       if (element.scrollTop() >= (bannerHeight - 50)) {
-        this.isHeadBarInverse = true;
+        if(!this.isHeadBarInverse){
+          this.isHeadBarInverse = !this.isHeadBarInverse;
+        }
       } else {
-        this.isHeadBarInverse = false;
+        if(this.isHeadBarInverse){
+          this.isHeadBarInverse = !this.isHeadBarInverse;
+        }
       }
     });
   }

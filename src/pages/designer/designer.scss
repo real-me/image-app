@@ -1,5 +1,356 @@
 page-designer {
   ion-content{
-    //background: transparent url("../assets/images/designer/bg.jpg") no-repeat center center/cover;
+    .tab-header{
+      background-color: #f3f5f7;
+      li{
+        float: left;
+        width: 50%;
+        height: 44px;
+        line-height: 44px;
+        text-align: center;
+        font-size: 14px;
+        color: #666666;
+        border-bottom:1px solid #e4e5e6;
+        transition: all 100ms;
+        img{
+          width: 16px;
+          height: 16px;
+          vertical-align: middle;
+        }
+        .icon-normal{
+          display: inline-block;
+        }
+        .icon-active{
+          display: none;
+        }
+        &:first-child{
+          border-right:1px solid #e4e5e6;
+        }
+        &.active{
+          color: #23aabc;
+          border-bottom:1px solid #ffffff;
+          background-color: #ffffff;
+          .icon-normal{
+            display: none;
+          }
+          .icon-active{
+            display: inline-block;
+          }
+        }
+      }
+    }
+    .filter-wrap{
+      position: absolute;
+      left: 0;
+      top: 44px;
+      width: 100%;
+      bottom: 0;
+      z-index: 1;
+      .mask-wrap{
+        cursor: pointer;
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.3);
+      }
+      .tab{
+        display: none;
+        background-color: #ffffff;
+        &.active{
+          display: block;
+        }
+      }
+    }
+    .content-wrap{
+      position: absolute;
+      left: 0;
+      top: 44px;
+      width: 100%;
+      bottom: 0;
+      padding-bottom: 20px;
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
+      .tab{
+        display: none;
+        &.active{
+          display: block;
+        }
+        li{
+          position: relative;
+          width: 100%;
+          height: 94px;
+          padding-top: 14px;
+          border-bottom:1px solid #e4e5e6;
+          position: relative;
+          .avatar{
+            width: 65px;
+            height: 65px;
+            float: left;
+            margin-left: 20px;
+            img{
+              width: 100%;
+              height: 100%;
+              vertical-align: middle;
+            }
+          }
+          .info-wrap{
+            margin-left: 95px;
+            margin-right: 82px;
+            height: 65px;
+            .title-wrap{
+              margin-top: 3px;
+              line-height: 1;
+              height: 18px;
+              .name{
+                float: left;
+                display: block;
+                font-size: 13px;
+                color:#333;
+                font-weight: bold;
+                line-height: 18px;
+                max-width: 50%;
+                padding-right: 8px;
+                @include singleLine();
+              }
+              .location{
+                float: left;
+                display: block;
+                border-radius: 3px;
+                border:1px solid #dddddd;
+                padding: 0 3px;
+                height: 18px;
+                line-height: 16px;
+                font-size: 12px;
+                color:#aaaaaa;
+                max-width: 50%;
+                @include singleLine();
+              }
+            }
+            .introduce{
+              margin-top: 10px;
+              width: 100%;
+              line-height: 1;
+              font-size: 12px;
+              color:#878787;
+              @include singleLine();
+            }
+            .fans{
+              margin-top: 8px;
+              line-height: 1;
+              font-size: 12px;
+              color:#aaaaaa;
+              @include singleLine();
+              .count{
+                color:#f97676;
+                margin-left: 5px;
+              }
+            }
+          }
+          .btn-follow{
+            position: absolute;
+            top: 27px;
+            right: 30px;
+            width: 50px;
+            height: 40px;
+            font-size: 12px;
+            color: #ff7d22;
+            padding-top: 27px;
+            span{
+              line-height: 1;
+            }
+              .follow-text{
+              display: block;
+            }
+            .followed-text{
+              display: none;
+            }
+            background: transparent url("../assets/images/designer/follow.png") no-repeat center top/23px 23px;
+            &.followed{
+              color: #2abf9e;
+              background-image: url("../assets/images/designer/followed.png");
+              .follow-text{
+                display: none;
+              }
+              .followed-text{
+                display: block;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .space-wrap{
+    position: relative;
+    max-height: 80%;
+    overflow: auto;
+    padding: 25px 20px 5px 20px;
+    li{
+      position: relative;
+      float: left;
+      width: 33.333333%;
+      height: 35px;
+      text-align: center;
+      span{
+        cursor: pointer;
+        display: block;
+        margin: 0 5px;
+        height: 100%;
+        line-height: 33px;
+        border:1px solid #e8ebf0;
+        border-radius:17px;
+        color: #333333;
+        transition: all 100ms;
+        @include singleLine();
+      }
+      margin-bottom: 20px;
+      &.active{
+        span{
+          background-color: #2abf9e;
+          border-color: #2abf9e;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+  .location-wrap{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    bottom: 20%;
+    //bottom: 70%;
+    max-height: 100%;
+    $border-color:#e4e5e6;
+    .left-content{
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 85px;
+      height: 100%;
+      overflow: auto;
+      background-color: #f9f9f9;
+      padding-top: 10px;
+      &:before {
+        display: block;
+        content:"";
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 1px;
+        height: 100%;
+        background-color: $border-color;
+        z-index: 1;
+      }
+      li {
+        position: relative;
+        height: 33px;
+        line-height: 33px;
+        margin-left: 5px;
+        text-align: center;
+        font-size: 13px;
+        color: #666666;
+        cursor: pointer;
+        @include singleLine();
+        &.active {
+          background-color: #ffffff;
+          color: #333333;
+          font-weight: bold;
+          //border-right: 1px solid #dddddd;
+          border-left: 1px solid $border-color;
+          border-top: 1px solid $border-color;
+          border-bottom: 1px solid $border-color;
+          border-radius: 3px 0 0 3px;
+          &:before {
+            display: block;
+            content:"";
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 1px;
+            height: 100%;
+            background-color: #ffffff;
+            z-index: 1;
+          }
+        }
+      }
+    }
+    .right-content{
+      position: relative;
+      margin-left: 85px;
+      height: 100%;
+      overflow: auto;
+      cursor: default;
+      ul{
+        margin: 25px 37px;
+        li{
+          position: relative;
+          float: left;
+          width: 50%;
+          height: 30px;
+          text-align: center;
+          margin-bottom: 20px;
+          span{
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            height: 100%;
+            min-width: 75px;
+            max-width: 100%;
+            line-height: 30px;
+            //padding: 0 20px;
+            color: #333333;
+            @include singleLine();
+          }
+          &.active{
+            span{
+              border:1px solid #eb6666;
+              color: #eb6666;
+              border-radius:15px;
+              padding: 0 19px;
+            }
+          }
+        }
+      }
+      .area{
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 60px;
+        width: 100%;
+        overflow: auto;
+      }
+      .current-location{
+        position: absolute;
+        left: 37px;
+        bottom: 25px;
+        right: 110px;
+        font-size: 14px;
+        color: #333333;
+        @include singleLine();
+        img{
+          width: 16px;
+          height: 16px;
+          vertical-align: middle;
+        }
+      }
+      .btn-locate{
+        position: absolute;
+        right: 37px;
+        bottom: 25px;
+        font-size: 14px;
+        color: #333333;
+        background-color: transparent;
+        img{
+          width: 16px;
+          height: 16px;
+          vertical-align: middle;
+        }
+      }
+    }
   }
 }

@@ -5,8 +5,224 @@
 </ion-header>
 
 
-<ion-content no-padding>
-  <img src="assets/images/designer/bg.jpg" class="img-full">
+<ion-content>
+  <div class="tab-header">
+    <ul class="clearfix">
+      <li class="pointer" [ngClass]="{active:activeIndex==1&&isShowFilter}" (tap)="changeIndex(1)">
+        <img src="assets/images/designer/space.png" class="icon-normal">
+        <img src="assets/images/designer/space-active.png" class="icon-active">
+        按空间
+      </li>
+      <li class="pointer" [ngClass]="{active:activeIndex==2&&isShowFilter}" (tap)="changeIndex(2)">
+        <img src="assets/images/designer/location.png" class="icon-normal">
+        <img src="assets/images/designer/location-active.png" class="icon-active">
+        所在地
+      </li>
+    </ul>
+  </div>
+  <div class="filter-wrap" [ngClass]="{none:!isShowFilter}">
+    <div class="mask-wrap" (tap)="hideFilter()"></div>
+    <div class="tab space-wrap thin-scroll" [ngClass]="{active:activeIndex==1}">
+      <ul class="clearfix">
+        <li (tap)="changeSpace(i)" *ngFor="let item of spaces;let i=index;let last = last;" [ngClass]="{active:item.selected}">
+          <span>{{item.name}}</span>
+        </li>
+      </ul>
+    </div>
+    <div class="tab location-wrap" [ngClass]="{active:activeIndex==2}">
+      <div class="left-content thin-scroll">
+        <ul>
+          <li class="active">热门城市</li>
+          <li>北京</li>
+          <li>安徽</li>
+          <li>福建</li>
+          <li>甘肃</li>
+          <li>广东</li>
+          <li>广西</li>
+          <li>贵州</li>
+        </ul>
+      </div>
+      <div class="right-content">
+        <div class="area thin-scroll">
+          <ul class="clearfix">
+            <li class="active"><span>全部</span></li>
+            <li><span>北京</span></li>
+            <li><span>安徽</span></li>
+            <li><span>福建</span></li>
+            <li><span>甘肃</span></li>
+            <li><span>广东</span></li>
+            <li><span>广西</span></li>
+            <li><span>贵州</span></li>
+            <li><span>北京</span></li>
+            <li><span>安徽</span></li>
+            <li><span>福建</span></li>
+            <li><span>甘肃</span></li>
+            <li><span>广东</span></li>
+            <li><span>广西</span></li>
+            <li><span>贵州</span></li>
+            <li><span>北京</span></li>
+            <li><span>安徽</span></li>
+            <li><span>福建</span></li>
+            <li><span>甘肃</span></li>
+            <li><span>广东</span></li>
+            <li><span>广西</span></li>
+            <li><span>贵州</span></li>
+          </ul>
+        </div>
+        <div class="current-location">
+          <img src="assets/images/designer/pin.png">
+          广州
+        </div>
+        <button class="btn-locate">
+          <img src="assets/images/designer/refresh.png">
+          重新定位
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="content-wrap thin-scroll">
+    <div class="tab active">
+      <ul>
+        <li>
+          <div class="avatar">
+            <img src="assets/images/designer/avatar1.png" class="icon-normal">
+          </div>
+          <div class="info-wrap">
+            <div class="title-wrap clearfix">
+              <span class="name">海德娜娜</span>
+              <span class="location">广东 广州</span>
+            </div>
+            <div class="introduce">擅长  酒店、家居住宅</div>
+            <div class="fans">粉丝 <span class="count">22万</span></div>
+          </div>
+          <button class="btn-follow" [ngClass]="{followed:false}">
+            <span class="follow-text">关注</span>
+            <span class="followed-text">已关注</span>
+          </button>
+        </li>
+        <li>
+          <div class="avatar">
+            <img src="assets/images/designer/avatar2.png" class="icon-normal">
+          </div>
+          <div class="info-wrap">
+            <div class="title-wrap clearfix">
+              <span class="name">洪文谅</span>
+              <span class="location">广东 深圳</span>
+            </div>
+            <div class="introduce">擅长  酒店、家居住宅</div>
+            <div class="fans">粉丝 <span class="count">22万</span></div>
+          </div>
+          <button class="btn-follow" [ngClass]="{followed:false}">
+            <span class="follow-text">关注</span>
+            <span class="followed-text">已关注</span>
+          </button>
+        </li>
+        <li>
+          <div class="avatar">
+            <img src="assets/images/designer/avatar3.png" class="icon-normal">
+          </div>
+          <div class="info-wrap">
+            <div class="title-wrap clearfix">
+              <span class="name">梁志天</span>
+              <span class="location">香港 荃湾</span>
+            </div>
+            <div class="introduce">擅长  酒店、家居住宅</div>
+            <div class="fans">粉丝 <span class="count">22万</span></div>
+          </div>
+          <button class="btn-follow" [ngClass]="{followed:true}">
+            <span class="follow-text">关注</span>
+            <span class="followed-text">已关注</span>
+          </button>
+        </li>
+        <li>
+          <div class="avatar">
+            <img src="assets/images/designer/avatar4.png" class="icon-normal">
+          </div>
+          <div class="info-wrap">
+            <div class="title-wrap clearfix">
+              <span class="name">凯莉赫本</span>
+              <span class="location">北京</span>
+            </div>
+            <div class="introduce">擅长  酒店、家居住宅</div>
+            <div class="fans">粉丝 <span class="count">22万</span></div>
+          </div>
+          <button class="btn-follow" [ngClass]="{followed:false}">
+            <span class="follow-text">关注</span>
+            <span class="followed-text">已关注</span>
+          </button>
+        </li>
+        <li>
+          <div class="avatar">
+            <img src="assets/images/designer/avatar5.png" class="icon-normal">
+          </div>
+          <div class="info-wrap">
+            <div class="title-wrap clearfix">
+              <span class="name">王逸林</span>
+              <span class="location">广东 广州</span>
+            </div>
+            <div class="introduce">擅长  酒店、家居住宅</div>
+            <div class="fans">粉丝 <span class="count">22万</span></div>
+          </div>
+          <button class="btn-follow" [ngClass]="{followed:false}">
+            <span class="follow-text">关注</span>
+            <span class="followed-text">已关注</span>
+          </button>
+        </li>
+        <li>
+          <div class="avatar">
+            <img src="assets/images/designer/avatar6.png" class="icon-normal">
+          </div>
+          <div class="info-wrap">
+            <div class="title-wrap clearfix">
+              <span class="name">海德娜娜</span>
+              <span class="location">广东 广州</span>
+            </div>
+            <div class="introduce">擅长  酒店、家居住宅</div>
+            <div class="fans">粉丝 <span class="count">22万</span></div>
+          </div>
+          <button class="btn-follow" [ngClass]="{followed:true}">
+            <span class="follow-text">关注</span>
+            <span class="followed-text">已关注</span>
+          </button>
+        </li>
+        <li>
+          <div class="avatar">
+            <img src="assets/images/designer/avatar6.png" class="icon-normal">
+          </div>
+          <div class="info-wrap">
+            <div class="title-wrap clearfix">
+              <span class="name">海德娜娜</span>
+              <span class="location">广东 广州</span>
+            </div>
+            <div class="introduce">擅长  酒店、家居住宅</div>
+            <div class="fans">粉丝 <span class="count">22万</span></div>
+          </div>
+          <button class="btn-follow" [ngClass]="{followed:true}">
+            <span class="follow-text">关注</span>
+            <span class="followed-text">已关注</span>
+          </button>
+        </li>
+        <li>
+          <div class="avatar">
+            <img src="assets/images/designer/avatar6.png" class="icon-normal">
+          </div>
+          <div class="info-wrap">
+            <div class="title-wrap clearfix">
+              <span class="name">海德娜娜</span>
+              <span class="location">广东 广州</span>
+            </div>
+            <div class="introduce">擅长  酒店、家居住宅</div>
+            <div class="fans">粉丝 <span class="count">22万</span></div>
+          </div>
+          <button class="btn-follow" [ngClass]="{followed:true}">
+            <span class="follow-text">关注</span>
+            <span class="followed-text">已关注</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <!--<img src="assets/images/designer/bg.jpg" class="img-full">-->
 </ion-content>
 
 <ion-footer>

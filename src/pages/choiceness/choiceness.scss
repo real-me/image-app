@@ -23,6 +23,8 @@ page-choiceness {
       width: 100%;
       bottom: 0;
       overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      overflow-scrolling: touch;
       .tab{
         display: none;
         &.active{

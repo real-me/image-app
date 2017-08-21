@@ -62,9 +62,13 @@ export class ProjectDetailPage {
     let element = bannerElement.closest('.scroll-content');
     element.on('scroll',e => {
       if(element.scrollTop()>=66){
-        this.isHeadBarInverse=true;
+        if(!this.isHeadBarInverse){
+          this.isHeadBarInverse = !this.isHeadBarInverse;
+        }
       }else{
-        this.isHeadBarInverse=false;
+        if(this.isHeadBarInverse){
+          this.isHeadBarInverse = !this.isHeadBarInverse;
+        }
       }
     });
   }
