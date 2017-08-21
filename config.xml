@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="net.gzdmc.image" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>图说</name>
+    <name>ImageApp</name>
     <description>这是一个以图片激发设计灵感和联接设计师的轻社交APP</description>
     <author email="1750698766@qq.com" href="http://www.caijunxiong.com/">广州迪姆云前端团队</author>
     <content src="index.html" />
@@ -79,7 +79,6 @@
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
     <engine name="android" spec="^6.2.3" />
-    <engine name="ios" spec="^4.4.0" />
     <plugin name="cordova-plugin-console" spec="^1.0.7" />
     <plugin name="cordova-plugin-device" spec="^1.1.6" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
