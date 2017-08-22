@@ -26,7 +26,7 @@ export class NavigationComponent {
         this.navCtrl.setRoot('HomePage');
       }
     }else if(index==2){
-      this.navCtrl.setRoot('DesignerPage');
+      this.navCtrl.setRoot('DesignersPage');
     }else if(index==3){
       this.navCtrl.setRoot('ChoicenessPage');
     }else if(index==4){

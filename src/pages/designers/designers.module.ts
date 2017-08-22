@@ -1,24 +1,24 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import {DesignerPage} from "./designer";
 import {NavigationModule} from "../../components/navigation/navigation.module";
 import {DistrictsProvider} from "../../providers/districts/districts";
 import {DesignersProvider} from "../../providers/designers/designers";
+import {DesignersPage} from "./designers";
 
 @NgModule({
   declarations: [
-    DesignerPage
+    DesignersPage
   ],
   imports: [
     NavigationModule,
-    IonicPageModule.forChild(DesignerPage)
+    IonicPageModule.forChild(DesignersPage)
   ],
   exports: [
-    DesignerPage
+    DesignersPage
   ],
   providers: [
     DistrictsProvider,
     DesignersProvider
   ]
 })
-export class DesignerPageModule {}
+export class DesignersPageModule {}

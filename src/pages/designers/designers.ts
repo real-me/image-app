@@ -6,10 +6,10 @@ import {DesignersProvider} from "../../providers/designers/designers";
 
 @IonicPage()
 @Component({
-  selector: 'page-designer',
-  templateUrl: 'designer.html',
+  selector: 'page-designers',
+  templateUrl: 'designers.html',
 })
-export class DesignerPage {
+export class DesignersPage {
 
   refresh: () => void;
   data:any=null;
