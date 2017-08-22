@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import {IonicPage, NavController, Events, Refresher} from 'ionic-angular';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UtilProvider} from "../../providers/util/util";
@@ -22,6 +22,9 @@ import * as $ from 'jquery';
   ]
 })
 export class HomePage {
+
+  //图说容器
+  @ViewChild('pictures') pictures: any;
 
   debugInfo:string='';//用于输出调试信息
   refresh:()=>void;
@@ -112,7 +115,7 @@ export class HomePage {
     this.events.subscribe('HomePage:refresh', this.refresh);//监听刷新事件
     $(window).on('resize',this.resize);
     //滚动到底部
-    let element = $('#waterfallContainer').closest('.scroll-content');
+    let element = $(this.pictures.nativeElement).closest('.scroll-content');
     element.on('scroll',e => {
       var config = this.dataConfig;
       if (config.hasInit && !config.loading && config.page < config.pageCount) {
@@ -137,7 +140,7 @@ export class HomePage {
   removeListener() {
     this.events.unsubscribe('HomePage:refresh', this.refresh);//移除监听刷新事件
     $(window).off('resize',this.resize);
-    $('#waterfallContainer').closest('.scroll-content').off('scroll');
+    $(this.pictures.nativeElement).closest('.scroll-content').off('scroll');
   }
 
   doRefresh(refresher: Refresher) {
@@ -208,10 +211,10 @@ export class HomePage {
       config.pageCount = response.last_page;
       var data = this.parseIllustrationData(response.data);
       if (config.page == 1) {
-        this.dataConfig.data = [];
-        this.dataConfig.data = data;
+        config.data = [];
+        config.data = data;
       } else {
-        this.dataConfig.data = this.dataConfig.data.concat(data);
+        config.data = config.data.concat(data);
       }
       if (data.length == 0) {
         this.renderSingle();
@@ -304,7 +307,7 @@ export class HomePage {
   render() {
     var config=this.dataConfig;
     var length = config.data.length;
-    var wrapSelector = "#waterfallContainer";
+    let picturesWrap=$(this.pictures.nativeElement);
     var imageWidth = this.imageWidth;
     var imageHeight = 0;
     var bottoms = [];
@@ -315,7 +318,7 @@ export class HomePage {
     var column = 0;//列(从0开始)
     var i = 0;
     for (i = 0; i < length; i++) {
-      let img = $(wrapSelector + " li:eq(" + i + ")");
+      let img = picturesWrap.find("li:eq(" + i + ")");
       imageHeight = img.outerHeight(true);
       row = Math.floor(i / this.columnCount);//行(从0开始)
 

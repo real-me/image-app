@@ -8,7 +8,7 @@
       <img src="assets/images/personal/configure.png">
     </button>
     <div class="main-bg">
-      <img [src]="data?.photo" [ngClass]="{none:data==null}">
+      <img [src]="data?.photo" *ngIf="data&&data.photo" [ngClass]="{none:data==null}">
     </div>
     <!--<div [ngClass]="{none:!hasInit}">-->
       <div class="logo-wrap">
@@ -16,7 +16,7 @@
           <div class="middle-inner">
             <div [ngClass]="{none:!hasInit}">
               <ion-spinner name="circles" [ngClass]="{none:loaded}"></ion-spinner>
-              <img [src]="data?.small_photo" [ngClass]="{none:(data==null||!loaded)}" (load)="loadImg()">
+              <img [src]="data?.small_photo" *ngIf="data&&data.small_photo" [ngClass]="{none:(data==null||!loaded)}" (load)="loadImg()">
             </div>
           </div>
         </div>

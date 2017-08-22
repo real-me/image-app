@@ -1,11 +1,7 @@
 <ion-content>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content pullingText="下拉刷新页面" refreshingText="刷新中...">
-    </ion-refresher-content>
-  </ion-refresher>
   <div class="info-wrap">
     <div class="main-bg">
-      <img [src]="data?.photo" [ngClass]="{none:data==null}">
+      <img [src]="data?.photo" *ngIf="data&&data.photo" [ngClass]="{none:data==null}">
     </div>
     <!--<div [ngClass]="{none:!hasInit}">-->
     <div class="logo-wrap">
@@ -13,7 +9,7 @@
         <div class="middle-inner">
           <div [ngClass]="{none:!hasInit}">
             <ion-spinner name="circles" [ngClass]="{none:loaded}"></ion-spinner>
-            <img [src]="data?.small_photo" [ngClass]="{none:(data==null||!loaded)}" (load)="loadImg()">
+            <img [src]="data?.small_photo" *ngIf="data&&data.small_photo" [ngClass]="{none:(data==null||!loaded)}" (load)="loadImg()">
           </div>
         </div>
       </div>
@@ -50,19 +46,231 @@
       </li>
     </ul>
   </div>
-
+  <div class="content-wrap thin-scroll">
+    <!--图说-->
+    <div class="tab" [ngClass]="{active:activeIndex==1}">
+      <!--图说-->
+      <div class="hot-wrap">
+        <div class="content" [ngClass]="{none:!dataConfig.hasInit}">
+          <ul class="clearfix" #pictures [ngStyle]="{height:dataConfig.containerHeight+'px'}">
+            <li *ngFor="let item of dataConfig.data;let i=index;let last = last;" [ngStyle]="{left:item.left+'px',top:item.top+'px',width:imageWidth+'px'}" [repeat]="last" (repeatRendered)="renderedList()" [@image]="viewState"  [ngClass]="{loaded:item.loaded}">
+              <a href="javascript:void(0)" (tap)="openDetail(item)" [attr.title]="item.title">
+                <div class="img-wrap">
+                  <div class="middle-outer">
+                    <div class="middle-inner">
+                      <img [src]="item.url" *ngIf="item.url" class="block" [ngStyle]="{height:item.ossHeight+'px'}">
+                    </div>
+                  </div>
+                </div>
+                <div class="info">
+                  <p class="title">{{item.title}}</p>
+                  <p class="view">{{item.choiceness_count}}</p>
+                  <p class="operate" (tap)="toggleLikeImage($event,item,false)">
+                    <span class="star" [ngClass]="{active:item.had_star}"></span>
+                    <span class="star copy none"></span>
+                    <span class="count">{{item.favorite_count}}</span>
+                  </p>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="middle-loading">
+          <div [ngClass]="{none:!dataConfig.loading}"><ion-spinner></ion-spinner></div>
+          <div [ngClass]="{none:!(!dataConfig.loading&&dataConfig.page>=dataConfig.pageCount&&dataConfig.page>1)}">
+            <img src="assets/images/common/waterfall/landing.png" class="landing">
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--精选-->
+    <div class="tab" [ngClass]="{active:activeIndex==2}">
+      <div class="choiceness-wrap">
+        <ul>
+          <li class="pointer" (tap)="showChoice(1)">
+            <img src="assets/images/choiceness/bg1.jpg" class="choice-bg">
+            <div class="choice">
+              <div class="middle-outer">
+                <div class="middle-inner">
+                  <div class="title">
+                    # 竹板工艺
+                  </div>
+                  <div class="follow-wrap">
+                    <div class="half-wrap">
+                      <img src="assets/images/choiceness/mark.png">
+                      <span class="follow">160</span>
+                    </div>
+                    <div class="half-wrap">
+                      <img src="assets/images/choiceness/amount.png">
+                      <span class="fans">32</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="pointer" (tap)="showChoice(1)">
+            <img src="assets/images/choiceness/bg2.jpg" class="choice-bg">
+            <div class="choice">
+              <div class="middle-outer">
+                <div class="middle-inner">
+                  <div class="title">
+                    # 石材
+                  </div>
+                  <div class="follow-wrap">
+                    <div class="half-wrap">
+                      <img src="assets/images/choiceness/mark.png">
+                      <span class="follow">160</span>
+                    </div>
+                    <div class="half-wrap">
+                      <img src="assets/images/choiceness/amount.png">
+                      <span class="fans">32</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="pointer" (tap)="showChoice(1)">
+            <img src="assets/images/choiceness/bg3.jpg" class="choice-bg">
+            <div class="choice">
+              <div class="middle-outer">
+                <div class="middle-inner">
+                  <div class="title">
+                    # 瓷砖
+                  </div>
+                  <div class="follow-wrap">
+                    <div class="half-wrap">
+                      <img src="assets/images/choiceness/mark.png">
+                      <span class="follow">160</span>
+                    </div>
+                    <div class="half-wrap">
+                      <img src="assets/images/choiceness/amount.png">
+                      <span class="fans">32</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="pointer" (tap)="showChoice(1)">
+            <img src="assets/images/choiceness/bg1.jpg" class="choice-bg">
+            <div class="choice">
+              <div class="middle-outer">
+                <div class="middle-inner">
+                  <div class="title">
+                    # 照明
+                  </div>
+                  <div class="follow-wrap">
+                    <div class="half-wrap">
+                      <img src="assets/images/choiceness/mark.png">
+                      <span class="follow">160</span>
+                    </div>
+                    <div class="half-wrap">
+                      <img src="assets/images/choiceness/amount.png">
+                      <span class="fans">32</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="pointer" (tap)="showChoice(1)">
+            <img src="assets/images/choiceness/bg2.jpg" class="choice-bg">
+            <div class="choice">
+              <div class="middle-outer">
+                <div class="middle-inner">
+                  <div class="title">
+                    # 玻璃
+                  </div>
+                  <div class="follow-wrap">
+                    <div class="half-wrap">
+                      <img src="assets/images/choiceness/mark.png">
+                      <span class="follow">160</span>
+                    </div>
+                    <div class="half-wrap">
+                      <img src="assets/images/choiceness/amount.png">
+                      <span class="fans">32</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li class="pointer" (tap)="showChoice(1)">
+            <img src="assets/images/choiceness/bg3.jpg" class="choice-bg">
+            <div class="choice">
+              <div class="middle-outer">
+                <div class="middle-inner">
+                  <div class="title">
+                    # 地毯
+                  </div>
+                  <div class="follow-wrap">
+                    <div class="half-wrap">
+                      <img src="assets/images/choiceness/mark.png">
+                      <span class="follow">160</span>
+                    </div>
+                    <div class="half-wrap">
+                      <img src="assets/images/choiceness/amount.png">
+                      <span class="fans">32</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!--喜欢-->
+    <div class="tab" [ngClass]="{active:activeIndex==3}">
+      <!--喜欢-->
+      <div class="hot-wrap">
+        <div class="content" [ngClass]="{none:!dataConfig3.hasInit}">
+          <ul class="clearfix" #lovePictures [ngStyle]="{height:dataConfig3.containerHeight+'px'}">
+            <li *ngFor="let item of dataConfig3.data;let i=index;let last = last;" [ngStyle]="{left:item.left+'px',top:item.top+'px',width:imageWidth+'px'}" [repeat]="last" (repeatRendered)="renderedList3()" [@image]="viewState"  [ngClass]="{loaded:item.loaded}">
+              <a href="javascript:void(0)" (tap)="openDetail(item)" [attr.title]="item.title">
+                <div class="img-wrap">
+                  <div class="middle-outer">
+                    <div class="middle-inner">
+                      <img [src]="item.url" *ngIf="item.url" class="block" [ngStyle]="{height:item.ossHeight+'px'}">
+                    </div>
+                  </div>
+                </div>
+                <div class="info">
+                  <p class="title">{{item.title}}</p>
+                  <p class="view">{{item.choiceness_count}}</p>
+                  <p class="operate" (tap)="toggleLikeImage3($event,item,false)">
+                    <span class="star" [ngClass]="{active:item.had_star}"></span>
+                    <span class="star copy none"></span>
+                    <span class="count">{{item.favorite_count}}</span>
+                  </p>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="middle-loading">
+          <div [ngClass]="{none:!dataConfig3.loading}"><ion-spinner></ion-spinner></div>
+          <div [ngClass]="{none:!(!dataConfig3.loading&&dataConfig3.page>=dataConfig3.pageCount&&dataConfig3.page>1)}">
+            <img src="assets/images/common/waterfall/landing.png" class="landing">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>
 
 <ion-footer>
   <div class="footer-wrap">
     <button class="btn-follow" [ngClass]="{followed:true}" (tap)="toggleFollow()">
       <div class="follow-wrap">
-        <img src="assets/images/designer/name.png">
+        <img src="assets/images/designer/follow.png">
         <span>添加关注</span>
       </div>
-      <div class="not-follow-wrap">
-        <img src="assets/images/designer/name.png">
-        <span>关注</span>
+      <div class="cancel-follow-wrap">
+        <img src="assets/images/designer/cancel-follow.png">
+        <span>取消关注</span>
       </div>
     </button>
   </div>

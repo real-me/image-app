@@ -96,11 +96,14 @@ page-choice {
               bottom: 0;
               height: 30px;
               line-height: 30px;
-              background: transparent url("../assets/images/home/choice.png") no-repeat 4px center;
+              background: transparent url("../assets/images/common/waterfall/mark.png") no-repeat 4px center;
               background-size: 16px 16px;
               padding-left: 25px;
               color: #aaa;
               font-size: 12px;
+              &.active{
+                background-image: url("../assets/images/common/waterfall/marked.png");
+              }
             }
             .operate{
               font-size: 12px;
@@ -117,7 +120,7 @@ page-choice {
                 width: 16px;
                 height: 16px;
                 vertical-align: middle;
-                background: transparent url("../assets/images/home/star.png") no-repeat 0 0;
+                background: transparent url("../assets/images/common/waterfall/like.png") no-repeat 0 0;
                 -webkit-background-size: 16px 16px;
                 background-size: 16px 16px;
                 cursor: pointer;
@@ -135,7 +138,7 @@ page-choice {
                   //.opacity(0);
                 }
                 &.active{
-                  background: transparent url("../assets/images/home/star.png") no-repeat 0 0;
+                  background-image: url("../assets/images/common/waterfall/liked.png");
                   -webkit-background-size: 16px 16px;
                   background-size: 16px 16px;
                 }

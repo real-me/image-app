@@ -29,7 +29,7 @@
   <!--图说-->
   <div class="hot-wrap">
     <div class="content" [ngClass]="{none:!dataConfig.hasInit}">
-      <ul class="clearfix" id="waterfallContainer" [ngStyle]="{height:containerHeight+'px'}">
+      <ul class="clearfix" #pictures [ngStyle]="{height:containerHeight+'px'}">
         <li *ngFor="let item of dataConfig.data;let i=index;let last = last;" [ngStyle]="{left:item.left+'px',top:item.top+'px',width:imageWidth+'px'}" [repeat]="last" (repeatRendered)="renderedList()" [@image]="viewState"  [ngClass]="{loaded:item.loaded}">
           <a href="javascript:void(0)" (tap)="openDetail(item)" [attr.title]="item.title">
             <div class="img-wrap">
@@ -55,7 +55,7 @@
     <div class="middle-loading">
       <div [ngClass]="{none:!dataConfig.loading}"><ion-spinner></ion-spinner></div>
       <div [ngClass]="{none:!(!dataConfig.loading&&dataConfig.page>=dataConfig.pageCount&&dataConfig.page>1)}">
-        <img src="assets/images/home/landing.png" class="landing">
+        <img src="assets/images/common/waterfall/landing.png" class="landing">
       </div>
     </div>
   </div>
