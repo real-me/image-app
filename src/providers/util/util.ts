@@ -443,6 +443,37 @@ export class UtilProvider {
   }
 
   /**
+   * 获取在min和max之间的随机数
+   * @param min
+   * @param max
+   * @returns {number}
+   */
+  range(min:number,max:number){
+    if(min>max){
+      let temp=max;
+      max=min;
+      min=temp;
+    }
+    let result=Math.floor(min+Math.random()*(max-min+1));
+    return result;
+  }
+
+  /**
+   * 随机化数组
+   * @param arr 数组
+   * @returns {Array} 打乱顺序后的数组
+   */
+  random(arr){
+    let result=[];
+    for(let i=arr.length-1;i>=0;i--){
+      let index:number=this.range(0,arr.length-1);
+      result.push(arr[index]);
+      arr.splice(index,1);
+    }
+    return result;
+  }
+
+  /**
    * 重新初始化icon,修复ionic 3.7.0 ion-icon不显示的问题
    */
   reInitIcon(){

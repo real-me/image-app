@@ -90,6 +90,7 @@ img{
 .thin-scroll{
   &::-webkit-scrollbar{
     width: 4px;
+    width: 0px;
   }
   &::-webkit-scrollbar-track{
     background: #ffffff;

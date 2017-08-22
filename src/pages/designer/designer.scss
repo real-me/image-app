@@ -12,6 +12,7 @@ page-designer {
         color: #666666;
         border-bottom:1px solid #e4e5e6;
         transition: all 100ms;
+        @include singleLine();
         img{
           width: 16px;
           height: 16px;
