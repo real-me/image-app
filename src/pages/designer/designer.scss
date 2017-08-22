@@ -1,0 +1,186 @@
+page-designer {
+  .info-wrap{
+    position: relative;
+    text-align: center;
+    min-height: 260px;
+    background: rgb(194,194,194);
+    background: -moz-linear-gradient(top,  rgba(194,194,194,1) 0%, rgba(249,249,249,1) 84%, rgba(249,249,249,1) 100%);
+    background: -webkit-linear-gradient(top,  rgba(194,194,194,1) 0%,rgba(249,249,249,1) 84%,rgba(249,249,249,1) 100%);
+    background: linear-gradient(to bottom,  rgba(194,194,194,1) 0%,rgba(249,249,249,1) 84%,rgba(249,249,249,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c2c2c2', endColorstr='#f9f9f9',GradientType=0 );
+    border-bottom: 0.55px solid #e4e5e6;
+    .btn-config{
+      position: absolute;
+      right: 0px;
+      top: 26px;
+      z-index: 1;
+      margin: 0;
+      min-width:52px;
+      img{
+        width: 22px;
+        height: 22px;
+      }
+    }
+    .main-bg{
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      -webkit-filter: blur(20px);
+      -moz-filter: blur(20px);
+      -ms-filter: blur(20px);
+      filter: blur(20px);
+      filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=20, MakeShadow=false);
+      opacity:0.2;
+      img{
+        max-width: 100%;
+        height: auto;
+        max-height: 100%;
+      }
+    }
+    .logo-wrap{
+      margin-top: 50px;
+      display: inline-block;
+      width: 80px;
+      height: 80px;
+      //line-height: 80px;
+      border-radius: 50%;
+      background: #eee;
+      position: relative;
+      z-index:1;
+      //.bb{
+      //  position: relative;
+      //  display: inline-block;
+      //  width: 30px;
+      //  height: 30px;
+      //  background: #666666;
+      //}
+      //svg{
+      //  display: none;
+      //}
+      img{
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+      }
+    }
+    p{
+      line-height: 1;
+      position: relative;
+      z-index:1;
+    }
+    .user-name{
+      font-size: 16px;
+      color: #333333;
+      margin-top: 15px;
+    }
+    .address{
+      font-size: 13px;
+      color: #333333;
+      margin-top: 10px;
+      font-weight: 300;
+    }
+    .follow-wrap{
+      margin-top: 15px;
+      width: 100%;
+      height: 16px;
+      font-size: 13px;
+      color: #333333;
+      position: relative;
+      z-index:1;
+      .half-wrap{
+        float: left;
+        width: 50%;
+        height: 100%;
+        line-height: 16px;
+        &:first-child{
+          text-align: right;
+          padding-right: 20px;
+        }
+        &:last-child{
+          border-left:1px solid #666666;
+          text-align: left;
+          padding-left: 20px;
+        }
+      }
+    }
+    .introduction{
+      margin: 13px 20px;
+      font-size: 13px;
+      line-height: 18px;
+      color: #333333;
+      font-weight: 300;
+      @include singleLine();
+    }
+  }
+  .tab-header{
+    background-color: #ffffff;
+    li{
+      position: relative;
+      float: left;
+      width: 33.3333333%;
+      height: 44px;
+      line-height: 44px;
+      text-align: center;
+      font-size: 14px;
+      color: #666666;
+      border-bottom:1px solid #e4e5e6;
+      transition: all 100ms;
+      border-right:1px solid #e4e5e6;
+      @include singleLine();
+      &:last-child{
+        border-right:none;
+      }
+      &.active{
+        color: #23aa8c;
+        &:before {
+          display: block;
+          content:"";
+          position: absolute;
+          left: 50%;
+          bottom: 0;
+          margin-left: -15px;
+          width: 30px;
+          height: 2px;
+          background-color: #2abf9e;
+          z-index: 1;
+        }
+      }
+    }
+  }
+  .footer-wrap{
+    height: 44px;
+    border-top:1px solid #c3c7ca;
+    background-color: #ffffff;
+    text-align: center;
+    .btn-follow{
+      width: 50px;
+      height: 40px;
+      font-size: 12px;
+      color: #ff7d22;
+      padding-top: 27px;
+      span{
+        line-height: 1;
+      }
+      .follow-text{
+        display: block;
+      }
+      .followed-text{
+        display: none;
+      }
+      background: transparent url("../assets/images/designer/follow.png") no-repeat center top/23px 23px;
+      &.followed{
+        color: #2abf9e;
+        background-image: url("../assets/images/designer/followed.png");
+        .follow-text{
+          display: none;
+        }
+        .followed-text{
+          display: block;
+        }
+      }
+    }
+  }
+}

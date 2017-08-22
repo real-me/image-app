@@ -1,0 +1,69 @@
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingText="下拉刷新页面" refreshingText="刷新中...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="info-wrap">
+    <div class="main-bg">
+      <img [src]="data?.photo" [ngClass]="{none:data==null}">
+    </div>
+    <!--<div [ngClass]="{none:!hasInit}">-->
+    <div class="logo-wrap">
+      <div class="middle-outer">
+        <div class="middle-inner">
+          <div [ngClass]="{none:!hasInit}">
+            <ion-spinner name="circles" [ngClass]="{none:loaded}"></ion-spinner>
+            <img [src]="data?.small_photo" [ngClass]="{none:(data==null||!loaded)}" (load)="loadImg()">
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="user-name">
+      {{data?.real_name}}
+    </p>
+    <p class="address">
+      {{data?.province_of_origin?.name}} {{data?.city_of_origin?.name}}
+    </p>
+    <div class="follow-wrap">
+      <div class="half-wrap">
+        <span class="follow">关注 233</span>
+      </div>
+      <div class="half-wrap">
+        <span class="fans">粉丝 6666</span>
+      </div>
+    </div>
+    <p class="introduction">
+      {{data?.introduction}}
+    </p>
+    <!--</div>-->
+  </div>
+  <div class="tab-header">
+    <ul class="clearfix">
+      <li class="pointer" [ngClass]="{active:activeIndex==1}" (tap)="changeIndex(1)">
+        图说
+      </li>
+      <li class="pointer" [ngClass]="{active:activeIndex==2}" (tap)="changeIndex(2)">
+        精选
+      </li>
+      <li class="pointer" [ngClass]="{active:activeIndex==3}" (tap)="changeIndex(3)">
+        喜欢
+      </li>
+    </ul>
+  </div>
+
+</ion-content>
+
+<ion-footer>
+  <div class="footer-wrap">
+    <button class="btn-follow" [ngClass]="{followed:true}" (tap)="toggleFollow()">
+      <div class="follow-wrap">
+        <img src="assets/images/designer/name.png">
+        <span>添加关注</span>
+      </div>
+      <div class="not-follow-wrap">
+        <img src="assets/images/designer/name.png">
+        <span>关注</span>
+      </div>
+    </button>
+  </div>
+</ion-footer>

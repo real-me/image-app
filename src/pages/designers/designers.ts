@@ -226,13 +226,18 @@ export class DesignersPage {
   }
 
   //切换关注状态
-  toggleFollow(item:any){
+  toggleFollow(e,item:any){
     item.follow=!item.follow;
+    console.log(e);
+    // e.preventDefault();
+    // e.changedPointers[0].stopPropagation();
+    // e.srcEvent.stopPropagation();
+    e.stopPropagation();
   }
 
   //显示设计师详情
   showDesigner(id:number){
-
+    this.util.getNav().push('DesignerPage',{id:id});
   }
 
 }

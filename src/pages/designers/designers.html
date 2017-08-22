@@ -9,13 +9,13 @@
   <div class="tab-header">
     <ul class="clearfix">
       <li class="pointer" [ngClass]="{active:activeIndex==1&&isShowFilter}" (tap)="changeIndex(1)" [title]="getCurrentSpace()">
-        <img src="assets/images/designer/space.png" class="icon-normal">
-        <img src="assets/images/designer/space-active.png" class="icon-active">
+        <img src="assets/images/designers/space.png" class="icon-normal">
+        <img src="assets/images/designers/space-active.png" class="icon-active">
         {{getCurrentSpace()}}
       </li>
       <li class="pointer" [ngClass]="{active:activeIndex==2&&isShowFilter}" (tap)="changeIndex(2)" [title]="getCurrentArea()">
-        <img src="assets/images/designer/location.png" class="icon-normal">
-        <img src="assets/images/designer/location-active.png" class="icon-active">
+        <img src="assets/images/designers/location.png" class="icon-normal">
+        <img src="assets/images/designers/location-active.png" class="icon-active">
         {{getCurrentArea()}}
       </li>
     </ul>
@@ -52,11 +52,11 @@
           </ul>
         </div>
         <div class="current-location">
-          <img src="assets/images/designer/pin.png">
+          <img src="assets/images/designers/pin.png">
           广州
         </div>
         <button class="btn-locate">
-          <img src="assets/images/designer/refresh.png">
+          <img src="assets/images/designers/refresh.png">
           重新定位
         </button>
       </div>
@@ -65,7 +65,7 @@
   <div class="content-wrap thin-scroll">
     <div class="tab active">
       <ul>
-        <li (tap)="showDesigner(item.id)" *ngFor="let item of data;let i=index;let last = last;" [title]="item.name">
+        <li (click)="showDesigner(item.id)" *ngFor="let item of data;let i=index;let last = last;" [title]="item.name">
           <div class="avatar">
             <img [src]="item.url" class="icon-normal">
           </div>
@@ -77,7 +77,7 @@
             <div class="introduce">{{item.introduce}}</div>
             <div class="fans">粉丝 <span class="count">{{item.fans}}</span></div>
           </div>
-          <button class="btn-follow" [ngClass]="{followed:item.follow}" (tap)="toggleFollow(item)">
+          <button class="btn-follow" [ngClass]="{followed:item.follow}" (click)="toggleFollow($event,item)">
             <span class="follow-text">关注</span>
             <span class="followed-text">已关注</span>
           </button>
@@ -85,7 +85,7 @@
       </ul>
     </div>
   </div>
-  <!--<img src="assets/images/designer/bg.jpg" class="img-full">-->
+  <!--<img src="assets/images/designers/bg.jpg" class="img-full">-->
 </ion-content>
 
 <ion-footer>

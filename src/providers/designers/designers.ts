@@ -13,7 +13,7 @@ export class DesignersProvider {
       introduce:'擅长  酒店、家居住宅',
       fans:'22万',
       follow:false,
-      url:'assets/images/designer/avatar1.png'
+      url:'assets/images/designers/avatar1.png'
     },
     {
       name:'洪文谅',
@@ -22,7 +22,7 @@ export class DesignersProvider {
       introduce:'擅长  酒店、家居住宅',
       fans:'1万',
       follow:true,
-      url:'assets/images/designer/avatar2.png'
+      url:'assets/images/designers/avatar2.png'
     },
     {
       name:'梁志天',
@@ -31,7 +31,7 @@ export class DesignersProvider {
       introduce:'擅长  酒店、家居住宅',
       fans:'26万',
       follow:true,
-      url:'assets/images/designer/avatar3.png'
+      url:'assets/images/designers/avatar3.png'
     },
     {
       name:'凯莉赫本',
@@ -40,7 +40,7 @@ export class DesignersProvider {
       introduce:'擅长  酒店、家居住宅',
       fans:'52万',
       follow:true,
-      url:'assets/images/designer/avatar4.png'
+      url:'assets/images/designers/avatar4.png'
     },
     {
       name:'王逸林',
@@ -49,7 +49,7 @@ export class DesignersProvider {
       introduce:'擅长  酒店、家居住宅',
       fans:'2万',
       follow:false,
-      url:'assets/images/designer/avatar5.png'
+      url:'assets/images/designers/avatar5.png'
     },
     {
       name:'琛',
@@ -58,7 +58,7 @@ export class DesignersProvider {
       introduce:'擅长  酒店、家居住宅',
       fans:'12万',
       follow:false,
-      url:'assets/images/designer/avatar6.png'
+      url:'assets/images/designers/avatar6.png'
     }
   ];
 
