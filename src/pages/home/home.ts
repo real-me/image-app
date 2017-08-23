@@ -41,7 +41,6 @@ export class HomePage {
   initY = 0;//初始位置
 
 
-  containerHeight = 100;//容器高度
   imageWidth: number = 0;//图片宽度
 
   dataConfig = {
@@ -52,6 +51,7 @@ export class HomePage {
     total: 0,
     page: 1,
     pageCount: 0,
+    containerHeight:100,//容器高度
     loading: false
   };
 
@@ -100,14 +100,15 @@ export class HomePage {
 
   //清除数据(用于刷新)
   clear(){
-    this.containerHeight = 100;
-    this.dataConfig.hasInit=false;
-    this.dataConfig.data=[];
-    this.dataConfig.pageHeight=0;
-    this.dataConfig.total=0;
-    this.dataConfig.page=1;
-    this.dataConfig.pageCount=0;
-    this.dataConfig.loading=false;
+    let config=this.dataConfig;
+    config.containerHeight = 100;
+    config.hasInit=false;
+    config.data=[];
+    config.pageHeight=0;
+    config.total=0;
+    config.page=1;
+    config.pageCount=0;
+    config.loading=false;
   }
 
   //初始化事件侦听
@@ -223,7 +224,7 @@ export class HomePage {
   }
 
 
-//转换获取到的材料数据
+  //转换获取到的图说数据
   parseIllustrationData(data) {
     var item;
     var innerData;
@@ -374,7 +375,7 @@ export class HomePage {
         config.pageHeight = config.data[config.pageSize - 1].top;
       }
     }
-    this.containerHeight = maxHeight;//容器高度
+    config.containerHeight = maxHeight;//容器高度
   };
 
   //----------------------------瀑布流(END)

@@ -29,7 +29,7 @@
   <!--图说-->
   <div class="hot-wrap">
     <div class="content" [ngClass]="{none:!dataConfig.hasInit}">
-      <ul class="clearfix" #pictures [ngStyle]="{height:containerHeight+'px'}">
+      <ul class="clearfix" #pictures [ngStyle]="{height:dataConfig.containerHeight+'px'}">
         <li *ngFor="let item of dataConfig.data;let i=index;let last = last;" [ngStyle]="{left:item.left+'px',top:item.top+'px',width:imageWidth+'px'}" [repeat]="last" (repeatRendered)="renderedList()" [@image]="viewState"  [ngClass]="{loaded:item.loaded}">
           <a href="javascript:void(0)" (tap)="openDetail(item)" [attr.title]="item.title">
             <div class="img-wrap">

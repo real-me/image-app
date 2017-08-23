@@ -222,7 +222,7 @@ export class ChoicePage {
   }
 
 
-//转换获取到的材料数据
+//转换获取到的图说数据
   parseIllustrationData(data) {
     var item;
     var innerData;

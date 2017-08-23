@@ -31,6 +31,8 @@ export class DesignerPage {
   refresh: () => void;
   resize:()=>void;
 
+  isHeadBarInverse:boolean=false;//顶部栏是否发生反转
+
   id:number=0;
   hasInit = false;//是否已经进行了初始化
   data:any=null;
@@ -43,6 +45,7 @@ export class DesignerPage {
   deltaX = 15;
   deltaY = 18;
   initY = 0;//初始位置
+  initContainerHeight:number=30;//初始时容器的最小高度
 
 
   imageWidth: number = 0;//图片宽度
@@ -56,7 +59,8 @@ export class DesignerPage {
     total: 0,
     page: 1,
     pageCount: 0,
-    containerHeight:100,//容器高度
+    containerHeight:0,//容器高度
+    rendered:false,//是否渲染完成
     loading: false
   };
 
@@ -69,7 +73,8 @@ export class DesignerPage {
     total: 0,
     page: 1,
     pageCount: 0,
-    containerHeight:100,//容器高度
+    containerHeight:0,//容器高度
+    rendered:false,//是否渲染完成
     loading: false
   };
 
@@ -87,7 +92,9 @@ export class DesignerPage {
     this.resize=()=>{
       this.initImageWidth();
       this.resetImageHeight();//重设图片高度
+      this.resetImageHeight3();//重设图片高度
       this.renderedList();
+      this.renderedList3();
       // setTimeout(()=>{
       //   this.render();//窗口大小发生改变时重新渲染图说图片
       // },100);
@@ -111,7 +118,13 @@ export class DesignerPage {
   init() {
     this.initImageWidth();
     this.util.loading();
-    Promise.all([this.loadData(),this.getIllustration(),this.getLoveData()]).then(()=>this.util.hideLoading()).catch(()=>this.util.hideLoading());
+    let sequence=[this.loadData()];
+    if(this.activeIndex==1){
+      sequence.push(this.getIllustration());
+    }else if(this.activeIndex==3){
+      sequence.push(this.getLoveData());
+    }
+    Promise.all(sequence).then(()=>this.util.hideLoading()).catch(()=>this.util.hideLoading());
   }
 
   //清除数据(用于刷新)
@@ -121,23 +134,25 @@ export class DesignerPage {
     this.hasInit = false;
 
     let config=this.dataConfig;
-    config.containerHeight = 100;
+    config.containerHeight = this.initContainerHeight;
     config.hasInit=false;
     config.data=[];
     config.pageHeight=0;
     config.total=0;
     config.page=1;
     config.pageCount=0;
+    config.rendered=false;
     config.loading=false;
 
     config=this.dataConfig3;
-    config.containerHeight = 100;
+    config.containerHeight = this.initContainerHeight;
     config.hasInit=false;
     config.data=[];
     config.pageHeight=0;
     config.total=0;
     config.page=1;
     config.pageCount=0;
+    config.rendered=false;
     config.loading=false;
   }
 
@@ -153,7 +168,7 @@ export class DesignerPage {
     //滚动到底部
     let picturesWrap=$(this.pictures.nativeElement);
     let outerElement = picturesWrap.closest('.scroll-content');
-    let element = picturesWrap.closest('.content-wrap');
+    let element = picturesWrap.closest('.tab');
     let delta:number=308;
     element.on('scroll',e => {
       var config = this.dataConfig;
@@ -180,10 +195,10 @@ export class DesignerPage {
     //滚动到底部
     let picturesWrap=$(this.lovePictures.nativeElement);
     let outerElement = picturesWrap.closest('.scroll-content');
-    let element = picturesWrap.closest('.content-wrap');
+    let element = picturesWrap.closest('.tab');
     let delta:number=308;
     element.on('scroll',e => {
-      var config = this.dataConfig;
+      var config = this.dataConfig3;
       if (config.hasInit && !config.loading && config.page < config.pageCount) {
         var marginTop=parseFloat(outerElement.css('margin-top'));
         var marginBottom=parseFloat(outerElement.css('margin-bottom'));
@@ -231,6 +246,7 @@ export class DesignerPage {
       let avatarPostfix='?x-oss-process=image/resize,m_fill,limit_0,w_80,h_80/quality,Q_100';
       response.small_photo = response.photo ? response.photo+avatarPostfix : 'assets/images/detail/avatar.png';
       response.photo = response.photo ? response.photo : 'assets/images/detail/avatar.png';
+      response.follow=Math.random()>0.5?true:false;
       this.data=response;
       this.hasInit = true;
     });
@@ -245,6 +261,23 @@ export class DesignerPage {
   changeIndex(index:number){
     if(index!==this.activeIndex){
       this.activeIndex=index;
+    }
+    if(index==1){
+      if(!this.dataConfig.hasInit){
+        this.getIllustration();
+      }else{
+        if(!this.dataConfig.rendered){
+          this.renderedList();
+        }
+      }
+    }else if(index==3){
+      if(!this.dataConfig3.hasInit){
+        this.getLoveData();
+      }else{
+        if(!this.dataConfig3.rendered){
+          this.renderedList3();
+        }
+      }
     }
   }
 
@@ -266,14 +299,18 @@ export class DesignerPage {
     if (config.page > 1) {
       config.loading = true;//是否正在获取找材列表
     }
+    if(!config.hasInit){
+      config.loading = true;//是否正在获取找材列表
+    }
+    config.hasInit = true;
     return this.util.get(url).then((res: any) => {
       if (!res)return;
       let response = res.json();
 
-      config.hasInit = true;
       config.loading = false;
       config.total = response.total;
       config.pageCount = response.last_page;
+      config.rendered=false;//需要重新渲染
       var data = this.parseIllustrationData(response.data);
       if (config.page == 1) {
         config.data = [];
@@ -288,7 +325,7 @@ export class DesignerPage {
   }
 
 
-//转换获取到的材料数据
+  //转换获取到的图说数据
   parseIllustrationData(data) {
     var item;
     var innerData;
@@ -342,14 +379,18 @@ export class DesignerPage {
     if (config.page > 1) {
       config.loading = true;//是否正在获取找材列表
     }
+    if(!config.hasInit){
+      config.loading = true;//是否正在获取找材列表
+    }
+    config.hasInit = true;
     return this.util.get(url).then((res: any) => {
       if (!res)return;
       let response = res.json();
 
-      config.hasInit = true;
       config.loading = false;
       config.total = response.total;
       config.pageCount = response.last_page;
+      config.rendered=false;//需要重新渲染
       var data = this.parseLoveData(response.data);
       if (config.page == 1) {
         config.data = [];
@@ -358,7 +399,7 @@ export class DesignerPage {
         config.data = config.data.concat(data);
       }
       if (data.length == 0) {
-        this.renderSingle();
+        this.renderSingle3();
       }
     });
   }
@@ -421,6 +462,10 @@ export class DesignerPage {
   //----------------------------瀑布流(START)
 
   renderedList(){
+    if(this.activeIndex!=1){
+      return;
+    }
+    this.dataConfig.rendered=true;
     console.log('renderedList');
     this.render();
     setTimeout(()=>{
@@ -534,12 +579,16 @@ export class DesignerPage {
   //----------------------------瀑布流喜欢(START)
 
   renderedList3(){
-    console.log('renderedList');
+    if(this.activeIndex!=3){
+      return;
+    }
+    this.dataConfig3.rendered=true;
+    console.log('renderedList3');
     this.render3();
     setTimeout(()=>{
       this.render3();
     },500);
-    // this.render();
+    // this.render3();
     // this.cdr.detectChanges();
   }
 
@@ -548,7 +597,7 @@ export class DesignerPage {
     if (index !== undefined) {
       this.dataConfig3.data[index].loaded = true;
     }
-    this.render();
+    this.render3();
   }
 
   //重设图片高度
@@ -569,7 +618,7 @@ export class DesignerPage {
   render3() {
     var config=this.dataConfig3;
     var length = config.data.length;
-    let picturesWrap=$(this.pictures.nativeElement);
+    let picturesWrap=$(this.lovePictures.nativeElement);
     var imageWidth = this.imageWidth;
     var imageHeight = 0;
     var bottoms = [];
@@ -659,6 +708,15 @@ export class DesignerPage {
 
   }
 
+  toggleFollow(){
+    if(!this.data.follow){
+      //弹窗
+      this.data.follow=!this.data.follow;
+    }else{
+      this.data.follow=!this.data.follow;
+    }
+  }
+
   //转换查看数
   processViews(views) {
     var result = '0';
@@ -670,6 +728,11 @@ export class DesignerPage {
       result = Math.floor(views / 100000000) + '亿';
     }
     return result;
+  }
+
+  //返回
+  goback() {
+    this.util.goback();
   }
 
 }
