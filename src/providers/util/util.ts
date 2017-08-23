@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Headers,Http} from '@angular/http';
 import { Storage } from '@ionic/storage';
-import {App, LoadingController, NavControllerBase, ToastController} from "ionic-angular";
+import {AlertController, App, LoadingController, NavControllerBase, ToastController} from "ionic-angular";
 import * as moment from 'moment';
 import 'rxjs/add/operator/toPromise';
 import * as $ from 'jquery';
@@ -13,6 +13,8 @@ export class UtilProvider {
 
   loadingUi:any=null;//用于显示加载信息
   toastUi:any=null;//用于显示提示
+  alertUi:any=null;//用于显示弹出框
+
   navCtrl:NavControllerBase;
   page:any=null;//关联页面
   apiHost:string='https://dev.jintangjiang.cn/';//api前缀
@@ -28,7 +30,7 @@ export class UtilProvider {
     distance:300//距离
   };//在滚动到距离底部多远时进行预加载下一页
 
-  constructor(public app: App,public http: Http,private storage: Storage,private loadingCtrl: LoadingController,private toastCtrl: ToastController) {
+  constructor(public app: App,public http: Http,private storage: Storage,private loadingCtrl: LoadingController,private toastCtrl: ToastController,private alertCtrl: AlertController) {
     // this.clear();
   }
 
@@ -154,6 +156,49 @@ export class UtilProvider {
     if(this.toastUi){
       this.toastUi.dismiss().catch(()=>{});//注意,不加catch在切换页面时会报错
       this.toastUi=null;
+    }
+  }
+
+  /**
+   * 显示弹出框
+   * @param info 内容或配置信息
+   */
+  alert(info?:string|any){
+    if(!this.alertUi){
+      let cssClass=' custom-alert';
+      if(info){
+        if(typeof info=='string'){
+          this.alertUi=this.alertCtrl.create({
+            cssClass:cssClass,
+            message: info
+          });
+        }else{
+          if(!info.hasOwnProperty('cssClass')){
+            info.cssClass=cssClass;
+          }else{
+            info.cssClass+=cssClass;
+          }
+          this.alertUi=this.alertCtrl.create(info);
+        }
+      }else{
+        this.hideAlert();
+      }
+    }
+    if(this.alertUi){
+      this.alertUi.onDidDismiss(() => {
+        this.alertUi=null;
+      });
+      this.alertUi.present();
+    }
+  }
+
+  /**
+   * 隐藏弹出框
+   */
+  hideAlert(){
+    if(this.alertUi){
+      this.alertUi.dismiss().catch(()=>{});
+      this.alertUi=null;
     }
   }
 

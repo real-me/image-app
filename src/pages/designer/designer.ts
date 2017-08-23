@@ -1,5 +1,5 @@
 import {Component, ViewChild} from '@angular/core';
-import {Events, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, Events, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {UtilProvider} from "../../providers/util/util";
 import * as $ from 'jquery';
@@ -93,6 +93,7 @@ export class DesignerPage {
       this.initImageWidth();
       this.resetImageHeight();//重设图片高度
       this.resetImageHeight3();//重设图片高度
+      this.resetNotRendered();//重置为未渲染状态
       this.renderedList();
       this.renderedList3();
       // setTimeout(()=>{
@@ -364,6 +365,7 @@ export class DesignerPage {
       item.choiceness_count = innerData.choiceness?this.processViews(innerData.choiceness):0;
       item.favorite_count = innerData.favorite_count?this.processViews(innerData.favorite_count):0;
       // item.canResponse = true;//是否可以对收藏操作作出响应
+      item.rendered = false;//是否已渲染
       item.loaded = false;
       item.left = this.initY;
       item.top = this.initY;
@@ -451,6 +453,7 @@ export class DesignerPage {
       item.favorite_count = 25;
 
       // item.canResponse = true;//是否可以对收藏操作作出响应
+      item.rendered = false;//是否已渲染
       item.loaded = false;
       item.left = this.initY;
       item.top = this.initY;
@@ -459,13 +462,33 @@ export class DesignerPage {
     return result;
   }
 
+  //重置为未渲染状态
+  resetNotRendered(){
+    let config;
+    let len;
+    config=this.dataConfig;
+    config.rendered=false;
+    len = config.data.length;
+    for (let i = 0; i < len; i++) {
+      config.data[i].rendered=false;
+    }
+
+    config=this.dataConfig3;
+    config.rendered=false;
+    len = config.data.length;
+    for (let i = 0; i < len; i++) {
+      config.data[i].rendered=false;
+    }
+  }
+
   //----------------------------瀑布流(START)
 
   renderedList(){
     if(this.activeIndex!=1){
-      return;
+      // return;
+    }else{
+      this.dataConfig.rendered=true;
     }
-    this.dataConfig.rendered=true;
     console.log('renderedList');
     this.render();
     setTimeout(()=>{
@@ -512,6 +535,11 @@ export class DesignerPage {
     var column = 0;//列(从0开始)
     var i = 0;
     for (i = 0; i < length; i++) {
+      // if(config.data[i].rendered){
+      //   continue;
+      // }else{
+      //   config.data[i].rendered=true;
+      // }
       let img = picturesWrap.find("li:eq(" + i + ")");
       imageHeight = img.outerHeight(true);
       row = Math.floor(i / this.columnCount);//行(从0开始)
@@ -580,9 +608,10 @@ export class DesignerPage {
 
   renderedList3(){
     if(this.activeIndex!=3){
-      return;
+      // return;
+    }else{
+      this.dataConfig3.rendered=true;
     }
-    this.dataConfig3.rendered=true;
     console.log('renderedList3');
     this.render3();
     setTimeout(()=>{
@@ -629,6 +658,11 @@ export class DesignerPage {
     var column = 0;//列(从0开始)
     var i = 0;
     for (i = 0; i < length; i++) {
+      // if(config.data[i].rendered){
+      //   continue;
+      // }else{
+      //   config.data[i].rendered=true;
+      // }
       let img = picturesWrap.find("li:eq(" + i + ")");
       imageHeight = img.outerHeight(true);
       row = Math.floor(i / this.columnCount);//行(从0开始)
@@ -708,13 +742,37 @@ export class DesignerPage {
 
   }
 
+  //切换关注状态
   toggleFollow(){
-    if(!this.data.follow){
-      //弹窗
-      this.data.follow=!this.data.follow;
+    if(this.data.follow){
+      //已关注,显示取消关注弹窗
+      this.showConfirm();
     }else{
+      //未关注,无需确认直接关注
       this.data.follow=!this.data.follow;
     }
+  }
+
+  //显示确认框
+  showConfirm(){
+    this.util.alert({
+      message: '您真的要取消关注吗?',
+      buttons: [
+        {
+          text: '不取消',
+          role: 'cancel',
+          handler: () => {
+
+          }
+        },
+        {
+          text: '取消关注',
+          handler: () => {
+            this.data.follow=false;
+          }
+        }
+      ]
+    });
   }
 
   //转换查看数

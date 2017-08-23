@@ -4,16 +4,14 @@ import {UtilProvider} from "../../providers/util/util";
 
 @IonicPage()
 @Component({
-  selector: 'page-personal',
-  templateUrl: 'personal.html',
+  selector: 'page-my-choice',
+  templateUrl: 'my-choice.html',
 })
-export class PersonalPage {
+export class MyChoicePage {
 
   refresh: () => void;
-
-  hasInit = false;//是否已经进行了初始化
   data:any=null;
-  loaded:boolean=false;//头像是否加载完毕
+  hasInit:boolean=false;//是否已经初始化完毕
 
   constructor(public navCtrl: NavController, public navParams: NavParams,private util: UtilProvider) {
     this.refresh = () => {
@@ -46,7 +44,6 @@ export class PersonalPage {
   //清除数据(用于刷新)
   clear() {
     this.data = null;
-    this.loaded = false;
     this.hasInit = false;
   }
 
@@ -69,46 +66,14 @@ export class PersonalPage {
 
   //加载数据
   loadData(){
-    var url = 'tushuo/api/users/me';
-    return this.util.get(url).then((res: any) => {
-      if (!res)return;
-      let response = res.json();
-      let avatarPostfix='?x-oss-process=image/resize,m_fill,limit_0,w_80,h_80/quality,Q_100';
-      response.small_photo = response.photo ? response.photo+avatarPostfix : 'assets/images/detail/avatar.png';
-      response.photo = response.photo ? response.photo : 'assets/images/detail/avatar.png';
-      this.data=response;
-      this.hasInit = true;
-    });
+    this.hasInit = true;
+    return Promise.resolve(true);
   }
 
-  //加载图片完成时调用
-  loadImg(){
-    this.loaded=true;
+  //显示单个精选
+  showChoice(id){
+    this.util.getNav().push('ChoicePage',{id:id});
   }
 
-  //我的精选
-  gotoChoiceness(){
-    this.util.getNav().push('MyChoicePage');
-  }
-
-  //我的消息
-  gotoMessages(){
-    this.util.getNav().push('MessagesPage');
-  }
-
-  //我喜欢的
-  gotoFavorite(){
-    this.util.getNav().push('MyFavoritePage');
-  }
-
-  //修改密码
-  gotoChangePassword(){
-    // this.util.goto('MessagesPage');
-  }
-
-  //退出登录
-  logout() {
-    this.util.logout();
-  }
 
 }

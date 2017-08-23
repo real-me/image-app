@@ -2,8 +2,7 @@
   <div class="head-bar" [ngClass]="{'inverse-bar':isHeadBarInverse}">
     <div class="left-wrap">
       <button class="btn-state btn-back" (tap)="goback()">
-        <img class="normal" src="assets/images/detail/go-back-white.png">
-        <img class="inverse" src="assets/images/detail/go-back-black.png">
+        <img class="normal" src="assets/images/designer/go-back.png">
       </button>
     </div>
   </div>
@@ -271,7 +270,7 @@
 
 <ion-footer>
   <div class="footer-wrap">
-    <button class="btn-follow" [ngClass]="{followed:data&&data.follow}" (tap)="toggleFollow()">
+    <button class="btn-follow" [ngClass]="{followed:data?.follow}" (tap)="toggleFollow()">
       <div class="follow-wrap">
         <img src="assets/images/designer/follow.png">
         <span>添加关注</span>

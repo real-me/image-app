@@ -101,7 +101,7 @@ export class HomePage {
   //清除数据(用于刷新)
   clear(){
     let config=this.dataConfig;
-    config.containerHeight = 100;
+    config.containerHeight = 30;
     config.hasInit=false;
     config.data=[];
     config.pageHeight=0;

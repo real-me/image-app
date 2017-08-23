@@ -6,8 +6,8 @@ import * as $ from 'jquery';
 
 @IonicPage()
 @Component({
-  selector: 'page-choice',
-  templateUrl: 'choice.html',
+  selector: 'page-my-favorite',
+  templateUrl: 'my-favorite.html',
   animations: [
     trigger('image', [
       state('in', style({opacity: 1,transform: 'scale(1)'})),
@@ -21,7 +21,7 @@ import * as $ from 'jquery';
     ])
   ]
 })
-export class ChoicePage {
+export class MyFavoritePage {
 
   //图说容器
   @ViewChild('pictures') pictures: any;
@@ -256,6 +256,7 @@ export class ChoicePage {
       } else {
         item.had_star = false;
       }
+      item.had_star = true;
 
       item.choiceness_count = innerData.choiceness?this.processViews(innerData.choiceness):0;
       item.favorite_count = innerData.favorite_count?this.processViews(innerData.favorite_count):0;
