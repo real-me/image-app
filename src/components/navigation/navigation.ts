@@ -32,7 +32,8 @@ export class NavigationComponent {
     }else if(index==4){
       this.navCtrl.setRoot('PersonalPage');
     }else if(index==5){
-      this.navCtrl.setRoot('PublishPage');
+      this.navCtrl.push('SelectPhotoPage');
+      // this.navCtrl.setRoot('PublishPage');
     }
   }
 }

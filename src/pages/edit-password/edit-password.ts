@@ -28,7 +28,7 @@ import {UtilProvider} from "../../providers/util/util";
         style({
           transform: 'scale(0)'
         }),
-        animate('0.5s 0.2s', keyframes([
+        animate('0.7s 0.2s', keyframes([
           style({transform: 'scale(0)', offset: 0}),
           style({transform: 'scale(1.5)',offset: 0.3}),
           style({transform: 'scale(0.9)',offset: 0.5}),
@@ -150,7 +150,7 @@ export class EditPasswordPage {
 
   //确定修改
   sureChange(){
-    // this.editSuccess();
+    this.editSuccess();
     this.pwd=this.pwd.trim();
     this.pwd2=this.pwd2.trim();
     if(this.pwd==''||this.pwd2==''){

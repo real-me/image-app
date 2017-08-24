@@ -1,0 +1,35 @@
+<ion-header no-border class="g-header">
+  <ion-toolbar>
+    <ion-title>相机胶卷</ion-title>
+    <ion-buttons end>
+      <button ion-button clear (tap)="cancel()">
+        取消
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="photo-wrap">
+    <ul class="clearfix">
+      <li class="pointer" *ngFor="let item of photos;let i=index;" (tap)="selectIt(i)">
+        <div class="img-wrap">
+          <img [src]="item.url">
+        </div>
+        <span class="icon-select" [ngClass]="{selected:item.selected}"></span>
+      </li>
+    </ul>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <div class="footer-wrap">
+    <div class="not-select-wrap" [ngClass]="{none:selectedCount>0}">
+      请选择图片
+    </div>
+    <div class="select-wrap" [ngClass]="{none:selectedCount<=0}">
+      <span>共选择了 {{selectedCount}} 张图片</span>
+      <button class="btn-sure" (tap)="sureSelect()">确定</button>
+    </div>
+  </div>
+</ion-footer>

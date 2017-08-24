@@ -1,13 +1,23 @@
 <ion-header no-border class="g-header">
-  <ion-navbar>
+  <ion-toolbar>
+    <button class="btn-close" (tap)="close()"></button>
+    <!--<ion-buttons start>-->
+      <!--<button ion-button ion-only (tap)="close()">-->
+      <!--</button>-->
+    <!--</ion-buttons>-->
     <ion-title>发布图说</ion-title>
-  </ion-navbar>
+    <ion-buttons end>
+      <button ion-button clear class="btn-change" (tap)="cancel()">
+        更换图片
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content >
-  <img src="assets/images/publish/bg.jpg" class="img-full">
-</ion-content>
+<ion-content>
+  <div class="tab active">
+    <div class="list-wrap">
 
-<ion-footer>
-  <navigation [index]="'5'"></navigation>
-</ion-footer>
+    </div>
+  </div>
+</ion-content>

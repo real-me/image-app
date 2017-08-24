@@ -1,3 +1,18 @@
 page-publish {
-
+  .btn-close{
+    float: left;
+    width: 40px;
+    height: 40px;
+    background: transparent url("../assets/images/publish/close.png") no-repeat center center/14px 14px;
+  }
+  .btn-change{
+    font-size: 14px;
+    color: #666666;
+  }
+  .tab{
+    display: none;
+    &.active{
+      display: block;
+    }
+  }
 }
