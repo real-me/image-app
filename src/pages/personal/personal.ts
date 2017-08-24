@@ -103,7 +103,7 @@ export class PersonalPage {
 
   //修改密码
   gotoChangePassword(){
-    // this.util.goto('MessagesPage');
+    this.util.getNav().push('EditPasswordPage');
   }
 
   //退出登录

@@ -17,7 +17,7 @@ export class DetailPage {
 
   source = [];//数据来源
   data: any = {
-    user_photo:'assets/images/detail/avatar.png',
+    user_photo:'',
     real_name:'',
     map:''//banner图片
   };//图说所有信息
@@ -233,7 +233,7 @@ export class DetailPage {
       d=this.data;
 
       let avatarPostfix='?x-oss-process=image/resize,m_fill,limit_0,w_60,h_60/quality,Q_100';
-      d.user_photo = response.entrant_photo ? response.entrant_photo+avatarPostfix : 'assets/images/detail/avatar.png';
+      d.user_photo = response.entrant_photo ? response.entrant_photo+avatarPostfix : 'assets/images/detail/avatar.jpg';
       d.real_name = response.entrant_real_name;
 
       var images = [];

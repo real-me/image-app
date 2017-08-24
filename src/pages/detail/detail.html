@@ -19,12 +19,12 @@
   </div>
   <div class="wrap" [ngClass]="{none:!hasInit}" (swipe)="swipeIt($event)">
     <div class="banner" #banner>
-      <img [src]="data.map+bannerPostfix" alt="" class="img-full pointer" (tap)="openBigImage(0)">
+      <img [src]="data.map+bannerPostfix" class="img-full pointer" (tap)="openBigImage(0)">
     </div>
     <div class="main-wrap">
       <div class="info-wrap">
         <div class="logo-wrap">
-          <img [src]="data.user_photo">
+          <img [src]="data.user_photo" *ngIf="data&&data.user_photo">
         </div>
         <p class="designer-name">
           {{data.real_name}}

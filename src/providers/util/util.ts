@@ -89,8 +89,9 @@ export class UtilProvider {
    */
   hideLoading(){
     if(this.loadingUi){
-      this.loadingUi.dismiss().catch(()=>{});//注意,不加catch在切换页面时会报错
-      this.loadingUi=null;
+      return this.loadingUi.dismiss().catch(()=>{}).then(()=>this.loadingUi=null);//注意,不加catch在切换页面时会报错
+    }else{
+      return Promise.resolve(true);
     }
   }
 
@@ -446,11 +447,15 @@ export class UtilProvider {
 
   /**
    * 返回
+   * @param page 要返回的页面(可选参数,未填写则回到默认页面)
    */
-  goback() {
+  goback(page?:string) {
     let nav=this.getNav();
     if (nav.getViews().length == 1) {
-      nav.setRoot(this.defaultPage);
+      if(!page){
+        page=this.defaultPage;
+      }
+      nav.setRoot(page);
     } else {
       nav.pop();
     }
