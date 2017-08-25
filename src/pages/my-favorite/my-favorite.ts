@@ -10,10 +10,15 @@ import * as $ from 'jquery';
   templateUrl: 'my-favorite.html',
   animations: [
     trigger('image', [
-      state('in', style({opacity: 1,transform: 'scale(1)'})),
+      state('in', style({
+        opacity: 1,
+        '-webkit-transform': 'scale(1)',
+        transform: 'scale(1)'
+      })),
       transition('void => *', [
         style({
           opacity: 0,
+          '-webkit-transform': 'scale(0)',
           transform: 'scale(0)'
         }),
         animate('0.2s ease-in')

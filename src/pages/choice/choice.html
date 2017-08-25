@@ -9,13 +9,6 @@
     <ion-refresher-content pullingText="下拉刷新页面" refreshingText="刷新中...">
     </ion-refresher-content>
   </ion-refresher>
-  <div class="banner" [ngClass]="{none:!banners.hasInit}">
-    <ion-slides transparent pager>
-      <ion-slide *ngFor="let el of banners.data">
-        <img [src]="el.img_url">
-      </ion-slide>
-    </ion-slides>
-  </div>
   <!--图说-->
   <div class="hot-wrap">
     <div class="content" [ngClass]="{none:!dataConfig.hasInit}">

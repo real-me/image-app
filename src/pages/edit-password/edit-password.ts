@@ -23,17 +23,41 @@ import {UtilProvider} from "../../providers/util/util";
       ])
     ]),
     trigger('image', [
-      state('in', style({transform: 'scale(1)'})),
+      state('in', style({
+        '-webkit-transform': 'scale(1)',
+        transform: 'scale(1)'
+      })),
       transition('void => *', [
         style({
-          transform: 'scale(0)'
+          '-webkit-transform': 'scale(0)',
+          transform: 'scale(0)',
         }),
         animate('0.7s 0.2s', keyframes([
-          style({transform: 'scale(0)', offset: 0}),
-          style({transform: 'scale(1.5)',offset: 0.3}),
-          style({transform: 'scale(0.9)',offset: 0.5}),
-          style({transform: 'scale(1.1)',offset: 0.7}),
-          style({transform: 'scale(1)',  offset: 1.0})
+          style({
+            '-webkit-transform': 'scale(0)',
+            transform: 'scale(0)',
+            offset: 0
+          }),
+          style({
+            '-webkit-transform': 'scale(1.5)',
+            transform: 'scale(1.5)',
+            offset: 0.3
+          }),
+          style({
+            '-webkit-transform': 'scale(0.9)',
+            transform: 'scale(0.9)',
+            offset: 0.5
+          }),
+          style({
+            '-webkit-transform': 'scale(1.1)',
+            transform: 'scale(1.1)',
+            offset: 0.7
+          }),
+          style({
+            '-webkit-transform': 'scale(1)',
+            transform: 'scale(1)',
+            offset: 1.0
+          })
         ]))
       ])
     ])
