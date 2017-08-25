@@ -446,6 +446,70 @@ export class UtilProvider {
   }
 
   /**
+   * 通过patch方法调用api
+   * @param url api地址
+   * @param data 要提交的数据
+   * @param noToken 是否不使用token
+   * @returns {Promise<TResult2|TResult1>}
+   */
+  patch(url:string,data:any,noToken?:boolean){
+    if(url.indexOf("http")!=0 ){
+      url=this.apiHost+url;
+    }
+    if(!noToken){
+      return this.isLogin().then(isLoginOk=>{
+        //使用token
+        if(isLoginOk){
+          let headers = new Headers();
+          headers.append('Authorization', this.token.token_type+' '+this.token.access_token);
+          return this.http.patch(url,data,{headers: headers}).toPromise().then(res=>{
+            return this.processData(res);
+          });
+        }else{
+          return isLoginOk;
+        }
+      });
+    }else{
+      //不使用token
+      return this.http.patch(url,data).toPromise().then(res=>{
+        return this.processData(res);
+      });
+    }
+  }
+
+  /**
+   * 通过put方法调用api
+   * @param url api地址
+   * @param data 要提交的数据
+   * @param noToken 是否不使用token
+   * @returns {Promise<TResult2|TResult1>}
+   */
+  put(url:string,data:any,noToken?:boolean){
+    if(url.indexOf("http")!=0 ){
+      url=this.apiHost+url;
+    }
+    if(!noToken){
+      return this.isLogin().then(isLoginOk=>{
+        //使用token
+        if(isLoginOk){
+          let headers = new Headers();
+          headers.append('Authorization', this.token.token_type+' '+this.token.access_token);
+          return this.http.put(url,data,{headers: headers}).toPromise().then(res=>{
+            return this.processData(res);
+          });
+        }else{
+          return isLoginOk;
+        }
+      });
+    }else{
+      //不使用token
+      return this.http.put(url,data).toPromise().then(res=>{
+        return this.processData(res);
+      });
+    }
+  }
+
+  /**
    * 返回
    * @param page 要返回的页面(可选参数,未填写则回到默认页面)
    */

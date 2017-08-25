@@ -174,7 +174,7 @@ export class EditPasswordPage {
 
   //确定修改
   sureChange(){
-    this.editSuccess();
+    // this.editSuccess();
     this.pwd=this.pwd.trim();
     this.pwd2=this.pwd2.trim();
     if(this.pwd==''||this.pwd2==''){
@@ -201,11 +201,11 @@ export class EditPasswordPage {
     this.util.loading();
     //尝试登录
     let data={
-      password:this.pwd,
-      password2:this.pwd2
+      old_password:this.pwd,
+      password:this.pwd2
     };
-    let url='tushuo/api/users/password/edit';
-    this.util.post(url, data).then(res => {
+    let url='tushuo/api/users/password';
+    this.util.patch(url, data).then(res => {
       this.util.hideLoading().then(()=>this.editSuccess());
     }).catch(err => {
       //获取验证码出错

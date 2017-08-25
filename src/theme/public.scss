@@ -89,7 +89,6 @@ img{
 /*********************优化滚动条*********************/
 .thin-scroll{
   &::-webkit-scrollbar{
-    width: 4px;
     width: 0px;
   }
   &::-webkit-scrollbar-track{

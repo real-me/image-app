@@ -7,7 +7,7 @@
     <!--</ion-buttons>-->
     <ion-title>发布图说</ion-title>
     <ion-buttons end>
-      <button ion-button clear class="btn-change" (tap)="cancel()">
+      <button ion-button clear class="btn-change" (tap)="changeImage()">
         更换图片
       </button>
     </ion-buttons>
@@ -17,7 +17,136 @@
 <ion-content>
   <div class="tab active">
     <div class="list-wrap">
-
+      <div class="tip-wrap">轻触图片可将其设为该图说的封面哦</div>
+      <ul class="clearfix">
+        <li>
+          <div class="img-wrap pointer">
+            <img src="http://fetch-cdn.staging.gzdmc.net/image/729054b977cae0f6929a254cfbad2411.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_150,h_150/quality,Q_100">
+            <span>封面</span>
+          </div>
+          <div class="introduce-wrap">
+            <textarea class="thin-scroll" placeholder="请输入图说说明">
+            本案位於台灣中壢，業主是布料界的成功經營者，這是一個屬於他個人的私人會所，一個招待朋友與偶爾自住的私人天地
+          </textarea>
+          </div>
+          <button ion-button  class="btn-delete" (tap)="deleteItem(1)"></button>
+        </li>
+        <li>
+          <div class="img-wrap pointer">
+            <img src="http://fetch-cdn.staging.gzdmc.net/image/729054b977cae0f6929a254cfbad2411.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_150,h_150/quality,Q_100">
+            <span class="none">封面</span>
+          </div>
+          <div class="introduce-wrap">
+            <textarea class="thin-scroll" placeholder="请输入图说说明">
+            本案位於台灣中壢，業主是布料界的成功經營者，這是一個屬於他個人的私人會所，一個招待朋友與偶爾自住的私人天地
+          </textarea>
+          </div>
+          <button ion-button  class="btn-delete" (tap)="deleteItem(1)"></button>
+        </li>
+        <li>
+          <div class="img-wrap pointer">
+            <img src="http://fetch-cdn.staging.gzdmc.net/image/729054b977cae0f6929a254cfbad2411.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_150,h_150/quality,Q_100">
+            <span class="none">封面</span>
+          </div>
+          <div class="introduce-wrap">
+            <textarea class="thin-scroll" placeholder="请输入图说说明">
+            本案位於台灣中壢，業主是布料界的成功經營者，這是一個屬於他個人的私人會所，一個招待朋友與偶爾自住的私人天地
+          </textarea>
+          </div>
+          <button ion-button  class="btn-delete" (tap)="deleteItem(1)"></button>
+        </li>
+        <li>
+          <div class="img-wrap pointer">
+            <img src="http://fetch-cdn.staging.gzdmc.net/image/729054b977cae0f6929a254cfbad2411.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_150,h_150/quality,Q_100">
+            <span class="none">封面</span>
+          </div>
+          <div class="introduce-wrap">
+            <textarea class="thin-scroll" placeholder="请输入图说说明">
+            本案位於台灣中壢，業主是布料界的成功經營者，這是一個屬於他個人的私人會所，一個招待朋友與偶爾自住的私人天地
+          </textarea>
+          </div>
+          <button ion-button  class="btn-delete" (tap)="deleteItem(1)"></button>
+        </li>
+        <li>
+          <div class="img-wrap pointer">
+            <img src="http://fetch-cdn.staging.gzdmc.net/image/729054b977cae0f6929a254cfbad2411.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_150,h_150/quality,Q_100">
+            <span class="none">封面</span>
+          </div>
+          <div class="introduce-wrap">
+            <textarea class="thin-scroll" placeholder="请输入图说说明">
+            本案位於台灣中壢，業主是布料界的成功經營者，這是一個屬於他個人的私人會所，一個招待朋友與偶爾自住的私人天地
+          </textarea>
+          </div>
+          <button ion-button  class="btn-delete" (tap)="deleteItem(1)"></button>
+        </li>
+        <li>
+          <div class="img-wrap pointer">
+            <img src="http://fetch-cdn.staging.gzdmc.net/image/729054b977cae0f6929a254cfbad2411.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_150,h_150/quality,Q_100">
+            <span class="none">封面</span>
+          </div>
+          <div class="introduce-wrap">
+            <textarea class="thin-scroll" placeholder="请输入图说说明">
+            本案位於台灣中壢，業主是布料界的成功經營者，這是一個屬於他個人的私人會所，一個招待朋友與偶爾自住的私人天地
+          </textarea>
+          </div>
+          <button ion-button  class="btn-delete" (tap)="deleteItem(1)"></button>
+        </li>
+        <li>
+          <div class="img-wrap pointer">
+            <img src="http://fetch-cdn.staging.gzdmc.net/image/729054b977cae0f6929a254cfbad2411.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_150,h_150/quality,Q_100">
+            <span class="none">封面</span>
+          </div>
+          <div class="introduce-wrap">
+            <textarea class="thin-scroll" placeholder="请输入图说说明">
+            本案位於台灣中壢，業主是布料界的成功經營者，這是一個屬於他個人的私人會所，一個招待朋友與偶爾自住的私人天地
+          </textarea>
+          </div>
+          <button ion-button  class="btn-delete" (tap)="deleteItem(1)"></button>
+        </li>
+        <li>
+          <div class="img-wrap pointer">
+            <img src="http://fetch-cdn.staging.gzdmc.net/image/729054b977cae0f6929a254cfbad2411.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_150,h_150/quality,Q_100">
+            <span class="none">封面</span>
+          </div>
+          <div class="introduce-wrap">
+            <textarea class="thin-scroll" placeholder="请输入图说说明">
+            本案位於台灣中壢，業主是布料界的成功經營者，這是一個屬於他個人的私人會所，一個招待朋友與偶爾自住的私人天地
+          </textarea>
+          </div>
+          <button ion-button  class="btn-delete" (tap)="deleteItem(1)"></button>
+        </li>
+      </ul>
     </div>
+    <button ion-button  class="btn-sure" [ngClass]="{disable:false}" (tap)="next()">下一步</button>
+  </div>
+  <div class="tab">
+    <button class="btn-view" (tap)="openProjectDetail()">
+      <span>已选择图片</span>
+      <span class="count">8张</span>
+    </button>
+    <div class="source-wrap">
+      <div class="title-wrap">
+        请选择来源
+      </div>
+      <div class="select-wrap">
+        <div class="half-wrap">
+          <span>原创</span>
+        </div>
+        <div class="half-wrap">
+          <span class="fans">其他</span>
+        </div>
+      </div>
+      <div class="tag-wrap">
+        <div class="tag-head">
+          请选择精选标签
+        </div>
+        <div class="content-wrap">
+
+        </div>
+      </div>
+    </div>
+
+
+    <button ion-button  class="btn-sure" [ngClass]="{disable:true}" (tap)="publish()">发 布</button>
   </div>
 </ion-content>
