@@ -17,6 +17,16 @@ export class SelectPhotoPage {
     this.loadData();
   }
 
+  //返回上一页
+  goback(){
+    this.util.goback();
+  }
+
+  //是否可以返回上一页
+  canGoback(){
+    return this.util.canGoback();
+  }
+
   loadData(){
     let len=28;
     let items=[];

@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons start>
+      <button class="btn-goback" (tap)="goback()" [ngClass]="{none:!canGoback()&&isChanged()}">
+      </button>
+      <button ion-button clear color="cancel" class="btn-change" (tap)="cancel()" [ngClass]="{none:!isChanged()}">
+        取消
+      </button>
+    </ion-buttons>
+    <ion-title>编辑个人信息</ion-title>
+    <ion-buttons end>
+      <button ion-button clear color="save" class="btn-change" (tap)="save()" [ngClass]="{none:!isChanged()}">
+        保存
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="avatar-wrap">
+    <div class="img-wrap">
+      <img src="http://fetch-cdn.staging.gzdmc.net/image/382b2bed9bf058c21f901e832efb84c1.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_80,h_80/quality,Q_100">
+      <button class="btn-edit"></button>
+    </div>
+  </div>
+  <div class="info-wrap">
+    <ul>
+      <li class="no-bg">
+        <label>
+          <div class="left-label">姓名</div>
+          <div class="right-content">
+            <input type="text" placeholder="请输入姓名" maxlength="30" autocomplete="off" [ngModel]="data.name" (ngModelChange)="changeName($event)">
+          </div>
+        </label>
+      </li>
+      <li>
+        <div class="left-label">地址</div>
+        <div class="right-content">
+          广东 深圳
+        </div>
+      </li>
+      <li (tap)="showSpace()">
+        <div class="left-label">擅长空间</div>
+        <div class="right-content">
+          {{getCurrentSpace()}}
+        </div>
+      </li>
+    </ul>
+  </div>
+  <div class="space-wrap" [ngClass]="{none:!isShowSpace}">
+    <div class="mask-wrap" (tap)="hideSpace()"></div>
+    <div class="spaces">
+      <div class="space-title">选择擅长空间</div>
+      <div class="space-list">
+        <ul>
+          <li (tap)="selectSpace(item)" *ngFor="let item of spaces;let i=index;let last = last;" [ngClass]="{active:item.selected}" [title]="item.name">
+            <span>{{item.name}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</ion-content>

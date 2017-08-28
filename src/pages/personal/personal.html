@@ -4,8 +4,8 @@
     </ion-refresher-content>
   </ion-refresher>
   <div class="info-wrap">
-    <button ion-button icon-only clear class="btn-config">
-      <img src="assets/images/personal/configure.png">
+    <button class="btn-config" (tap)="gotoEditInfo()">
+      编辑
     </button>
     <div class="main-bg">
       <img [src]="data?.photo" *ngIf="data&&data.photo" [ngClass]="{none:data==null}">

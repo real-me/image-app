@@ -54,6 +54,13 @@ export class UtilProvider {
   }
 
   /**
+   * 是否可以返回上一页
+   */
+  canGoback(){
+    return this.getNav().getViews().length>1;
+  }
+
+  /**
    * 显示加载信息
    * @param info
    */

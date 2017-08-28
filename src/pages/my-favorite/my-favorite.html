@@ -1,7 +1,11 @@
 <ion-header no-border class="g-header">
-  <ion-navbar>
+  <ion-toolbar>
+    <ion-buttons start>
+      <button class="btn-goback" (tap)="goback()" [ngClass]="{none:!canGoback()}">
+      </button>
+    </ion-buttons>
     <ion-title>我喜欢的</ion-title>
-  </ion-navbar>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content>

@@ -57,6 +57,16 @@ export class MyChoicePage {
 
   }
 
+  //返回上一页
+  goback(){
+    this.util.goback();
+  }
+
+  //是否可以返回上一页
+  canGoback(){
+    return this.util.canGoback();
+  }
+
   doRefresh(refresher) {
     refresher.complete();
     setTimeout(this.refresh, this.util.refreshDuration);

@@ -146,6 +146,16 @@ export class ChoicePage {
     $(this.pictures.nativeElement).closest('.scroll-content').off('scroll');
   }
 
+  //返回上一页
+  goback(){
+    this.util.goback();
+  }
+
+  //是否可以返回上一页
+  canGoback(){
+    return this.util.canGoback();
+  }
+
   doRefresh(refresher: Refresher) {
     refresher.complete();
     setTimeout(this.refresh,280);

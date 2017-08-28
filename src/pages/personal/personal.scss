@@ -1,4 +1,9 @@
 page-personal {
+  .content-ios{
+    .btn-config{
+      top: 22px !important;
+    }
+  }
   .info-wrap{
     position: relative;
     text-align: center;
@@ -11,15 +16,23 @@ page-personal {
     border-bottom: 1px solid #e4e5e6;
     .btn-config{
       position: absolute;
-      right: 0px;
-      top: 26px;
+      right: 10px;
+      top: 2px;
       z-index: 1;
       margin: 0;
-      min-width:52px;
-      img{
-        width: 22px;
-        height: 22px;
-      }
+      padding: 0;
+      padding-left: 20px;
+      min-width:60px;
+      height: 40px;
+      background: transparent url("../assets/images/personal/configure.png") no-repeat left center/22px 22px;
+      color: #333333;
+      font-size: 14px;
+      line-height: 1;
+
+      //img{
+      //  width: 22px;
+      //  height: 22px;
+      //}
     }
     .main-bg{
       position: absolute;

@@ -106,6 +106,14 @@ img{
   }
 }
 /*********************顶部标题*********************/
+.toolbar{
+  padding: 0 !important;
+  ion-buttons{
+    margin: 0;
+    height: 44px;
+  }
+}
+
 ion-header{
   &.g-header{
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
@@ -118,4 +126,13 @@ ion-header{
       text-align: center;
     }
   }
+}
+/*********************返回按钮*********************/
+.btn-goback{
+  width: 32px;
+  //min-height: 32px;
+  height: 100%;
+  box-shadow: none;
+  outline: none;
+  background: transparent url("../assets/images/common/nav/goback.png") no-repeat center center/16px 16px;
 }

@@ -15,7 +15,7 @@
 </ion-header>
 
 <ion-content>
-  <div class="tab active">
+  <div class="tab">
     <div class="list-wrap">
       <div class="tip-wrap">轻触图片可将其设为该图说的封面哦</div>
       <ul class="clearfix">
@@ -119,29 +119,52 @@
     </div>
     <button ion-button  class="btn-sure" [ngClass]="{disable:false}" (tap)="next()">下一步</button>
   </div>
-  <div class="tab">
+  <div class="tab active">
     <button class="btn-view" (tap)="openProjectDetail()">
       <span>已选择图片</span>
       <span class="count">8张</span>
     </button>
-    <div class="source-wrap">
+    <div class="main-wrap">
       <div class="title-wrap">
         请选择来源
       </div>
-      <div class="select-wrap">
-        <div class="half-wrap">
-          <span>原创</span>
+      <div class="source-wrap">
+        <div class="select-wrap none">
+          <div class="half-wrap">
+            <span class="active">原创</span>
+          </div>
+          <div class="half-wrap">
+            <span class="fans">其他</span>
+          </div>
         </div>
-        <div class="half-wrap">
-          <span class="fans">其他</span>
+        <div class="input-wrap">
+          <input type="text" placeholder="请输入来源名称或网址" autocomplete="off">
         </div>
       </div>
       <div class="tag-wrap">
         <div class="tag-head">
           请选择精选标签
+          <button ion-button  class="btn-add" (tap)="addTag()"></button>
         </div>
         <div class="content-wrap">
-
+          <ul class="clearfix">
+            <li>
+              <span class="name">工艺石材</span>
+              <span class="count">3</span>
+            </li>
+            <li class="active">
+              <span class="name">工艺石材</span>
+              <span class="count">3</span>
+            </li>
+            <li>
+              <span class="name">工艺石材</span>
+              <span class="count">3</span>
+            </li>
+            <li>
+              <span class="name">工艺石材</span>
+              <span class="count">3</span>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

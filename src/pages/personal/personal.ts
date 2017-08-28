@@ -86,6 +86,11 @@ export class PersonalPage {
     this.loaded=true;
   }
 
+  //编辑个人信息
+  gotoEditInfo(){
+    this.util.getNav().push('EditInfoPage');
+  }
+
   //我的精选
   gotoChoiceness(){
     this.util.getNav().push('MyChoicePage');
