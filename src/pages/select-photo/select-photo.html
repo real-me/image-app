@@ -16,9 +16,10 @@
 <ion-content>
   <div class="photo-wrap">
     <ul class="clearfix">
-      <li class="pointer" *ngFor="let item of photos;let i=index;" (tap)="selectIt(i)">
+      <li class="pointer" *ngFor="let item of data;let i=index;" (tap)="selectIt(i)">
         <div class="img-wrap">
-          <img [src]="item.url">
+          <!--<img [src]="item.thumbnailURL | CdvPhotoLibrary">-->
+          <img [src]="item.thumbnailURL">
         </div>
         <span class="icon-select" [ngClass]="{selected:item.selected}"></span>
       </li>
