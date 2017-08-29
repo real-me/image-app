@@ -1,15 +1,15 @@
-<ion-header>
+<ion-header no-border class="g-header">
   <ion-toolbar>
     <ion-buttons start>
-      <button class="btn-goback" (tap)="goback()" [ngClass]="{none:!canGoback()&&isChanged()}">
+      <button class="btn-goback" (tap)="goback()" [ngClass]="{none:!canGoback()||isChanged()}">
       </button>
-      <button ion-button clear color="cancel" class="btn-change" (tap)="cancel()" [ngClass]="{none:!isChanged()}">
+      <button ion-button clear color="cancel" class="ml" (tap)="cancel()" [ngClass]="{none:!isChanged()}">
         取消
       </button>
     </ion-buttons>
     <ion-title>编辑个人信息</ion-title>
     <ion-buttons end>
-      <button ion-button clear color="save" class="btn-change" (tap)="save()" [ngClass]="{none:!isChanged()}">
+      <button ion-button clear color="save" class="mr" (tap)="save()" [ngClass]="{none:!isChanged()}">
         保存
       </button>
     </ion-buttons>

@@ -1,13 +1,11 @@
 <ion-header no-border class="g-header">
   <ion-toolbar>
-    <button class="btn-close" (tap)="close()"></button>
-    <!--<ion-buttons start>-->
-      <!--<button ion-button ion-only (tap)="close()">-->
-      <!--</button>-->
-    <!--</ion-buttons>-->
+    <ion-buttons start>
+      <button class="btn-close" (tap)="close()"></button>
+    </ion-buttons>
     <ion-title>发布图说</ion-title>
     <ion-buttons end>
-      <button ion-button clear class="btn-change" (tap)="changeImage()">
+      <button ion-button clear class="btn-change mr" (tap)="changeImage()">
         更换图片
       </button>
     </ion-buttons>
@@ -15,7 +13,7 @@
 </ion-header>
 
 <ion-content>
-  <div class="tab">
+  <div class="tab active">
     <div class="list-wrap">
       <div class="tip-wrap">轻触图片可将其设为该图说的封面哦</div>
       <ul class="clearfix">
@@ -119,7 +117,7 @@
     </div>
     <button ion-button  class="btn-sure" [ngClass]="{disable:false}" (tap)="next()">下一步</button>
   </div>
-  <div class="tab active">
+  <div class="tab">
     <button class="btn-view" (tap)="openProjectDetail()">
       <span>已选择图片</span>
       <span class="count">8张</span>
@@ -129,7 +127,7 @@
         请选择来源
       </div>
       <div class="source-wrap">
-        <div class="select-wrap none">
+        <div class="select-wrap">
           <div class="half-wrap">
             <span class="active">原创</span>
           </div>
@@ -138,7 +136,8 @@
           </div>
         </div>
         <div class="input-wrap">
-          <input type="text" placeholder="请输入来源名称或网址" autocomplete="off">
+          <input type="text" placeholder="请输入来源名称或网址" autocomplete="off" value="请输入来源名称或网址请输入来源名称或网址请请输入来源名称或网址输入来源名称或网址">
+          <button ion-button  class="btn-clear" (tap)="addTag()"></button>
         </div>
       </div>
       <div class="tag-wrap">

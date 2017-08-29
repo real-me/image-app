@@ -2,30 +2,38 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {UtilProvider} from "../../providers/util/util";
 
+
 @IonicPage()
 @Component({
-  selector: 'page-publish',
-  templateUrl: 'publish.html',
+  selector: 'page-add-choice',
+  templateUrl: 'add-choice.html',
 })
-export class PublishPage {
+export class AddChoicePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private util: UtilProvider) {
-
   }
 
-  //关闭当前页面
-  close() {
+  //返回上一页
+  goback(){
     this.util.goback();
   }
 
-  //更换图片
-  changeImage() {
-    this.util.goback();
+  //是否可以返回上一页
+  canGoback(){
+    return this.util.canGoback();
   }
 
-  //新增精选
-  addTag(){
-    this.util.getNav().push('AddChoicePage');
+  //是否发生了改变
+  isChanged(){
+    let result=false;
+    result=true;
+    return result;
   }
+
+  //保存
+  save(){
+
+  }
+
 
 }

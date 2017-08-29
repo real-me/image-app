@@ -111,13 +111,44 @@ img{
   ion-buttons{
     margin: 0;
     height: 44px;
+    &.bar-buttons-md[start] {
+      -webkit-order: 2;
+      -ms-flex-order: 2;
+      order: 2;
+    }
+    button[ion-button]{
+      margin-top: 6px;
+    }
+    .ml{
+      margin-left: 10px;
+    }
+    .mr{
+      margin-right: 10px;
+    }
+  }
+}
+.ios{
+  .toolbar {
+    ion-buttons {
+      margin-top: 15px;
+      .bar-button-ios {
+        margin-top: 6px;
+        height: 32px;
+      }
+    }
   }
 }
 
 ion-header{
   &.g-header{
     box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    ion-navbar{
+    &.white{
+      box-shadow:none;
+      .toolbar-background{
+        background-color: #ffffff;
+      }
+    }
+    ion-navbar,.toolbar{
       min-height: 44px;
     }
     .toolbar-title{

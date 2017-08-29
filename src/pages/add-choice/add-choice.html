@@ -1,0 +1,22 @@
+<ion-header no-border class="g-header white">
+  <ion-toolbar>
+    <ion-buttons start>
+      <button class="btn-goback" (tap)="goback()" [ngClass]="{none:false&&!canGoback()}">
+      </button>
+    </ion-buttons>
+    <ion-title>新建精选</ion-title>
+    <ion-buttons end>
+      <button ion-button clear color="save" class="mr" (tap)="save()">
+        <!--<button ion-button clear color="save" class="mr" (tap)="save()" [ngClass]="{none:!isChanged()}">-->
+        保存
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div class="input-wrap">
+    <input class="input-name" type="text" placeholder="给精选起个名字" autocomplete="off" value="">
+  </div>
+</ion-content>

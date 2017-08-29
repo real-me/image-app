@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import Swiper from 'swiper';
+import {UtilProvider} from "../../providers/util/util";
 
 @IonicPage()
 @Component({
@@ -13,7 +14,7 @@ export class BrowsePage {
   data = [];
   index: number = 0;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private util: UtilProvider) {
     this.data = navParams.get('data');
     this.index = navParams.get('index');
   }
@@ -45,6 +46,16 @@ export class BrowsePage {
       this.swiper.destroy(true, true);
     }
     this.swiper = null;
+  }
+
+  //返回上一页
+  goback(){
+    this.util.goback();
+  }
+
+  //是否可以返回上一页
+  canGoback(){
+    return this.util.canGoback();
   }
 
 }
