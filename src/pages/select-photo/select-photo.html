@@ -21,7 +21,7 @@
     <ul class="clearfix" #imageContainer>
       <li class="pointer" *ngFor="let item of dataConfig.data;let i=index;" (tap)="selectIt(i)">
         <div class="img-wrap">
-          <ion-spinner name="ios-small" class="center-it" [ngClass]="{none2:item.loaded}"></ion-spinner>
+          <ion-spinner name="ios-small" class="center-it" [ngClass]="{none:item.loaded}"></ion-spinner>
           <img [src]="item.thumbnailURL | CdvPhotoLibrary" [ngClass]="{loaded:item.loaded}" (load)="loadImg(i)">
         </div>
         <span class="icon-select" [ngClass]="{none:!item.loaded,selected:item.selected}"></span>
