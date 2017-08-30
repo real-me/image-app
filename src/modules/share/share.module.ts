@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { IonicModule } from 'ionic-angular';
 import {CdvPhotoLibraryPipe} from "../../pipes/cdv-photo-library/cdv-photo-library";
 
 @NgModule({
@@ -7,7 +6,6 @@ import {CdvPhotoLibraryPipe} from "../../pipes/cdv-photo-library/cdv-photo-libra
     CdvPhotoLibraryPipe
   ],
   imports: [
-    // IonicModule.forRoot(CdvPhotoLibraryPipe)
   ],
   exports: [
     CdvPhotoLibraryPipe

@@ -93,16 +93,6 @@ $text-shadow-color:#ffffff;
   margin: 0;
   padding: 0;
 }
-//水平垂直居中
-@mixin center-middle($width,$height){
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: $width;
-  height: $height;
-  margin-left: -$width/2;
-  margin-top: -$height/2;
-}
 //变形
 @mixin transform($value){
   -moz-transform: $value;
@@ -117,6 +107,23 @@ $text-shadow-color:#ffffff;
   -o-transform-origin: $value;
   -webkit-transform-origin: $value;
   transform-origin: $value;
+}
+//水平垂直居中
+@mixin center-middle($width,$height){
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: $width;
+  height: $height;
+  margin-left: -$width/2;
+  margin-top: -$height/2;
+}
+//水平垂直居中
+@mixin center-center(){
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  @include transform(translate(-50%,-50%));
 }
 //单行显示
 @mixin singleLine(){

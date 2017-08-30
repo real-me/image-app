@@ -14,16 +14,25 @@
 </ion-header>
 
 <ion-content>
-  <div class="photo-wrap">
-    <ul class="clearfix">
-      <li class="pointer" *ngFor="let item of data;let i=index;" (tap)="selectIt(i)">
+  <div class="loading-wrap" [ngClass]="{none:dataConfig.hasInit}">
+    <ion-spinner name="ios" class="center-it"></ion-spinner>
+  </div>
+  <div class="photo-wrap" [ngClass]="{none:!dataConfig.hasInit}">
+    <ul class="clearfix" #imageContainer>
+      <li class="pointer" *ngFor="let item of dataConfig.data;let i=index;" (tap)="selectIt(i)">
         <div class="img-wrap">
-          <!--<img [src]="item.thumbnailURL | CdvPhotoLibrary">-->
-          <img [src]="item.thumbnailURL">
+          <ion-spinner name="ios-small" class="center-it" [ngClass]="{none2:item.loaded}"></ion-spinner>
+          <img [src]="item.thumbnailURL | CdvPhotoLibrary" [ngClass]="{loaded:item.loaded}" (load)="loadImg(i)">
         </div>
-        <span class="icon-select" [ngClass]="{selected:item.selected}"></span>
+        <span class="icon-select" [ngClass]="{none:!item.loaded,selected:item.selected}"></span>
       </li>
     </ul>
+    <div class="middle-loading">
+      <div [ngClass]="{none:!dataConfig.loading}"><ion-spinner name="ios"></ion-spinner></div>
+      <div [ngClass]="{none:!(!dataConfig.loading&&dataConfig.page>=dataConfig.pageCount&&dataConfig.page>1)}">
+        <img src="assets/images/common/waterfall/landing.png" class="landing">
+      </div>
+    </div>
   </div>
 </ion-content>
 

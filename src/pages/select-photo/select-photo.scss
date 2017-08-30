@@ -1,4 +1,16 @@
 page-select-photo {
+  .loading-wrap{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .middle-loading {
+    ion-spinner{
+      margin-top: 10px;
+    }
+  }
   .photo-wrap{
     li{
       position: relative;
@@ -18,9 +30,20 @@ page-select-photo {
         top: 0;
         right: 1px;
         bottom: 1px;
+        background: #eee;
+        .img-span{
+          display: block;
+          width: 100%;
+          height: 100%;
+        }
         img{
           width: 100%;
           height: 100%;
+          @include opacity(0);
+          transition: all 0.3s ease-in;
+          &.loaded{
+            @include opacity(1);
+          }
         }
       }
       .icon-select{
