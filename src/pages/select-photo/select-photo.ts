@@ -129,31 +129,13 @@ export class SelectPhotoPage {
 
   //-----------------需要登录的页面必须有的方法(END)
 
+  //加载数据
   loadData(){
-    let len=3000;
-    let items=[];
-    for(let i=0;i<len;i++){
-      let url=this.exampleUrls[this.util.range(0,this.exampleUrls.length-1)];
-      let item={
-        id:i,
-        url:url,
-        photoURL:url,
-        thumbnailURL:url,
-        description:'',
-        isCover:false,
-        loaded:false,
-        selected:false
-      };
-      items.push(item);
-    }
-    this.photos=items;
-    this.loadPage();
-
+    // this.loadMockData();
 
     //获取窗口宽度
     let width=$(window).width()/4;
     width =Math.ceil(width);
-
     //-------------获取图片
 
     return this.photoLibrary.requestAuthorization().then(() => {
@@ -185,6 +167,28 @@ export class SelectPhotoPage {
         }
       });
     }).catch(err => {this.dataConfig.hasInit=true;});
+  }
+
+  //加载模拟数据
+  loadMockData(){
+    let len=3000;
+    let items=[];
+    for(let i=0;i<len;i++){
+      let url=this.exampleUrls[this.util.range(0,this.exampleUrls.length-1)];
+      let item={
+        id:i,
+        url:url,
+        photoURL:url,
+        thumbnailURL:url,
+        description:'',
+        isCover:false,
+        loaded:false,
+        selected:false
+      };
+      items.push(item);
+    }
+    this.photos=items;
+    this.loadPage();
   }
 
   //按页加载数据

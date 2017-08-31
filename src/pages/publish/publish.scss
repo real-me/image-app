@@ -325,6 +325,20 @@ page-publish {
               }
             }
           }
+          .empty-wrap{
+            margin-top: 20px;
+            text-align: center;
+            .empty-tip{
+              font-size: 13px;
+              color: #999999;
+              .btn-create{
+                cursor: pointer;
+                color: #2abf9e;
+                display: inline-block;
+                margin: 0 3px;
+              }
+            }
+          }
         }
       }
     }

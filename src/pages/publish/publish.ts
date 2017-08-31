@@ -8,6 +8,20 @@ import {UtilProvider} from "../../providers/util/util";
   selector: 'page-publish',
   templateUrl: 'publish.html',
   animations: [
+    // trigger('image', [
+    //   state('current', style({
+    //     opacity: 1,
+    //     '-webkit-transform': 'translate(0,0)',
+    //     transform: 'translate(0,0)'
+    //   })),
+    //   transition('* => void', [
+    //     animate('0.1s ease-out', style({
+    //       opacity: 0,
+    //       '-webkit-transform': 'translate(100%,0)',
+    //       transform: 'translate(100%,0)'
+    //     }))
+    //   ])
+    // ]),
     trigger('tag', [
       state('in', style({
         opacity: 1,
@@ -75,7 +89,6 @@ export class PublishPage {
   ];//标签
 
   canInteractive:boolean=true;//是否可以进行交互
-
   timeId:number=null;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private util: UtilProvider) {
@@ -207,7 +220,8 @@ export class PublishPage {
       result=false;
     }else{
       for(let i=0;i<len;i++){
-        if(this.data[i].description==''){
+        let description=this.data[i].description.trim();
+        if(description==''){
           result=false;
           break;
         }
@@ -222,7 +236,26 @@ export class PublishPage {
     if(!this.canInteractive){
       return;
     }
-    this.util.goback();
+    //二次确认
+    this.util.alert({
+      title:'您确定要退出吗?',
+      message: '未发布的信息将不会保存!',
+      buttons: [
+        {
+          text: '取消',
+          role: 'cancel',
+          handler: () => {
+
+          }
+        },
+        {
+          text: '确认',
+          handler: () => {
+            this.closePage();
+          }
+        }
+      ]
+    });
   }
 
   //更换图片
@@ -253,7 +286,8 @@ export class PublishPage {
   //是否可以显示清除来源按钮
   canShowClearSource(){
     let result:boolean=true;
-    let from=this.source.from.trim();
+    // let from=this.source.from.trim();
+    let from=this.source.from;
     if(from==''){
       result=false;
     }
@@ -315,6 +349,9 @@ export class PublishPage {
 
   //发布
   publish(){
+    if(!this.canPublish()){
+      return;
+    }
     this.util.loading();
     let time=this.util.range(100,1000);
     this.timeId=setTimeout(()=>{
@@ -326,6 +363,11 @@ export class PublishPage {
 
   //发布成功
   publishSuccess(){
+    this.closePage();
+  }
+
+  //关闭页面
+  closePage(){
     let nav=this.util.getNav();
     let len=nav.getViews().length;
     if(len>=3){

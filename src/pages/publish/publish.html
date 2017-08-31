@@ -23,7 +23,7 @@
             <span [ngClass]="{none:!item.isCover}">封面</span>
           </div>
           <div class="introduce-wrap">
-            <textarea class="thin-scroll" placeholder="请输入图说说明" [ngModel]="item.description" (ngModelChange)="changeDescription($event,item)"></textarea>
+            <textarea class="thin-scroll" placeholder="请描述一下这张图片" [ngModel]="item.description" (ngModelChange)="changeDescription($event,item)"></textarea>
           </div>
           <button ion-button  class="btn-delete" (tap)="deleteItem(i)"></button>
         </li>
@@ -67,6 +67,13 @@
                 <span class="count">{{item.count}}</span>
               </li>
             </ul>
+            <div class="empty-wrap" [ngClass]="{none:tags.length!=0}">
+              <div class="empty-tip">
+                <span>
+                  您还没有创建任何精选,快去<span class="btn-create" (tap)="addTag()">创建</span>吧
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

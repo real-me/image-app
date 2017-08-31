@@ -11,6 +11,9 @@
   <div class="loading-wrap" [ngClass]="{none:dataConfig.hasInit}">
     <ion-spinner name="ios" class="center-it"></ion-spinner>
   </div>
+  <div class="empty-wrap" [ngClass]="{none:!(dataConfig.hasInit&&dataConfig.data.length==0)}">
+    <div class="empty-tip center-it">这里空空如也</div>
+  </div>
   <div class="photo-wrap" [ngClass]="{none:!dataConfig.hasInit}">
     <ul class="clearfix" #imageContainer>
       <li class="pointer" *ngFor="let item of dataConfig.data;let i=index;" (tap)="selectIt(i)">
@@ -31,7 +34,7 @@
 </ion-content>
 
 <ion-footer>
-  <div class="footer-wrap">
+  <div class="footer-wrap" [ngClass]="{none:dataConfig.hasInit&&dataConfig.data.length==0}">
     <div class="not-select-wrap" [ngClass]="{none:selecteds.length>0}">
       请选择图片
     </div>

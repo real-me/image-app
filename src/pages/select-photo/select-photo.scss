@@ -7,6 +7,13 @@ page-select-photo {
   .loading-wrap{
     @include full;
   }
+  .empty-wrap{
+    @include full;
+    .empty-tip{
+      font-size: 16px;
+      color: #333333;
+    }
+  }
   .middle-loading {
     ion-spinner{
       margin-top: 10px;
