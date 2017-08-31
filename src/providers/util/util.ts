@@ -106,7 +106,7 @@ export class UtilProvider {
    * 显示提示信息
    * @param info
    */
-  toast(info?:string|any,duration?:number){
+  toast(info?:string|any,duration?:number,callback?:Function){
     if(!this.toastUi){
       if(!duration){
         duration=1000;
@@ -152,6 +152,7 @@ export class UtilProvider {
     if(this.toastUi){
       this.toastUi.onDidDismiss(() => {
         this.toastUi=null;
+        callback();
       });
       this.toastUi.present();
     }

@@ -6,8 +6,7 @@
     </ion-buttons>
     <ion-title>新建精选</ion-title>
     <ion-buttons end>
-      <button ion-button clear color="save" class="mr" (tap)="save()">
-        <!--<button ion-button clear color="save" class="mr" (tap)="save()" [ngClass]="{none:!isChanged()}">-->
+      <button ion-button clear color="save" class="mr" (tap)="save()" [ngClass]="{none:!canShowSave()}">
         保存
       </button>
     </ion-buttons>
@@ -17,6 +16,6 @@
 
 <ion-content>
   <div class="input-wrap">
-    <input class="input-name" type="text" placeholder="给精选起个名字" autocomplete="off" value="">
+    <input [(ngModel)]="name" class="input-name" type="text" placeholder="给精选起个名字" autocomplete="off">
   </div>
 </ion-content>

@@ -1,15 +1,9 @@
 <ion-header no-border class="g-header">
   <ion-toolbar>
     <ion-buttons start>
-      <button class="btn-goback" (tap)="goback()" [ngClass]="{none:!canGoback()}">
-      </button>
+      <button class="btn-close" (tap)="goback()"></button>
     </ion-buttons>
-    <ion-title>相机胶卷</ion-title>
-    <ion-buttons end>
-      <button ion-button clear class="mr" (tap)="cancel()">
-        取消
-      </button>
-    </ion-buttons>
+    <ion-title>所有照片</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -38,11 +32,11 @@
 
 <ion-footer>
   <div class="footer-wrap">
-    <div class="not-select-wrap" [ngClass]="{none:selectedCount>0}">
+    <div class="not-select-wrap" [ngClass]="{none:selecteds.length>0}">
       请选择图片
     </div>
-    <div class="select-wrap" [ngClass]="{none:selectedCount<=0}">
-      <span>共选择了 {{selectedCount}} 张图片</span>
+    <div class="select-wrap" [ngClass]="{none:selecteds.length<=0}">
+      <span>共选择了 {{selecteds.length}} 张图片</span>
       <button class="btn-sure" (tap)="sureSelect()">确定</button>
     </div>
   </div>

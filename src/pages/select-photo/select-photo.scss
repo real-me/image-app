@@ -1,10 +1,11 @@
 page-select-photo {
+  .btn-close{
+    width: 40px;
+    height: 44px;
+    background: transparent url("../assets/images/select-photo/close.png") no-repeat center center/14px 14px;
+  }
   .loading-wrap{
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
+    @include full;
   }
   .middle-loading {
     ion-spinner{
@@ -31,10 +32,14 @@ page-select-photo {
         right: 1px;
         bottom: 1px;
         background: #eee;
-        .img-span{
-          display: block;
+        &:before{
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
           width: 100%;
           height: 100%;
+          background: rgba(0,0,0,0.1);
         }
         img{
           width: 100%;
@@ -50,10 +55,10 @@ page-select-photo {
         position: absolute;
         right: 8px;
         top: 8px;
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
         background: transparent url("../assets/images/select-photo/unselect.png") no-repeat;
-        background-size: 16px 16px;
+        background-size: 20px 20px;
         &.selected{
           background-image: url("../assets/images/select-photo/select.png");
 

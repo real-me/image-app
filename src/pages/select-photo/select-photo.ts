@@ -16,8 +16,18 @@ export class SelectPhotoPage {
 
   refresh: () => void;
 
+  exampleUrls=[
+    'http://fetch-cdn.staging.gzdmc.net/image/729054b977cae0f6929a254cfbad2411.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_150,h_150/quality,Q_100',
+    'assets/images/designers/avatar1.png',
+    'assets/images/designers/avatar2.png',
+    'assets/images/designers/avatar3.png',
+    'assets/images/designers/avatar4.png',
+    'assets/images/designers/avatar5.png',
+    'assets/images/designers/avatar6.png'
+  ];
   exampleUrl:string='http://fetch-cdn.staging.gzdmc.net/image/729054b977cae0f6929a254cfbad2411.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_150,h_150/quality,Q_100';
   photos:any=[];
+  selecteds=[];//被选中的图片
   selectedCount:number=0;//被选中的图片张数
   pageCount:number=60;//每页多少张图片
 
@@ -71,7 +81,7 @@ export class SelectPhotoPage {
     config.pageCount=0;
     config.loading=false;
 
-    this.selectedCount=0;
+    this.selecteds=[];//被选中的图片
   }
 
   //初始化事件侦听
@@ -120,27 +130,29 @@ export class SelectPhotoPage {
   //-----------------需要登录的页面必须有的方法(END)
 
   loadData(){
-    // let len=3000;
-    // let items=[];
-    // for(let i=0;i<len;i++){
-    //   let item={
-    //     id:i,
-    //     url:this.exampleUrl,
-    //     photoURL:this.exampleUrl,
-    //     thumbnailURL:this.exampleUrl,
-    //     loaded:false,
-    //     selected:false
-    //   };
-    //   items.push(item);
-    // }
-    // this.photos=items;
-    // this.loadPage();
+    let len=3000;
+    let items=[];
+    for(let i=0;i<len;i++){
+      let url=this.exampleUrls[this.util.range(0,this.exampleUrls.length-1)];
+      let item={
+        id:i,
+        url:url,
+        photoURL:url,
+        thumbnailURL:url,
+        description:'',
+        isCover:false,
+        loaded:false,
+        selected:false
+      };
+      items.push(item);
+    }
+    this.photos=items;
+    this.loadPage();
 
 
     //获取窗口宽度
     let width=$(window).width()/4;
     width =Math.ceil(width);
-    // width*=3;
 
     //-------------获取图片
 
@@ -151,19 +163,16 @@ export class SelectPhotoPage {
         quality:1.0
       }).subscribe({
         next: library => {
-          console.log('next');
           let items=[];
-          console.log(library.length);
           library.forEach(libraryItem=> {
             let item={
               id:libraryItem.id,
               url:this.exampleUrl,
-              loaded:false,
               photoURL:libraryItem.photoURL,
               thumbnailURL:libraryItem.thumbnailURL,
-              fileName:libraryItem.fileName,
-              width:libraryItem.width,
-              height:libraryItem.height,
+              description:'',
+              isCover:false,
+              loaded:false,
               selected:false
             };
             items.push(item);
@@ -177,31 +186,6 @@ export class SelectPhotoPage {
       });
     }).catch(err => {this.dataConfig.hasInit=true;});
   }
-
-  //按页加载
-  // loadPage(){
-  //   var config = this.dataConfig;
-  //
-  //   //计算页数
-  //   config.total = this.photos.length;
-  //   config.pageCount = Math.ceil(config.total/config.pageSize);
-  //
-  //
-  //   if (config.page == 1) {
-  //     config.data=this.photos.slice(0,config.pageSize);
-  //   } else {
-  //     config.loading = true;//是否正在获取下一页的数据
-  //     let index=(config.page-1)*config.pageSize;
-  //     config.data = config.data.concat(this.photos.slice(index,config.pageSize));
-  //   }
-  //   this.cd.detectChanges();
-  //   if(this.dataConfig.data.length>0){
-  //     this.startCheckLoading();
-  //   }
-  //   if(!config.hasInit){
-  //     config.hasInit=true;
-  //   }
-  // }
 
   //按页加载数据
   loadPage(){
@@ -257,11 +241,10 @@ export class SelectPhotoPage {
   //加载图片完成时调用
   loadImg(index){
     var config = this.dataConfig;
-    if(!config.data[index].loaded){
-      // console.log('完成加载：'+index);
-      config.data[index].loaded=true;
+    let item=config.data[index];
+    if(!item.loaded){
+      item.loaded=true;
       this.cd.detectChanges();
-      // console.log('this.photos：'+index);
       //判断是否全部加载完毕
       let total=config.data.length;
       let count=0;
@@ -287,18 +270,25 @@ export class SelectPhotoPage {
   //选择图片
   selectIt(index:number){
     let data=this.dataConfig.data;
-    if(!data[index].loaded){
+    let item=data[index];
+    if(!item.loaded){
       return;
     }
-    data[index].selected=!data[index].selected;
-    let len=data.length;
-    let count=0;
-    for(let i=0;i<len;i++){
-      if(data[i].selected){
-        count++;
+
+    item.isCover=false;
+    item.description='';
+    item.selected=!item.selected;
+    if(item.selected){
+      this.selecteds.push(item);
+    }else{
+      let len=this.selecteds.length;
+      for(let i=0;i<len;i++){
+        if(this.selecteds[i].id==item.id){
+          this.selecteds.splice(i,1);
+          break;
+        }
       }
     }
-    this.selectedCount=count;
   }
 
   //取消
@@ -308,7 +298,11 @@ export class SelectPhotoPage {
 
   //确定
   sureSelect(){
-    this.navCtrl.push('PublishPage');
+    let len=this.selecteds.length;
+    if(len<=0){
+      return;
+    }
+    this.navCtrl.push('PublishPage',{data:this.selecteds});
   }
 
 }
