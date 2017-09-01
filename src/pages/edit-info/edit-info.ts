@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams} from 'ionic-angular';
 import {UtilProvider} from "../../providers/util/util";
-// require('/lib/jquery-plugins/mobiscroll/js/mobiscroll.core');
-// require('/lib/jquery-plugins/mobiscroll/js/mobiscroll.frame');
-// require('/lib/jquery-plugins/mobiscroll/js/mobiscroll.scroller');
-// require('/lib/jquery-plugins/mobiscroll/js/mobiscroll.listbase');
-// require('/lib/jquery-plugins/mobiscroll/js/mobiscroll.treelist');
-// require('/lib/jquery-plugins/mobiscroll/js/mobiscroll.frame.ios');
+declare var WebUploader:any;
 
 @IonicPage()
 @Component({
@@ -19,11 +14,12 @@ export class EditInfoPage {
 
   hasInit = false;//是否已经进行了初始化
   loaded:boolean=false;//头像是否加载完毕
+  avatarPostfix='?x-oss-process=image/resize,m_fill,limit_0,w_80,h_80/quality,Q_100';
 
   originData={
     url:'',
     small_photo:'',
-    name:'葛亚曦',
+    name:'',
     province:'',
     city:'',
     provinceId:0,
@@ -37,8 +33,7 @@ export class EditInfoPage {
 
   data={
     url:'',
-    small_photo:'',
-    name:'葛亚曦',
+    name:'',
     province:'',
     city:'',
     provinceId:0,
@@ -87,7 +82,7 @@ export class EditInfoPage {
 
   //初始化事件侦听
   initListener() {
-
+    this.initUpload();
   }
 
   //删除事件侦听
@@ -119,21 +114,21 @@ export class EditInfoPage {
       if (!res)return;
       let response = res.json();
       console.log(response);
-      let avatarPostfix='?x-oss-process=image/resize,m_fill,limit_0,w_80,h_80/quality,Q_100';
+
 
       let item=this.originData;
-      item.url=response.photo;
-      item.small_photo = response.photo ? response.photo+avatarPostfix : 'assets/images/common/user/avatar.jpg';
-      item.name=response.real_name;
-      item.provinceId=response.province_of_origin.id;
-      item.province=response.province_of_origin.name;
-      item.cityId=response.city_of_origin.id;
-      item.city=response.city_of_origin.name;
+      item.url=response.photo?response.photo:'';
+      item.small_photo = response.photo ? response.photo+this.avatarPostfix : 'assets/images/common/user/avatar.jpg';
+      item.name=response.real_name?response.real_name:'';
+      item.provinceId=response.province_of_origin?response.province_of_origin.id:'';
+      item.province=response.province_of_origin?response.province_of_origin.name:'';
+      item.cityId=response.city_of_origin?response.city_of_origin.id:0;
+      item.city=response.city_of_origin?response.city_of_origin.name:'';
 
 
       let data=this.data;
       data.name=item.name;
-      data.small_photo=item.small_photo;
+      data.url=item.url;
 
       this.hasInit = true;
     });
@@ -246,6 +241,84 @@ export class EditInfoPage {
       this.util.hideLoading();
       this.util.toast('修改用户名出错',1000);
     });
+  }
+
+  //初始化图片上传
+  initUpload(){
+    var picUpload = WebUploader.create({
+      auto: true,
+      swf: 'assets/lib/plugins/webuploader/Uploader.swf',
+      server: this.util.apiHost+'api/images',
+      // server: this.util.apiHost+'tushuo/api/uploadAvatar',
+      pick: {
+        id: 'page-edit-info .btn-edit',
+        multiple: false
+      },
+      disableGlobalDnd: true,
+      fileNumLimit: 1,
+      fileSingleSizeLimit: 20480000,
+      accept: {
+        title: 'Images',
+        extensions: 'gif,jpg,jpeg,bmp,png,webp',
+        mimeTypes: 'image/gif,image/jpg,image/jpeg,image/bmp,image/png,image/webp'
+      }
+    });
+    picUpload.on( 'fileQueued', file=> {
+      this.loaded=false;
+    });
+    picUpload.on( 'uploadSuccess', (file, response)=> {
+      var url=response.url;
+      this.data.url=url;
+      picUpload.removeFile(file);
+      this.savePhoto(url);
+    });
+    picUpload.on('uploadError', (file)=> {
+      try{
+        this.loaded=false;
+        picUpload.removeFile(file);
+      }catch (e){
+
+      }
+      this.util.toast('图片上传失败');
+    });
+    //失败
+    picUpload.on('error', (code ,file)=>{
+      try{
+        this.loaded=false;
+        picUpload.removeFile(file);
+      }catch (e){
+
+      }
+      if(code == 'F_EXCEED_SIZE') {
+        this.util.toast('图片超过 20 M 无法上传');
+      }
+      if(code == 'Q_TYPE_DENIED') {
+        this.util.toast('仅支持 gif,jpg,jpeg,bmp,png,webp 等格式');
+      }
+    });
+  }
+
+  //保存图片
+  savePhoto(photo){
+    let data={
+      photo:photo
+    };
+    let url='tushuo/api/users/me';
+    this.util.put(url, data).then(res => {
+      this.util.hideLoading();
+
+      let response = res.json();
+      let item=this.originData;
+      item.url=response.photo?response.photo:'';
+      item.small_photo = response.photo ? response.photo+this.avatarPostfix : 'assets/images/common/user/avatar.jpg';
+      this.data.url=item.url;
+
+    }).catch(err => {
+      this.util.hideLoading();
+      this.util.toast('修改图片失败',1000);
+    });
+
+
   }
 
 }

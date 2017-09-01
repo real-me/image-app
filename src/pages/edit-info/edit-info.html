@@ -20,8 +20,8 @@
   <div class="avatar-wrap">
     <div class="img-wrap">
       <ion-spinner name="ios-small" class="center-it" [ngClass]="{none:loaded}"></ion-spinner>
-      <img [src]="data?data.small_photo:''" [ngClass]="{loaded:loaded}" (load)="loadImg()">
-      <button class="btn-edit"></button>
+      <img [src]="originData?originData.small_photo:''" [ngClass]="{loaded:loaded}" (load)="loadImg()">
+      <button class="btn-edit" id="userUploadBtn"></button>
     </div>
   </div>
   <div class="info-wrap">
