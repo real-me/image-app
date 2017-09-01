@@ -12,13 +12,9 @@
     </div>
     <!--<div [ngClass]="{none:!hasInit}">-->
       <div class="logo-wrap">
-        <div class="middle-outer">
-          <div class="middle-inner">
-            <div [ngClass]="{none:!hasInit}">
-              <ion-spinner name="circles" [ngClass]="{none:loaded}"></ion-spinner>
-              <img [src]="data?.small_photo" *ngIf="data&&data.small_photo" [ngClass]="{none:(data==null||!loaded)}" (load)="loadImg()">
-            </div>
-          </div>
+        <div [ngClass]="{none:!hasInit}">
+          <ion-spinner name="ios-small" class="center-it" [ngClass]="{none:loaded}"></ion-spinner>
+          <img [src]="data?data.small_photo:''" [ngClass]="{loaded:loaded}" (load)="loadImg()">
         </div>
       </div>
       <p class="user-name">

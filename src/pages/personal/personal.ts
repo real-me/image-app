@@ -73,9 +73,10 @@ export class PersonalPage {
     return this.util.get(url).then((res: any) => {
       if (!res)return;
       let response = res.json();
+      console.log(response);
       let avatarPostfix='?x-oss-process=image/resize,m_fill,limit_0,w_80,h_80/quality,Q_100';
-      response.small_photo = response.photo ? response.photo+avatarPostfix : 'assets/images/detail/avatar.png';
-      response.photo = response.photo ? response.photo : 'assets/images/detail/avatar.png';
+      response.small_photo = response.photo ? response.photo+avatarPostfix : 'assets/images/common/user/avatar.jpg';
+      response.photo = response.photo ? response.photo : 'assets/images/common/user/avatar.jpg';
       this.data=response;
       this.hasInit = true;
     });

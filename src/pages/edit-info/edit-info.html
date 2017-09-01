@@ -19,7 +19,8 @@
 <ion-content>
   <div class="avatar-wrap">
     <div class="img-wrap">
-      <img src="http://fetch-cdn.staging.gzdmc.net/image/382b2bed9bf058c21f901e832efb84c1.jpeg?x-oss-process=image/resize,m_fill,limit_0,w_80,h_80/quality,Q_100">
+      <ion-spinner name="ios-small" class="center-it" [ngClass]="{none:loaded}"></ion-spinner>
+      <img [src]="data?data.small_photo:''" [ngClass]="{loaded:loaded}" (load)="loadImg()">
       <button class="btn-edit"></button>
     </div>
   </div>
@@ -36,7 +37,7 @@
       <li>
         <div class="left-label">地址</div>
         <div class="right-content">
-          广东 深圳
+          {{originData.province}} {{originData.city}}
         </div>
       </li>
       <li (tap)="showSpace()">
@@ -50,10 +51,14 @@
   <div class="space-wrap" [ngClass]="{none:!isShowSpace}">
     <div class="mask-wrap" (tap)="hideSpace()"></div>
     <div class="spaces">
-      <div class="space-title">选择擅长空间</div>
+      <div class="space-title">
+        <button ion-button clear color="cancel" class="left" (tap)="cancelSpace()">取消</button>
+        <span>选择擅长空间</span>
+        <button ion-button clear color="save" class="right" (tap)="saveSpace()">确定</button>
+      </div>
       <div class="space-list">
         <ul>
-          <li (tap)="selectSpace(item)" *ngFor="let item of spaces;let i=index;let last = last;" [ngClass]="{active:item.selected}" [title]="item.name">
+          <li (tap)="selectTempSpace(item)" *ngFor="let item of data.spaces;let i=index;let last = last;" [ngClass]="{active:item.selected}" [title]="item.name">
             <span>{{item.name}}</span>
           </li>
         </ul>

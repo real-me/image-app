@@ -1,5 +1,9 @@
 page-browse {
   background: rgba(0,0,0,1);
+  .btn-goback{
+    background-image: url("../assets/images/browse/go-back.png");
+    background-size: 22px 22px;
+  }
   .toolbar-title{
     color: #ffffff;
     text-align: left;

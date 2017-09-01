@@ -152,7 +152,7 @@ export class UtilProvider {
     if(this.toastUi){
       this.toastUi.onDidDismiss(() => {
         this.toastUi=null;
-        callback();
+        callback&&callback();
       });
       this.toastUi.present();
     }
